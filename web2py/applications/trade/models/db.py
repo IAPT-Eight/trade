@@ -58,7 +58,7 @@ service = Service()
 plugins = PluginManager()
 
 ## create all tables needed by auth if not custom tables
-auth.define_tables(username=False, signature=False)
+auth.define_tables(username=True, signature=False)
 
 ## configure email
 mail = auth.settings.mailer
@@ -87,6 +87,32 @@ auth.settings.reset_password_requires_verification = True
 ## >>> rows=db(db.mytable.myfield=='value').select(db.mytable.ALL)
 ## >>> for row in rows: print row.id, row.myfield
 #########################################################################
+
+db.define_table('item',
+    Field('list', 'integer'),
+    Field('name', 'string'),
+    Field('description', 'text'),
+    Field('value', 'integer'),
+    Field('user', 'reference %s' % auth.table_user),
+    Field('image', 'upload'),
+    Field('categories', 'list:reference category'),
+)
+
+db.define_table('category',
+    Field('name', 'string')
+)
+
+db.define_table('trade_proposal',
+    Field('state', 'integer'),
+    Field('sender', 'reference %s' % auth.table_user),
+    Field('sender_items', 'list:reference item'),
+    Field('receiver', 'reference %s' % auth.table_user),
+    Field('receiver_items', 'list:reference item'),
+    Field('created', 'datetime', default=request.now, writable=False),
+    Field('updated', 'datetime', default=request.now, update=request.now, writable=False),
+)
+
+
 
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
