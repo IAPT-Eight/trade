@@ -1,0 +1,4 @@
+.idea/
+web2py/*log
+web2py/logs/
+.DS_Store
