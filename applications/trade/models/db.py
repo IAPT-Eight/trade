@@ -89,7 +89,8 @@ auth.settings.reset_password_requires_verification = True
 #########################################################################
 
 db.define_table('item',
-    Field('list_type', 'integer'),
+    #Field('list_type', 'integer'),
+    Field('list_type', 'list:reference list_item_type'),
     Field('name', 'string'),
     Field('description', 'text'),
     Field('item_value', 'integer'),
@@ -99,6 +100,10 @@ db.define_table('item',
 )
 
 db.define_table('category',
+    Field('name', 'string')
+)
+
+db.define_table('list_item_type',
     Field('name', 'string')
 )
 
