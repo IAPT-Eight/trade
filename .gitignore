@@ -12,7 +12,6 @@
 *.rej
 *.orig
 Thumbs.db
-.DS_Store
 index.yaml
 routes.py
 logging.conf
@@ -43,6 +42,8 @@ applications/*
 !applications/examples/*
 !applications/admin
 !applications/admin/*
+!applications/trade
+!applications/trade/*
 applications/*/databases/*
 applications/*/sessions/*
 applications/*/errors/*
@@ -60,3 +61,4 @@ HOWTO-web2py-devel
 .idea/*
 site-packages/
 logs/
+.DS_Store

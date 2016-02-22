@@ -53,9 +53,14 @@ response.form_label_separator = myconf.take('forms.separator')
 
 from gluon.tools import Auth, Service, PluginManager
 
+from gluon.custom_import import track_changes
+track_changes(True)
+
 auth = Auth(db)
 service = Service()
 plugins = PluginManager()
+
+auth.settings.controller = 'user'
 
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=True, signature=False)
