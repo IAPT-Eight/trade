@@ -98,7 +98,7 @@ db.define_table('item',
     Field('owner_ref', 'reference %s' % auth.settings.table_user_name),
     Field('image', 'upload'),
     #Field('categories', 'reference category', requires=IS_IN_DB(db, db.category, '%(name)s')),
-    Field('categories', 'list:reference category', requires=IS_IN_DB(db, db.category, '%(name)s'),
+    Field('categories', 'list:reference category', requires=IS_IN_DB(db, db.category, '%(name)s'))
 )
 
 db.define_table('category',
