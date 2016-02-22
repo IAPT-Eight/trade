@@ -2,9 +2,9 @@ def item():
     item_id = request.args(0)
 
     if item_id is not None:
-        return dict(boxes = db((db.item.id>0) & (db.item.id == item_id)).select())
+        return dict(item = db((db.item.id>0) & (db.item.id == item_id)).select())
     else:
-        return dict(boxes = db((db.item.id>0)).select())
+        return dict(item = db((db.item.id>0)).select())
 
 #& ((db.boxes.privacysetting == 'Public') | (db.boxes.created_by == auth.user))
 
