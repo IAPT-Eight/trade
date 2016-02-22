@@ -89,11 +89,11 @@ auth.settings.reset_password_requires_verification = True
 #########################################################################
 
 db.define_table('item',
-    Field('list', 'integer'),
+    Field('list_type', 'integer'),
     Field('name', 'string'),
     Field('description', 'text'),
-    Field('value', 'integer'),
-    Field('user', 'reference %s' % auth.table_user),
+    Field('item_value', 'integer'),
+    Field('owner_ref', 'reference %s' % auth.settings.table_user_name),
     Field('image', 'upload'),
     Field('categories', 'list:reference category'),
 )
@@ -103,10 +103,10 @@ db.define_table('category',
 )
 
 db.define_table('trade_proposal',
-    Field('state', 'integer'),
-    Field('sender', 'reference %s' % auth.table_user),
+    Field('status', 'integer'),
+    Field('sender', 'reference %s' % auth.settings.table_user_name),
     Field('sender_items', 'list:reference item'),
-    Field('receiver', 'reference %s' % auth.table_user),
+    Field('receiver', 'reference %s' % auth.settings.table_user_name),
     Field('receiver_items', 'list:reference item'),
     Field('created', 'datetime', default=request.now, writable=False),
     Field('updated', 'datetime', default=request.now, update=request.now, writable=False),
