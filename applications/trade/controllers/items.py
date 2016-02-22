@@ -1,10 +1,10 @@
-def item():
+def view_items():
     item_id = request.args(0)
 
     if item_id is not None:
-        return dict(item = db((db.item.id>0) & (db.item.id == item_id)).select())
+        return dict(items = db((db.item.id>0) & (db.item.id == item_id)).select())
     else:
-        return dict(item = db((db.item.id>0)).select())
+        return dict(items = db((db.item.id>0)).select())
 
 #& ((db.boxes.privacysetting == 'Public') | (db.boxes.created_by == auth.user))
 
@@ -38,7 +38,7 @@ def update_item():
     item = db.item(request.args(0))
 
 
-    updateitemform =SQLFORM(db.comics, comics, fields=['name', 'item_value', 'categories', 'list_type', 'description', 'image'], deletable=True, showid=False, upload=url)
+    updateitemform =SQLFORM(db.item, item, fields=['name', 'item_value', 'categories', 'list_type', 'description', 'image'], deletable=True, showid=False, upload=url)
 
     if updateitemform.accepts(request,session):
         response.flash = 'Item information updated!'
