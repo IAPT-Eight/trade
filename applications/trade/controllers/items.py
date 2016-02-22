@@ -1,12 +1,9 @@
 def item():
-    # @IAPT @Y0002861: Takes in 1 arguement boxid
     item_id = request.args(0)
 
     if item_id is not None:
-        # @IAPT @Y0002861: Shows respective box
         return dict(boxes = db((db.item.id>0) & (db.item.id == box_id)).select())
     else:
-        # @IAPT @Y0002861: Lists all public boxes and boxes owned by the user
         return dict(boxes = db((db.item.id>0)).select())
 
 #& ((db.boxes.privacysetting == 'Public') | (db.boxes.created_by == auth.user))
