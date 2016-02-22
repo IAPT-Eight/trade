@@ -90,13 +90,13 @@ auth.settings.reset_password_requires_verification = True
 
 db.define_table('item',
     #Field('list_type', 'integer'),
-    Field('list_type', 'list:reference list_item_type'),
+    Field('list_type', 'list:reference list_item_type', requires=IS_IN_DB(db, db.list_item_type, '%(name)s'),
     Field('name', 'string'),
     Field('description', 'text'),
     Field('item_value', 'integer'),
     Field('owner_ref', 'reference %s' % auth.settings.table_user_name),
     Field('image', 'upload'),
-    Field('categories', 'list:reference category'),
+    Field('categories', 'list:reference category', requires=IS_IN_DB(db, db.category, '%(name)s'),
 )
 
 db.define_table('category',
