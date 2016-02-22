@@ -2,7 +2,7 @@ def item():
     item_id = request.args(0)
 
     if item_id is not None:
-        return dict(boxes = db((db.item.id>0) & (db.item.id == box_id)).select())
+        return dict(boxes = db((db.item.id>0) & (db.item.id == item_id)).select())
     else:
         return dict(boxes = db((db.item.id>0)).select())
 
