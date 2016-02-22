@@ -1,4 +1,9 @@
 .idea/
 web2py/*log
 web2py/logs/
+web2py/applications/admin
+web2py/applications/trade/databases/
+web2py/applications/trade/errors/
+web2py/httpserver.pid
 .DS_Store
+*.pyc
