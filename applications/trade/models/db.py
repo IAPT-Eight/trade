@@ -61,6 +61,7 @@ service = Service()
 plugins = PluginManager()
 
 auth.settings.controller = 'user'
+auth.settings.login_url = URL(c='user', f='user', args='login')
 
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=True, signature=False)

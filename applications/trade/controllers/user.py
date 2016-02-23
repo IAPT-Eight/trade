@@ -17,3 +17,7 @@ def view():
     items = user.item.select(db.item.name, db.item.description, db.item.item_value, db.item.image)
 
     return dict(user=user, items=items)
+
+@auth.requires_login()
+def me():
+    redirect(URL(c='user', f='view', args=auth.user.username))
