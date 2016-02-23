@@ -16,7 +16,7 @@ def view():
     user = results[0]
     items = user.item.select(db.item.name, db.item.description, db.item.item_value, db.item.image)
 
-    return dict(user=user, items=items)
+    return dict(user=user, items=items, is_users_page=username==auth.user.username)
 
 @auth.requires_login()
 def me():

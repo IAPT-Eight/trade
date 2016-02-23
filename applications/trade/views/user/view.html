@@ -4,6 +4,12 @@
 {{=user.username}}
 </h2>
 
+{{if is_users_page:}}
+    <a href="#">Add new item</a>
+{{else:}}
+    <a href="#">Propose a trade</a>
+{{pass}}
+
 <h3>
 Filter
 </h3>
@@ -22,13 +28,27 @@ Filter
         <td>{{=user.username}}'s Wants</td>
         <td>0</td>
     </tr>
-</td>
+</table>
 
-<div id="users_items">
-    {{for item in items:}}
-        {{=item.name}}
-        {{=item.image}}
-        {{=item.item_value}}
-        {{=item.description}}
-    {{pass}}
-</div>
+{{if is_users_page and len(items) == 0:}}
+    <h4>
+    New here?
+    </h4>
+
+    <p>
+        Start adding items you want to trade or share with the world to your collection, clicking on the "Add new Item" button.
+    </p>
+
+    <p>
+        Otherwise, click on "Explore" to browse other users' collections.
+    </p>
+{{else:}}
+    <div id="users_items">
+        {{for item in items:}}
+            {{=item.name}}
+            {{=item.image}}
+            {{=item.item_value}}
+            {{=item.description}}
+        {{pass}}
+    </div>
+{{pass}}
