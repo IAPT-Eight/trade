@@ -1,0 +1,97 @@
+{{extend 'layout.html'}}
+<h2>My Trade Proposals</h2>
+
+<div class="alert alert-info">
+    <i class="fa fa-fw fa-info-circle"></i>
+    This page contains a list of all the trade proposals you recently sent or
+    received. You can also check the status of any past or pending proposal.
+</div>
+
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th>Sending</th>
+        <th>Receiving</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    {{for proposal in proposals:}}
+        <tr>
+            <td>
+                <p>
+                    <strong>{{=proposal.sender.username}}</strong> is offering:
+                </p>
+                <p>
+                    <ul>
+                    {{for item in proposal.sender_items:}}
+                        <li>{{include 'trade/li-item.html'}}</li>
+                    {{pass}}
+                    </ul>
+                </p>
+            </td>
+            <td>
+                <p>
+                    <strong>{{=proposal.receiver.username}}</strong> will send back:
+                </p>
+                <p>
+                    <ul>
+                    {{for item in proposal.receiver_items:}}
+                        <li>{{include 'trade/li-item.html'}}</li>
+                    {{pass}}
+                    </ul>
+                </p>
+            </td>
+            <td>
+
+                {{if proposal.status == WAITING:}}
+                    {{if auth.user_id == proposal.sender.id:}}
+
+                        <i class="fa fa-fw fa-clock-o"></i>
+                        You are waiting for {{=proposal.receiver.username}} to consider your proposal.
+
+                    {{else:}}
+
+                        <i class="fa fa-fw fa-question-circle"></i>
+                        Please
+
+                        <a href="/trade/trade/respond/{{=proposal.id}}/accept/">
+                            Accept
+                        </a>,
+                        <a href="/trade/trade/new/{{=proposal.sender.id}}/{{=proposal.id}}/">
+                            Counter-propose
+                        </a> or
+                        <a href="/trade/trade/respond/{{=proposal.id}}/decline/">
+                            Decline
+                        </a>
+
+                    {{pass}}
+
+                {{elif proposal.status == ACCEPTED:}}
+                    <i class="fa fa-fw fa-check"></i>
+                    Success! This proposal was successful.
+                    <a href="{{=URL('trade', 'trade', 'success', args=[proposal.id])}}">
+                        View details.
+                    </a>
+
+                {{elif proposal.status == DECLINED:}}
+                    <i class="fa fa-fw fa-times"></i>
+                    This proposal was declined.
+
+                {{pass}}
+
+            </td>
+
+        </tr>
+
+    {{pass}}
+
+    {{if not proposals:}}
+        <tr class="warning">
+            <td colspan="3">
+                <i class="fa fa-fw fa-info-circle"></i>
+                You have not sent or received any proposal yet.
+            </td>
+        </tr>
+
+    {{pass}}
+</table>

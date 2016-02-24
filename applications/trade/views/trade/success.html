@@ -1,0 +1,92 @@
+{{extend 'layout.html'}}
+
+<div class="row">
+
+    <div class="col-md-8 col-md-offset-2">
+       <div class="panel panel-success">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    <i class="fa fa-fw fa-check"></i>
+                    Trade successful
+                </h2>
+            </div>
+            <div class="panel-body">
+
+                <p>The following trade has been successful:</p>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>
+                            <strong>{{=proposal.sender.username}}</strong> is offering:
+                        </p>
+                        <p>
+                            <ul>
+                            {{for item in proposal.sender_items:}}
+                                <li>{{include 'trade/li-item.html'}}</li>
+                            {{pass}}
+                            </ul>
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <p>
+                            <strong>{{=proposal.receiver.username}}</strong> will send back:
+                        </p>
+                        <p>
+                            <ul>
+                            {{for item in proposal.receiver_items:}}
+                                <li>{{include 'trade/li-item.html'}}</li>
+                            {{pass}}
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+
+                <p>
+                    Please use the following information to get in touch with the
+                    other party and arrange for the delivery of the goods.
+                </p>
+
+                <p>
+                    You may want to sent them an e-mail containing a postal
+                    address where you would like the items to be dispatched to.
+                    Please note this does not need to be your home address.
+                </p>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="dl-horizontal">
+                            <dt>Username</dt>
+                            <dd>{{=proposal.sender.username}}</dd>
+                            <dt>Full name</dt>
+                            <dd>{{=proposal.sender.first_name}} {{=proposal.sender.last_name}}</dd>
+                            <dt>Email address</dt>
+                            <dd>{{=proposal.sender.email}}</dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="dl-horizontal">
+                            <dt>Username</dt>
+                            <dd>{{=proposal.receiver.username}}</dd>
+                            <dt>Full name</dt>
+                            <dd>{{=proposal.receiver.first_name}} {{=proposal.sender.last_name}}</dd>
+                            <dt>Email address</dt>
+                            <dd>{{=proposal.receiver.email}}</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <p>We hope you enjoyed using our website!</p>
+
+                <a href="{{=URL('trade', 'trade', 'index')}}" class="btn btn-success btn-block">
+                    <i class="fa fa-fw fa-email-reply"></i>
+                    Go back to the proposals list
+                </a>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
