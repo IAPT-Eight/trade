@@ -27,6 +27,17 @@ response.google_analytics_id = None
 response.menu = [
     (T('Explore'), False, URL('trade', 'default', 'index')),
     (T('My Proposals'), False, URL('trade', 'trade', 'index')),
+    (T('My Profile'), False, URL('user', 'me')),
+]
+
+if auth.user:
+    response.right_menu = [
+        (T('Log out'), False, URL(c='user', f='user', args='logout')),
+    ]
+else:
+    response.right_menu = [
+        (T('Log in'), False, URL(c='user', f='user', args='login')),
+        (T('Sign up'), False, URL(c='user', f='user', args='register')),
 ]
 
 DEVELOPMENT_MENU = True
@@ -42,4 +53,4 @@ def _():
     # useful links to internal and external resources
 if DEVELOPMENT_MENU: _()
 
-if "auth" in locals(): auth.wikimenu() 
+if "auth" in locals(): auth.wikimenu()
