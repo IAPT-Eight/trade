@@ -114,11 +114,11 @@ db.define_table('item',
     #Field('list_type', 'integer'),
     Field('list_type', 'reference list_item_type', requires=IS_IN_DB(db, db.list_item_type, '%(name)s')),
     #Field('list_type', 'list:reference list_item_type', requires=IS_IN_DB(db, db.list_item_type, '%(name)s')),
-    Field('name', 'string'),
-    Field('description', 'text'),
-    Field('item_value', 'integer'),
-    Field('owner_ref', 'reference %s' % auth.settings.table_user_name),
-    Field('image', 'upload'),
+    Field('name', 'string', requires=IS_NOT_EMPTY()),
+    Field('description', 'text', requires=IS_NOT_EMPTY()),
+    Field('item_value', 'integer', requires=IS_NOT_EMPTY()),
+    Field('owner_ref', 'reference %s' % auth.settings.table_user_name, default=auth.user),
+    Field('image', 'upload', requires=IS_NOT_EMPTY()),
     Field('categories', 'reference category', requires=IS_IN_DB(db, db.category, '%(name)s')),
     #Field('categories', 'list:reference category', requires=IS_IN_DB(db, db.category, '%(name)s'))
 )
@@ -134,8 +134,6 @@ db.define_table('trade_proposal',
     Field('created', 'datetime', default=request.now, writable=False),
     Field('updated', 'datetime', default=request.now, update=request.now, writable=False),
 )
-
-
 
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)

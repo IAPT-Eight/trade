@@ -1,3 +1,4 @@
+#Add some code to find only let users view 
 def view_items():
     item_id = request.args(0)
 
@@ -9,8 +10,8 @@ def view_items():
 #& ((db.boxes.privacysetting == 'Public') | (db.boxes.created_by == auth.user))
 
 
-#@auth.requires_login()
 
+@auth.requires_login()
 def add_item():
 
     item = db.item(request.args(0))
@@ -29,8 +30,8 @@ def add_item():
     return dict(additemform=additemform)
 
 
-#@auth.requires_login()
 
+@auth.requires_login()
 def update_item():
 
     db.item.description.widget = SQLFORM.widgets.text.widget
