@@ -7,7 +7,7 @@
 {{if is_users_page:}}
     {{=A("Add new item", _href=URL(c='items', f='add_item'))}}
 {{else:}}
-    {{=A("Propose a trade", _href=URL(c='trade', f='new', args=user.username))}}
+    {{=A("Propose a trade", _href=URL(c='trade', f='new', args=user.id))}}
 {{pass}}
 
 <h3>
