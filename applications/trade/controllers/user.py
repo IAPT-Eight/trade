@@ -24,7 +24,7 @@ def view():
 
     list_sizes = {list_type_id : len([item for item in items if item.list_type == list_type_id]) for list_type_id in LIST_NAMES_DICT.keys()}
 
-    return dict(user=user, items=items, is_users_page=is_users_page)
+    return dict(user=user, items=items, is_users_page=is_users_page, list_sizes=list_sizes)
 
 @auth.requires_login()
 def me():

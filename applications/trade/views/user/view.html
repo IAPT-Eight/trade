@@ -4,20 +4,27 @@
     <div class="col-md-3">
         <h3><i class="fa fa-fw fa-search"></i> Filter</h3>
         <table class="table table-striped">
+            {{display_name = 'Your' if is_users_page else user.username+"'s'"}}
             <tr>
                 <td>All</td>
-                <td>0</td>
+                <td>{{=sum(num for num in list_sizes.values())}}</td>
             </tr>
-                <td>{{=user.username}}'s Public</td>
-                <td>0</td>
+                <td>{{=display_name}} Public</td>
+                <td>{{=list_sizes[LIST_PUBLIC_COLLECTION]}}</td>
             <tr>
-                <td>{{=user.username}}'s Has</td>
-                <td>0</td>
+                <td>{{=display_name}} Has</td>
+                <td>{{=list_sizes[LIST_TRADING]}}</td>
             </tr>
             <tr>
-                <td>{{=user.username}}'s Wants</td>
-                <td>0</td>
+                <td>{{=display_name}} Wants</td>
+                <td>{{=list_sizes[LIST_WISH_LIST]}}</td>
             </tr>
+            {{if is_users_page:}}
+            <tr>
+                <td>{{=display_name}} Private</td>
+                <td>{{=list_sizes[LIST_PRIVATE_COLLECTION]}}</td>
+            </tr>
+            {{pass}}
         </table>
 
     </div>
@@ -76,6 +83,3 @@
 
     </div>
 </div>
-
-
-
