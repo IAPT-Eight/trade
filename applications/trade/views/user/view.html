@@ -5,9 +5,9 @@
 </h2>
 
 {{if is_users_page:}}
-    <a href="#">Add new item</a>
+    {{=A("Add new item", _href=URL(c='items', f='add_item'))}}
 {{else:}}
-    <a href="#">Propose a trade</a>
+    {{=A("Propose a trade", _href=URL(c='trade', f='new', args=user.username))}}
 {{pass}}
 
 <h3>
