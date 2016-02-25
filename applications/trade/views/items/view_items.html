@@ -18,6 +18,7 @@
 
 </ul>
     <div class="Update">
+    {{if (item.owner_ref == auth.user_id):}}
     {{=A('Update', _href=URL('items', 'update_item', args=[item.id]))}}
     {{pass}}
     </div>
