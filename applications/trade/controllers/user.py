@@ -14,9 +14,15 @@ def view():
 
     assert(len(results) == 1)
     user = results[0]
-    items = user.item.select(db.item.name, db.item.description, db.item.item_value, db.item.image)
+    is_users_page=username==auth.user.username
 
-    return dict(user=user, items=items, is_users_page=username==auth.user.username)
+    item_filter = db.item.id > 0
+    if not is_users_page:
+        item_filter &= db.item.list_type != LIST_PRIVATE_COLLECTION
+
+    items = user.item(item_filter).select(db.item.name, db.item.description, db.item.item_value, db.item.image)
+
+    return dict(user=user, items=items, is_users_page=username==is_users_page)
 
 @auth.requires_login()
 def me():
