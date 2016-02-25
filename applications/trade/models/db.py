@@ -62,6 +62,14 @@ plugins = PluginManager()
 
 auth.settings.controller = 'user'
 auth.settings.login_url = URL(c='user', f='user', args='login')
+auth.settings.logged_url = URL(c='user', f='me')
+auth.settings.login_next = URL(c='user', f='me')
+auth.settings.register_next = URL(c='user', f='me')
+
+# We decided to use the term 'Sign in' rather than 'Login'
+auth.messages.login_disabled = 'Sign in disabled by administrator'
+auth.messages.logged_in = 'Signed in'
+auth.messages.logged_out = 'Signed out'
 
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=True, signature=False)

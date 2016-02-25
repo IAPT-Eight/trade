@@ -32,12 +32,12 @@ response.menu = [
 
 if auth.user:
     response.right_menu = [
-        (T('Log out'), False, URL(c='user', f='user', args='logout')),
+        (T('Sign out'), False, URL(c='user', f='user', args='logout')),
     ]
 else:
     response.right_menu = [
-        (T('Log in'), False, URL(c='user', f='user', args='login')),
-        (T('Sign up'), False, URL(c='user', f='user', args='register')),
+        (T('Sign in'), False, URL(c='user', f='user', args='login')),
+        (T('Create account'), False, URL(c='user', f='user', args='register')),
 ]
 
 DEVELOPMENT_MENU = True
