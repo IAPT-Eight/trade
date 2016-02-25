@@ -46,8 +46,8 @@ Filter
     <div id="users_items">
         {{for item in items:}}
             {{=item.name}}
-            {{=item.image}}
-            {{=item.item_value}}
+            {{=IMG(_src=URL(c='default', f='download', args=item.image), _alt=item.name)}}
+            £{{=item.item_value}}
             {{=item.description}}
         {{pass}}
     </div>
