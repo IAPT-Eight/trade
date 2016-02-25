@@ -6,22 +6,22 @@
         <table class="table table-striped">
             {{display_name = 'Your' if is_users_page else user.username+"'s'"}}
             <tr>
-                <td>All</td>
-                <td>{{=sum(num for num in list_sizes.values())}}</td>
+                <td>{{=A("All", _href=URL(args=request.args, host=True))}}</td>
+                <td>{{=sum(list_sizes.values())}}</td>
             </tr>
-                <td>{{=display_name}} Public</td>
+                <td>{{=A("{} Public".format(display_name), _href=URL(args=request.args, vars={'filter': LIST_PUBLIC_COLLECTION}, host=True))}}</td>
                 <td>{{=list_sizes[LIST_PUBLIC_COLLECTION]}}</td>
             <tr>
-                <td>{{=display_name}} Has</td>
+                <td>{{=A("{} Has".format(display_name), _href=URL(args=request.args, vars={'filter': LIST_TRADING}, host=True))}}</td>
                 <td>{{=list_sizes[LIST_TRADING]}}</td>
             </tr>
             <tr>
-                <td>{{=display_name}} Wants</td>
+                <td>{{=A("{} Wants".format(display_name), _href=URL(args=request.args, vars={'filter': LIST_WISH_LIST}, host=True))}}</td>
                 <td>{{=list_sizes[LIST_WISH_LIST]}}</td>
             </tr>
             {{if is_users_page:}}
             <tr>
-                <td>{{=display_name}} Private</td>
+                <td>{{=A("{} Private".format(display_name), _href=URL(args=request.args, vars={'filter': LIST_PRIVATE_COLLECTION}, host=True))}}</td>
                 <td>{{=list_sizes[LIST_PRIVATE_COLLECTION]}}</td>
             </tr>
             {{pass}}

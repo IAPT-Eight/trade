@@ -7,6 +7,13 @@ def view():
     if username is None:
         raise HTTP(422, "Username not provided")
 
+    users_filter = request.vars['filter']
+    if users_filter is not None:
+        try:
+            users_filter = int(users_filter)
+        except ValueError:
+            raise HTTP(422, "Filter type must be numeric")
+
     results = db(auth.settings.table_user.username == username).select(auth.settings.table_user.id, auth.settings.table_user.username, auth.settings.table_user.first_name, auth.settings.table_user.last_name)
 
     if not results:
@@ -22,7 +29,14 @@ def view():
 
     items = user.item(item_filter).select(db.item.ALL)
 
-    list_sizes = {list_type_id : len([item for item in items if item.list_type == list_type_id]) for list_type_id in LIST_NAMES_DICT.keys()}
+    list_items = {list_type_id : items.find(lambda item: item.list_type == list_type_id) for list_type_id in LIST_NAMES_DICT.keys()}
+    list_sizes = {list_type_id : len(list_items[list_type_id]) for list_type_id in LIST_NAMES_DICT.keys()}
+
+    if users_filter is not None:
+        try:
+            items = list_items[users_filter]
+        except KeyError:
+            raise HTTP(422, "Unrecognised filter")
 
     return dict(user=user, items=items, is_users_page=is_users_page, list_sizes=list_sizes)
 
