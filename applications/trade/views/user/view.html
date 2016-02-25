@@ -1,54 +1,81 @@
 {{extend 'layout.html'}}
 
-<h2>
-{{=user.username}}
-</h2>
+<div class="row">
+    <div class="col-md-3">
+        <h3><i class="fa fa-fw fa-search"></i> Filter</h3>
+        <table class="table table-striped">
+            <tr>
+                <td>All</td>
+                <td>0</td>
+            </tr>
+                <td>{{=user.username}}'s Public</td>
+                <td>0</td>
+            <tr>
+                <td>{{=user.username}}'s Has</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>{{=user.username}}'s Wants</td>
+                <td>0</td>
+            </tr>
+        </table>
 
-{{if is_users_page:}}
-    {{=A("Add new item", _href=URL(c='items', f='add_item'))}}
-{{else:}}
-    {{=A("Propose a trade", _href=URL(c='trade', f='new', args=user.id))}}
-{{pass}}
-
-<h3>
-Filter
-</h3>
-<table>
-    <tr>
-        <td>All</td>
-        <td>0</td>
-    </tr>
-        <td>{{=user.username}}'s Public</td>
-        <td>0</td>
-    <tr>
-        <td>{{=user.username}}'s Has</td>
-        <td>0</td>
-    </tr>
-    <tr>
-        <td>{{=user.username}}'s Wants</td>
-        <td>0</td>
-    </tr>
-</table>
-
-{{if is_users_page and len(items) == 0:}}
-    <h4>
-    New here?
-    </h4>
-
-    <p>
-        Start adding items you want to trade or share with the world to your collection, clicking on the "Add new Item" button.
-    </p>
-
-    <p>
-        Otherwise, click on "Explore" to browse other users' collections.
-    </p>
-{{else:}}
-    <div id="users_items">
-        {{for item in items:}}
-            {{=item.name}}
-            {{=IMG(_src=URL(c='default', f='download', args=item.image), _alt=item.name)}}
-            £{{=item.item_value}}
-            {{=item.description}}
-        {{pass}}
     </div>
-{{pass}}
+    <div class="col-md-9">
+
+        {{if is_users_page:}}
+            <a href="{{=URL(c='items', f='add_item')}}"
+                class="btn btn-primary pull-right">
+                <i class="fa fa-fw fa-plus-circle"></i>
+                Add a new item
+            </a>
+
+        {{else:}}
+            <a href="{{=URL(c='trade', f='new', args=[user.id])}}"
+                class="btn btn-primary pull-right">
+                <i class="fa fa-fw fa-question-circle"></i>
+                Propose a trade
+            </a>
+
+        {{pass}}
+
+        <h2>
+            <i class="fa fa-fw fa-user"></i>
+            {{=user.first_name}} {{=user.last_name}}
+            <span class="text-muted">({{=user.username}})</span>
+
+        </h2>
+
+        <hr />
+
+
+        {{if is_users_page and len(items) == 0:}}
+            <div class="alert alert-block alert-info">
+                <h4>
+                    <i class="fa fa-fw fa-info-circle"></i>
+                    New here?
+                </h4>
+                <p>
+                    Start adding items you want to trade or share with the world to your collection, clicking on the "Add new Item" button.
+                </p>
+
+                <p>
+                    Otherwise, click on "Explore" to browse other users' collections.
+                </p>
+
+            </div>
+
+        {{else:}}
+            <div id="users_items">
+
+                {{include 'items/preview-list.html'}}
+
+            </div>
+        {{pass}}
+
+
+    </div>
+</div>
+
+
+

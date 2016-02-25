@@ -1,0 +1,19 @@
+
+<a href="{{=URL(c='items', f='view', args=item.id)}}" title="{{=item.name}} Page">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                {{=item.name}}
+            </h2>
+        </div>
+        <div class="panel-body">
+            {{=IMG(_src=URL(c='default', f='download', args=item.image), _alt=item.name, _class="img-responsive")}}
+        </div>
+        <div class="panel-footer">
+            Est. value: GBP {{=item.item_value}}
+        </div>
+    </div>
+
+
+</a>
