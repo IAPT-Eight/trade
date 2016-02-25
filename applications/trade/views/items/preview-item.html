@@ -1,5 +1,5 @@
 
-<a href="{{=URL(c='items', f='view', args=item.id)}}" title="{{=item.name}} Page">
+<a href="{{=URL(c='items', f='view_items', args=item.id)}}" title="{{=item.name}} Page">
 
     <div class="panel panel-info">
         <div class="panel-heading">
@@ -7,7 +7,7 @@
                 {{=item.name}}
             </h2>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" style="padding: 0px 0px; min-height: 150px;">
             {{=IMG(_src=URL(c='default', f='download', args=item.image), _alt=item.name, _class="img-responsive")}}
         </div>
         <div class="panel-footer">
