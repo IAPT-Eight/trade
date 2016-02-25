@@ -7,7 +7,7 @@ def view():
     if username is None:
         raise HTTP(422, "Username not provided")
 
-    results = db(auth.settings.table_user.username == username).select(auth.settings.table_user.id, auth.settings.table_user.username)
+    results = db(auth.settings.table_user.username == username).select(auth.settings.table_user.id, auth.settings.table_user.username, auth.settings.table_user.first_name, auth.settings.table_user.last_name)
 
     if not results:
         raise HTTP(404, "User not found")
