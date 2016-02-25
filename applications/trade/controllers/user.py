@@ -20,7 +20,9 @@ def view():
     if not is_users_page:
         item_filter &= db.item.list_type != LIST_PRIVATE_COLLECTION
 
-    items = user.item(item_filter).select(db.item.name, db.item.description, db.item.item_value, db.item.image)
+    items = user.item(item_filter).select(db.item.ALL)
+
+    list_sizes = {list_type_id : len([item for item in items if item.list_type == list_type_id]) for list_type_id in LIST_NAMES_DICT.keys()}
 
     return dict(user=user, items=items, is_users_page=is_users_page)
 
