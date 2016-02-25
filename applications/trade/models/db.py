@@ -135,7 +135,5 @@ db.define_table('trade_proposal',
     Field('updated', 'datetime', default=request.now, update=request.now, writable=False),
 )
 
-
-
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
