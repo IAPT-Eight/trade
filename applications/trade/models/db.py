@@ -117,7 +117,7 @@ db.define_table('item',
     Field('name', 'string', requires=IS_NOT_EMPTY()),
     Field('description', 'text', requires=IS_NOT_EMPTY()),
     Field('item_value', 'integer', requires=IS_NOT_EMPTY()),
-    Field('owner_ref', 'reference %s' % auth.settings.table_user_name, requires=IS_NOT_EMPTY()),
+    Field('owner_ref', 'reference %s' % auth.settings.table_user_name, default=auth.user),
     Field('image', 'upload', requires=IS_NOT_EMPTY()),
     Field('categories', 'reference category', requires=IS_IN_DB(db, db.category, '%(name)s')),
     #Field('categories', 'list:reference category', requires=IS_IN_DB(db, db.category, '%(name)s'))
