@@ -1,7 +1,21 @@
 def user():
+    """
+    This is the exposes the login and register functionality.
+    """
     return dict(form=auth())
 
 def view():
+    """
+    The page to view a user.
+
+    The URL should be formed like this:
+    /user/view/<username>/[<filter=filter_id>/]
+
+    It shows information about the user and a preview of their items.
+    Only the user can view items in their private collection.
+
+    The items shown can be filtered depending by which list they are on.
+    """
     username = request.args(0)
 
     if username is None:
@@ -42,4 +56,7 @@ def view():
 
 @auth.requires_login()
 def me():
+    """
+    Redirects a logged in user to their own user page.
+    """
     redirect(URL(c='user', f='view', args=auth.user.username))
