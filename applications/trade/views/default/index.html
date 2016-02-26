@@ -7,9 +7,13 @@
         <table class="table table-striped">
 		
 			{{if categories != None:}}
+				<tr>
+					<td>{{=A("All Categories", _href=URL('trade', 'default', 'index', args=request.args, vars=dict(), host=True))}}</td>
+				</tr>
+				
 				{{for category in categories:}}
 					<tr>
-						<td>{{=A(category, _href=URL(args=category, host=True))}}</td>
+						<td>{{=A(category, _href=URL('trade', 'default', 'index', args=request.args, vars=dict(cat=category), host=True))}}</td>
 					</tr>
 				{{pass}}
 			{{pass}}
@@ -21,8 +25,7 @@
         <h2>
             {{=T("Trade your collectibles with...")}}
         </h2>
-		
-        {{if True: #len(items) == 0:}}
+        {{if (items == None) or (len(items) == 0):}}
             <div class="alert alert-block alert-info">
                 <h4>
                     <i class="fa fa-fw fa-info-circle"></i>
@@ -41,7 +44,7 @@
         {{else:}}
             <div id="users_items">
 
-                {{#include 'items/preview-list.html'}}
+                {{include 'items/preview-list.html'}}
 
             </div>
         {{pass}}
