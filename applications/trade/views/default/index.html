@@ -1,27 +1,53 @@
 {{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
 {{extend 'layout.html'}}
 
-{{block header}}
-    <header class="container-fluid background">
-      <div class="jumbotron text-center">
-        {{if response.title:}}
-        <h1>{{=response.title}}
-          <small>{{=response.subtitle or ''}}</small></h1>
+<div class="row">
+    <div class="col-md-3">
+        <h3><i class="fa fa-fw fa-search"></i> Filter</h3>
+        <table class="table table-striped">
+		
+			{{if categories != None:}}
+				{{for category in categories:}}
+					<tr>
+						<td>{{=A(category, _href=URL(args=category, host=True))}}</td>
+					</tr>
+				{{pass}}
+			{{pass}}
+
+        </table>
+
+    </div>
+    <div class="col-md-9">
+        <h2>
+            {{=T("Trade your collectibles with...")}}
+        </h2>
+		
+        {{if True: #len(items) == 0:}}
+            <div class="alert alert-block alert-info">
+                <h4>
+                    <i class="fa fa-fw fa-info-circle"></i>
+                    Wow, look how clean this place is!
+                </h4>
+                <p>
+                    We haven't been able to find any items that users have publicly stored on the site!
+                </p>
+
+                <p>
+                    If you think this is an error, please try reloading the page or, if that doesn't work, maybe try going and getting a cup of tea and coming back in a bit!
+                </p>
+
+            </div>
+
+        {{else:}}
+            <div id="users_items">
+
+                {{#include 'items/preview-list.html'}}
+
+            </div>
         {{pass}}
-      </div>
-    </header>
-{{end}}
 
-{{if 'message' in globals():}}
-<h2>{{=message}}</h2>
 
-{{elif 'content' in globals():}}
-{{=content}}
-{{else:}}
-{{=BEAUTIFY(response._vars)}}
-{{pass}}
-
-{{=BEAUTIFY(response.vars)}}
-{{pass}}
+    </div>
+</div>
 
 

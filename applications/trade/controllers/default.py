@@ -9,15 +9,17 @@
 #########################################################################
 
 def index():
-    """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
-
-    if you need a simple wiki simply replace the two lines below with:
-    return auth.wiki()
-    """
-    response.flash = T("Hello World")
-    return dict(message=T('Welcome to web2py!'))
+	if request.args(0) == None:
+		search_vals = None
+	else: 
+		search_vals = request.args(0).split('_')
+		
+	
+	categories_as_dicts = db(db.category).select(db.category.name).as_list()
+	categories_as_list = [cat['name'] for cat in categories_as_dicts]
+	
+	items = None
+	return dict(search_vals=search_vals, categories=categories_as_list, items=items)
 
 
 @cache.action()
