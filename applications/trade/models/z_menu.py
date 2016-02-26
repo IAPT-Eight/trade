@@ -24,9 +24,18 @@ response.google_analytics_id = None
 ## this is the main application menu add/remove items as required
 #########################################################################
 
+search_form=FORM(
+	INPUT(_name='search', requires=IS_NOT_EMPTY()),
+	INPUT(_type='submit', _value='Search')
+	)
+	
+if search_form.process(hideerror=True).accepted:
+	redirect(URL('trade', 'default', 'index', args = [search_form.vars.search]))
+
 response.menu = [
     (T('Explore'), False, URL('trade', 'default', 'index')),
     (T('My Proposals'), False, URL('trade', 'trade', 'index')),
+	(search_form, False, search_form.process()),
     (T('My Profile'), False, URL('user', 'me')),
 ]
 
