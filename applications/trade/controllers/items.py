@@ -20,7 +20,7 @@ def add_item():
 
     if additemform.accepts(request,session):
         response.flash = 'Item is added to your collection'
-        redirect(URL('items', 'view_items', additemform.vars.id))
+        redirect(URL('items', 'view_items', 'additemform.vars.id'))
 
     elif additemform.errors:
         response.flash = 'ERROR! All fields are required to be complete'
