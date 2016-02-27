@@ -16,9 +16,14 @@
 
 
 </ul>
-    <div class="Update">
+    <div class="Edit">
     {{if (item.owner_ref == auth.user_id):}}
-    {{=A('Update', _href=URL('items', 'update_item', args=[item.id]))}}
+    {{=A('Edit', _href=URL('items', 'update_item', args=[item.id]))}}
+    {{pass}}
+    </div>
+    <div class="Delete">
+    {{if (item.owner_ref == auth.user_id):}}
+    {{=A('Delete', _href=URL('items', 'delete_item', args=[item.id]))}}
     {{pass}}
     </div>
 </div>
