@@ -28,7 +28,8 @@ def index():
 	categories_as_dicts = db(db.category).select(db.category.name).as_list()
 	categories_as_list = [cat['name'] for cat in categories_as_dicts]
 	
-	return dict(search_vals=search_vals, categories=categories_as_list, items=items)
+	return dict(search_vals=search_vals, categories=categories_as_list, items=items,
+				current_category=request.vars.cat)
 
 	
 #########################################################################
