@@ -12,12 +12,14 @@
               <img src="{{=URL('default', 'download', args=item.image)}}" class="img-responsive img-polaroid" />
           </p>
 
-          <p>
-              <a href="{{=URL(c='trade', f='new', args=item.owner_ref, vars={"preselect": item.id})}}" class="btn btn-block btn-primary btn-lg">
-                  <i class="fa fa-exchange"></i>
-                  Propose a Trade
-              </a>
-          </p>
+          {{if (item.owner_ref != auth.user_id):}}
+              <p>
+                  <a href="{{=URL(c='trade', f='new', args=item.owner_ref, vars={"preselect": item.id})}}" class="btn btn-block btn-primary btn-lg">
+                      <i class="fa fa-exchange"></i>
+                      Propose a Trade
+                  </a>
+              </p>
+          {{pass}}
 
           <dl class="dl-horizontal">
 
@@ -43,10 +45,8 @@
           <div class="btn-group pull-right">
           {{if (item.owner_ref == auth.user_id):}}
                   {{=A(I(_class="fa fa-fw fa-edit"), "Edit", _class="btn btn-default", _href=URL('items', 'update_item', args=[item.id]))}}
-                  {{pass}}
-              {{if (item.owner_ref == auth.user_id):}}
                   {{=A(I(_class="fa fa-fw fa-trash"), "Delete", _class="btn btn-danger", _href=URL('items', 'delete_item', args=[item.id]))}}
-              {{pass}}
+          {{pass}}
 
           </div>
 
