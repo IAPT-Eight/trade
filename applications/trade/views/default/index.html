@@ -17,7 +17,10 @@
                 {{for category in categories:}}
                     <li role="presentation" {{if current_category == category:}}class="active"{{pass}}>
                         <a href="{{=URL('trade', 'default', 'index', args=request.args, vars=dict(cat=category), host=True)}}">
-                            {{=category}}
+                            {{=category['name']}}
+							<span class="badge pull-right">
+								{{=category['count']}}
+							</span>
                         </a>
                     </li>
                 {{pass}}
