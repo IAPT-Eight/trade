@@ -1,3 +1,5 @@
+from money import is_valid_money
+
 #Add some code to find only let users view
 def view_items():
     item_id = request.args(0)
@@ -14,6 +16,11 @@ def view_items():
 @auth.requires_login()
 def add_item():
     additemform = SQLFORM(db.item, fields=['name', 'item_value', 'categories', 'list_type', 'description', 'image'])
+
+    # web2py doesn't handle an invalid decimal nicely, instead it gives a <class 'sqlite3.OperationalError'> no such column
+    if not (request.post_vars['item_value'] == None or is_valid_money(request.post_vars['item_value'])):
+        response.flash = "'{}' is not a valid item value".format(request.post_vars['item_value'])
+        return dict(additemform=additemform)
 
     if additemform.accepts(request,session):
         redirect(URL('trade', 'items', 'view_items', args=additemform.vars.id))
