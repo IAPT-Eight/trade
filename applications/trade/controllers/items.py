@@ -19,8 +19,9 @@ def add_item():
     additemform =SQLFORM(db.item, item, fields=['name', 'item_value', 'categories', 'list_type', 'description', 'image'])
 
     if additemform.accepts(request,session):
-        response.flash = 'Item is added to your collection'
         redirect(URL('trade', 'items', 'view_items', item))
+        response.flash = 'Item is added to your collection'
+
 
     elif additemform.errors:
         response.flash = 'ERROR! All fields are required to be complete'
