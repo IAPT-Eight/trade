@@ -19,8 +19,7 @@ def add_item():
     additemform =SQLFORM(db.item, item, fields=['name', 'item_value', 'categories', 'list_type', 'description', 'image'])
 
     if additemform.accepts(request,session):
-        redirect(URL('trade', 'items', 'view_items', item))
-        response.flash = 'Item is added to your collection'
+        redirect(URL('trade', 'items', 'view_items', args=additemform.vars.id))
 
 
     elif additemform.errors:
@@ -40,8 +39,8 @@ def delete_item():
     deleteitemform =SQLFORM(db.item, item, fields=['name', 'image'], ignore_rw=True, deletable=True, showid=False, upload=url)
 
     if deleteitemform.accepts(request,session):
-        response.flash = 'Item Deleted!'
-        redirect(URL('items', 'view_items'))
+        redirect(URL('trade', 'user', 'view', args=auth.user.username))
+
     elif deleteitemform.errors:
         response.flash = 'ERROR! One or more of your form fields has an error. Please see below for more information'
     else:
@@ -61,8 +60,7 @@ def update_item():
     updateitemform =SQLFORM(db.item, item, fields=['name', 'item_value', 'categories', 'list_type', 'description', 'image'], showid=False, upload=url)
 
     if updateitemform.accepts(request,session):
-        response.flash = 'Item information updated!'
-        redirect(URL('items', 'view_items', updateitemform.vars.id))
+        redirect(URL('trade', 'items', 'view_items', args=updateitemform.vars.id))
     elif updateitemform.errors:
         response.flash = 'ERROR! One or more of your form fields has an error. Please see below for more information'
     else:
