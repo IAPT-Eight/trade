@@ -24,11 +24,24 @@ response.google_analytics_id = None
 ## this is the main application menu add/remove items as required
 #########################################################################
 
-search_form=FORM(
-	INPUT(_name='search', requires=IS_NOT_EMPTY()),
-	INPUT(_type='submit', _value='Search')
-	)
-	
+search_form = FORM(
+    DIV(
+    	INPUT(_name='search', requires=IS_NOT_EMPTY(), _class="form-control",
+              _placeholder="Search for items...", _autofocus="true", _id="search-bar"),
+        BUTTON(I(_class="fa fa-fw fa-search"), _type='submit', _class="btn btn-default"),
+        _class="form-group"
+    ),
+    _class="navbar-form navbar-left", _role="search"
+)
+
+##
+#      <form class="navbar-form navbar-left" role="search">
+#        <div class="form-group">
+#          <input type="text" class="form-control" placeholder="Search">
+#        </div>
+#        <button type="submit" class="btn btn-default">Submit</button>
+#      </form>
+
 if search_form.process(hideerror=True).accepted:
 	redirect(URL('trade', 'default', 'index', args = [search_form.vars.search]))
 
