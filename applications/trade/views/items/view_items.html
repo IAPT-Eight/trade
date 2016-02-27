@@ -13,13 +13,18 @@
     <li><strong>Category:</strong> {{=item.categories.name}}</li>
     <li><strong>List:</strong> {{=item.list_type.name }}</li>
     <li><strong>Description:</strong> {{=item.description}}</li>
-    
 
 
 </ul>
-    <div class="Update">
+    <div class="Edit">
     {{if (item.owner_ref == auth.user_id):}}
-    {{=A('Update', _href=URL('items', 'update_item', args=[item.id]))}}
+    {{=A('Edit', _href=URL('items', 'update_item', args=[item.id]))}}
+    {{pass}}
+    </div>
+    <div class="Delete">
+    {{if (item.owner_ref == auth.user_id):}}
+    {{=A('Delete', _href=URL('items', 'delete_item', args=[item.id]))}}
     {{pass}}
     </div>
 </div>
+{{pass}}

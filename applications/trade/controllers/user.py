@@ -52,7 +52,8 @@ def view():
         except KeyError:
             raise HTTP(422, "Unrecognised filter")
 
-    return dict(user=user, items=items, is_users_page=is_users_page, list_sizes=list_sizes)
+    return dict(user=user, items=items, is_users_page=is_users_page, list_sizes=list_sizes,
+                current_filter=users_filter)
 
 @auth.requires_login()
 def me():

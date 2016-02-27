@@ -24,29 +24,61 @@ response.google_analytics_id = None
 ## this is the main application menu add/remove items as required
 #########################################################################
 
-search_form=FORM(
-	INPUT(_name='search', requires=IS_NOT_EMPTY()),
-	INPUT(_type='submit', _value='Search')
-	)
+def _number_of_waiting_proposals():
+    if not auth.user_id:
+        return None
+    return db((db.trade_proposal.status==1)&(db.trade_proposal.receiver==auth.user_id))\
+        .count()
 
-if search_form.process(hideerror=True, onfailure = None, keepvalues=True).accepted:
+
+search_form = FORM(
+    DIV(
+        DIV(
+            INPUT(_name='search', requires=IS_NOT_EMPTY(), _class="form-control",
+              _placeholder="Search for items...", _autofocus="true", _id="search-bar",
+              _value=request.args(0) if request.controller == "default" and request.function == "index" else ""),
+            DIV(
+                BUTTON(I(_class="fa fa-fw fa-search"), _type='submit', _class="btn btn-default"),
+                _class="input-group-btn",
+            ),
+            _class="input-group",
+        ),
+        _class="form-group"
+    ),
+    _class="navbar-form navbar-left", _role="search"
+)
+
+##
+#      <form class="navbar-form navbar-left" role="search">
+#        <div class="form-group">
+#          <input type="text" class="form-control" placeholder="Search">
+#        </div>
+#        <button type="submit" class="btn btn-default">Submit</button>
+#      </form>
+
+if search_form.process(hideerror=True, onfailure=None).accepted:
 	redirect(URL('trade', 'default', 'index', args = [search_form.vars.search]))
 
+number_of_proposals = _number_of_waiting_proposals()
+
 response.menu = [
-    (T('Explore'), False, URL('trade', 'default', 'index')),
-    (T('My Proposals'), False, URL('trade', 'trade', 'index')),
+    (SPAN(I(_class="fa fa-fw fa-compass"), "Explore"), False, URL('trade', 'default', 'index')),
+    (SPAN(
+        SPAN(I(_class="fa fa-fw fa-clock-o"), "My Proposals"),
+        SPAN(number_of_proposals, _class="badge", _style="margin-left: 5px;") if number_of_proposals else "",
+    ), False, URL('trade', 'trade', 'index')),
+    (SPAN(I(_class="fa fa-fw fa-user"), "My Profile"), False, URL('user', 'me')),
 	(search_form, False, search_form.process()),
-    (T('My Profile'), False, URL('user', 'me')),
 ]
 
 if auth.user:
     response.right_menu = [
-        (T('Sign out'), False, URL(c='user', f='user', args='logout')),
+        (SPAN(I(_class="fa fa-fw fa-sign-out"), "Sign out"), False, URL(c='user', f='user', args='logout')),
     ]
 else:
     response.right_menu = [
-        (T('Sign in'), False, URL(c='user', f='user', args='login')),
-        (T('Create account'), False, URL(c='user', f='user', args='register')),
+        (SPAN(I(_class="fa fa-fw fa-sign-in"), "Sign in"), False, URL(c='user', f='user', args='login')),
+        (SPAN(I(_class="fa fa-fw fa-plus-circle"), "Register"), False, URL(c='user', f='user', args='register')),
 ]
 
 DEVELOPMENT_MENU = True

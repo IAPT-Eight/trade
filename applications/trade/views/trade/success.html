@@ -24,6 +24,10 @@
                             {{for item in proposal.sender_items:}}
                                 <li>{{include 'trade/li-item.html'}}</li>
                             {{pass}}
+                            {{if not proposal.sender_items:}}
+                                <li><i>No items</i></li>
+                            {{pass}}
+
                             </ul>
                         </p>
 
@@ -37,6 +41,9 @@
                             <ul>
                             {{for item in proposal.receiver_items:}}
                                 <li>{{include 'trade/li-item.html'}}</li>
+                            {{pass}}
+                            {{if not proposal.receiver_items:}}
+                                <li><i>No items</i></li>
                             {{pass}}
                             </ul>
                         </p>
