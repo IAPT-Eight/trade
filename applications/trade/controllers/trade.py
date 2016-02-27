@@ -7,7 +7,9 @@ def _get_form_list(input_name, form):
      always returns a list of numeric IDs.
     """
     input_variable = "%s[]" % input_name
-    if isinstance(form.vars[input_variable], list):
+    if form.vars[input_variable] is None:
+        return []
+    elif isinstance(form.vars[input_variable], list):
         return [long(x) for x in form.vars[input_variable]]
     else:
         return [long(form.vars[input_variable])]
