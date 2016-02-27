@@ -10,13 +10,13 @@ def index():
 		search_vals = None
 		search_query = True
 	else:
-		search_vals = request.args(0).split('_') # TODO - implement search
-		search_query = True #TODO	
+		search_vals = request.args(0).split('_')
+		search_query = (db.item.name.contains(search_vals, all=False) or db.item.description.contains(search_vals, all=False))
 	
-	if request.vars.cat != None:
-		category_query  = db.category.name == request.vars.cat
+	if request.vars.cat == None:
+		category_query  = True
 	else:
-		category_query = True
+		category_query = db.category.name == request.vars.cat
 		
 	privacy_query = db.list_item_type != 2 # ("private" not in db.list_item_type.name.lower()
 	list_join = db.list_item_type.id == db.item.list_type
@@ -25,11 +25,15 @@ def index():
 	items = db(list_join & category_join & search_query & category_query & privacy_query).select(
 		db.item.name, db.item.image, db.item.item_value, db.item.id, db.item.categories)
 	
-	
 	categories_as_dicts = db(db.category).select(db.category.name).as_list()
 	categories_as_list = [cat['name'] for cat in categories_as_dicts]
+	
 	return dict(search_vals=search_vals, categories=categories_as_list, items=items)
 
+	
+#########################################################################
+## Default methods
+#########################################################################
 
 @cache.action()
 def download():
