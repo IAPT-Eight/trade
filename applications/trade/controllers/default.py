@@ -6,7 +6,7 @@
 #########################################################################
 
 def index():
-	if request.vars.q == None:
+	if request.vars.q == None or ''.join(request.vars.q.split()) == "":
 		search_vals = None
 		search_query = True
 		limitby = (0, 100)
@@ -16,7 +16,7 @@ def index():
 		limitby = None
 
 	if request.vars.cat == None:
-		category_query  = True
+		category_query = True
 	else:
 		category_query = db.category.name == request.vars.cat
 
