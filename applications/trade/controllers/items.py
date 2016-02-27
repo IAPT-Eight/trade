@@ -60,7 +60,7 @@ def update_item():
     updateitemform =SQLFORM(db.item, item, fields=['name', 'item_value', 'categories', 'list_type', 'description', 'image'], showid=False, upload=url)
 
     if updateitemform.accepts(request,session):
-        redirect(URL('trade', 'items', 'view_items', args=updateitemform.vars.id)))
+        redirect(URL('trade', 'items', 'view_items', args=updateitemform.vars.id))
     elif updateitemform.errors:
         response.flash = 'ERROR! One or more of your form fields has an error. Please see below for more information'
     else:
