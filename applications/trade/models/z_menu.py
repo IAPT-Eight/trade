@@ -38,7 +38,11 @@ search_form = FORM(
               _placeholder="Search for items...", _autofocus="true", _id="search-bar",
               _value=request.args(0) if request.controller == "default" and request.function == "index" else ""),
             DIV(
-                BUTTON(I(_class="fa fa-fw fa-search"), _type='submit', _class="btn btn-default"),
+                BUTTON(
+                    SPAN("Submit", _class="sr-only"),
+                    I(_class="fa fa-fw fa-search"),
+                    _type='submit', _class="btn btn-default"
+                ),
                 _class="input-group-btn",
             ),
             _class="input-group",
@@ -78,7 +82,7 @@ if auth.user:
 else:
     response.right_menu = [
         (SPAN(I(_class="fa fa-fw fa-sign-in"), "Sign in"), False, URL(c='user', f='user', args='login')),
-        (SPAN(I(_class="fa fa-fw fa-plus-circle"), "Register"), False, URL(c='user', f='user', args='register')),
+        (SPAN(I(_class="fa fa-fw fa-user-plus"), "Register"), False, URL(c='user', f='user', args='register')),
 ]
 
 DEVELOPMENT_MENU = True

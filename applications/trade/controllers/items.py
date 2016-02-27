@@ -19,7 +19,9 @@ def add_item():
     additemform =SQLFORM(db.item, item, fields=['name', 'item_value', 'categories', 'list_type', 'description', 'image'])
 
     if additemform.accepts(request,session):
+        redirect(URL('trade', 'items', 'view_items', item))
         response.flash = 'Item is added to your collection'
+
 
     elif additemform.errors:
         response.flash = 'ERROR! All fields are required to be complete'
@@ -39,6 +41,7 @@ def delete_item():
 
     if deleteitemform.accepts(request,session):
         response.flash = 'Item Deleted!'
+        redirect(URL('items', 'view_items'))
     elif deleteitemform.errors:
         response.flash = 'ERROR! One or more of your form fields has an error. Please see below for more information'
     else:
@@ -59,6 +62,7 @@ def update_item():
 
     if updateitemform.accepts(request,session):
         response.flash = 'Item information updated!'
+        redirect(URL('items', 'view_items', updateitemform.vars.id))
     elif updateitemform.errors:
         response.flash = 'ERROR! One or more of your form fields has an error. Please see below for more information'
     else:
