@@ -61,23 +61,23 @@ if search_form.process(hideerror=True).accepted:
 number_of_proposals = _number_of_waiting_proposals()
 
 response.menu = [
-    (T('Explore'), False, URL('trade', 'default', 'index')),
+    (SPAN(I(_class="fa fa-fw fa-compass"), "Explore"), False, URL('trade', 'default', 'index')),
     (SPAN(
-        "My Proposals",
+        SPAN(I(_class="fa fa-fw fa-clock-o"), "My Proposals"),
         SPAN(number_of_proposals, _class="badge", _style="margin-left: 5px;") if number_of_proposals else "",
     ), False, URL('trade', 'trade', 'index')),
-    (T('My Profile'), False, URL('user', 'me')),
+    (SPAN(I(_class="fa fa-fw fa-user"), "My Profile"), False, URL('user', 'me')),
 	(search_form, False, search_form.process()),
 ]
 
 if auth.user:
     response.right_menu = [
-        (T('Sign out'), False, URL(c='user', f='user', args='logout')),
+        (SPAN(I(_class="fa fa-fw fa-sign-out"), "Sign out"), False, URL(c='user', f='user', args='logout')),
     ]
 else:
     response.right_menu = [
-        (T('Sign in'), False, URL(c='user', f='user', args='login')),
-        (T('Create account'), False, URL(c='user', f='user', args='register')),
+        (SPAN(I(_class="fa fa-fw fa-sign-in"), "Sign in"), False, URL(c='user', f='user', args='login')),
+        (SPAN(I(_class="fa fa-fw fa-plus-circle"), "Register"), False, URL(c='user', f='user', args='register')),
 ]
 
 DEVELOPMENT_MENU = True
