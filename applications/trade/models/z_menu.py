@@ -33,9 +33,15 @@ def _number_of_waiting_proposals():
 
 search_form = FORM(
     DIV(
-    	INPUT(_name='search', requires=IS_NOT_EMPTY(), _class="form-control",
+        DIV(
+            INPUT(_name='search', requires=IS_NOT_EMPTY(), _class="form-control",
               _placeholder="Search for items...", _autofocus="true", _id="search-bar"),
-        BUTTON(I(_class="fa fa-fw fa-search"), _type='submit', _class="btn btn-default"),
+            DIV(
+                BUTTON(I(_class="fa fa-fw fa-search"), _type='submit', _class="btn btn-default"),
+                _class="input-group-btn",
+            ),
+            _class="input-group",
+        ),
         _class="form-group"
     ),
     _class="navbar-form navbar-left", _role="search"
