@@ -34,7 +34,7 @@ def _number_of_waiting_proposals():
 search_form = FORM(
     DIV(
         DIV(
-            INPUT(_name='search', requires=IS_NOT_EMPTY(), _class="form-control",
+            INPUT(_name='search', _class="form-control",
               _placeholder="Search for items...", _autofocus="true", _id="search-bar",
               _value=request.args(0) if request.controller == "default" and request.function == "index" else ""),
             DIV(
@@ -57,7 +57,7 @@ search_form = FORM(
 #      </form>
 
 if search_form.process(hideerror=True, onfailure=None).accepted:
-	redirect(URL('trade', 'default', 'index', args = [search_form.vars.search]))
+	redirect(URL('trade', 'default', 'index', vars = dict(q=[search_form.vars.search])))
 
 number_of_proposals = _number_of_waiting_proposals()
 
