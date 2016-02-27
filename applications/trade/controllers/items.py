@@ -35,7 +35,7 @@ def delete_item():
     item = db.item(request.args(0))
 
 
-    deleteitemform =SQLFORM(db.item, item, fields=['name', 'image'], deletable=True, showid=False, upload=url, writable = False)
+    deleteitemform =SQLFORM(db.item, item, fields=['name', 'image'], deletable=True, showid=False, upload=url, readonly=True)
 
     if deleteitemform.accepts(request,session):
         response.flash = 'Item Deleted!'
