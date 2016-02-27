@@ -82,7 +82,7 @@ if auth.user:
 else:
     response.right_menu = [
         (SPAN(I(_class="fa fa-fw fa-sign-in"), "Sign in"), False, URL(c='user', f='user', args='login')),
-        (SPAN(I(_class="fa fa-fw fa-plus-circle"), "Register"), False, URL(c='user', f='user', args='register')),
+        (SPAN(I(_class="fa fa-fw fa-user-plus"), "Register"), False, URL(c='user', f='user', args='register')),
 ]
 
 DEVELOPMENT_MENU = True
