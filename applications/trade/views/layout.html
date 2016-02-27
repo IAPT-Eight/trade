@@ -41,6 +41,23 @@
           {{if response.menu:}}
           {{=MENU(response.menu, _class='nav navbar-nav',li_class='dropdown',ul_class='dropdown-menu')}}
           {{pass}}
+
+            <form action="{{=URL(c='default', f='index')}}" method="GET"
+                  class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input name="q" value="{{=request.vars.q or ""}}" placeholder="Search for items..."
+                               id="search-bar" autofocus class="form-control" />
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default">
+                                <span class="sr-only">Submit</span>
+                                <i class="fa fa-fw fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
         </div>
       </div>
     </nav>

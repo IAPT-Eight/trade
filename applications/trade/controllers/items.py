@@ -1,30 +1,21 @@
-#Add some code to find only let users view 
+#Add some code to find only let users view
 def view_items():
     item_id = request.args(0)
+    privacy_filter = (db.item.list_type != LIST_PRIVATE_COLLECTION) | (db.item.owner_ref == auth.user_id)
 
     if item_id is not None:
-        return dict(items = db((db.item.id>0) & (db.item.id == item_id)).select())
+        return dict(items = db(privacy_filter & (db.item.id == item_id)).select())
     else:
-        return dict(items = db((db.item.id>0)).select())
-
-#& ((db.boxes.privacysetting == 'Public') | (db.boxes.created_by == auth.user))
-
-
+        return dict(items = db(privacy_filter).select())
 
 @auth.requires_login()
 def add_item():
-
-    item = db.item(request.args(0))
-
-    additemform =SQLFORM(db.item, item, fields=['name', 'item_value', 'categories', 'list_type', 'description', 'image'])
+    additemform = SQLFORM(db.item, fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'])
 
     if additemform.accepts(request,session):
         redirect(URL('trade', 'items', 'view_items', args=additemform.vars.id))
-
-
     elif additemform.errors:
         response.flash = 'ERROR! All fields are required to be complete'
-
     else:
         response.flash = 'Please complete the form below to add an item to your collection'
 
@@ -35,8 +26,7 @@ def delete_item():
     url = URL('default', 'download', args=db.item.image)
     item = db.item(request.args(0))
 
-
-    deleteitemform =SQLFORM(db.item, item, fields=['name', 'image'], ignore_rw=True, deletable=True, showid=False, upload=url)
+    deleteitemform = SQLFORM(db.item, item, fields=['name', 'image'], ignore_rw=True, deletable=True, showid=False, upload=url)
 
     if deleteitemform.accepts(request,session):
         redirect(URL('trade', 'user', 'view', args=auth.user.username))
@@ -56,8 +46,7 @@ def update_item():
     url = URL('default', 'download', args=db.item.image)
     item = db.item(request.args(0))
 
-
-    updateitemform =SQLFORM(db.item, item, fields=['name', 'item_value', 'categories', 'list_type', 'description', 'image'], showid=False, upload=url)
+    updateitemform = SQLFORM(db.item, item, fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'], showid=False, upload=url)
 
     if updateitemform.accepts(request,session):
         redirect(URL('trade', 'items', 'view_items', args=updateitemform.vars.id))

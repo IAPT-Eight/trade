@@ -1,31 +1,66 @@
 {{extend 'layout.html'}}
-{{for item in items:}}
+{{if not items:}}
+  Item not found or is private
+{{else:}}
+  {{for item in items:}}
 
-<div class="item">
+  <div class="row">
 
-{{=H3(A(item.name, callback=URL('items', 'view_items', args=[item.id])))}}
-<img src="{{=URL('default', 'download', args=item.image)}}" border="1" width="300" height="450" hspace="2"/>
+      <div class="col-md-5">
+
+          <p>
+              <img src="{{=URL('default', 'download', args=item.image)}}" class="img-responsive img-polaroid" />
+          </p>
+
+          <p>
+              <a href="{{=URL(c='trade', f='new', args=item.owner_ref, vars={"preselect": item.id})}}" class="btn btn-block btn-primary btn-lg">
+                  <i class="fa fa-exchange"></i>
+                  Propose a Trade
+              </a>
+          </p>
+
+          <dl class="dl-horizontal">
+
+              <dt>Estimated Value</dt>
+              <dd>£{{=item.item_value}}</dd>
+
+              <dt>List</dt>
+              <dd>{{=item.list_type.name}}</dd>
+
+              <dt>Owner</dt>
+              <dd>{{=item.owner_ref.username}}</dd>
+
+              <dt>Category</dt>
+              <dd>{{=item.category.name}}</dd>
 
 
-<ul>
+          </dl>
 
-    <li><strong>Name:</strong> {{=item.name}}</li>
-    <li><strong>Estimated Value:</strong> {{=item.item_value}}</li>
-    <li><strong>Category:</strong> {{=item.categories.name}}</li>
-    <li><strong>List:</strong> {{=item.list_type.name }}</li>
-    <li><strong>Description:</strong> {{=item.description}}</li>
+      </div>
 
+      <div class="col-md-7">
 
-</ul>
-    <div class="Edit">
-    {{if (item.owner_ref == auth.user_id):}}
-    {{=A('Edit', _href=URL('items', 'update_item', args=[item.id]))}}
-    {{pass}}
-    </div>
-    <div class="Delete">
-    {{if (item.owner_ref == auth.user_id):}}
-    {{=A('Delete', _href=URL('items', 'delete_item', args=[item.id]))}}
-    {{pass}}
-    </div>
-</div>
+          <div class="btn-group pull-right">
+          {{if (item.owner_ref == auth.user_id):}}
+                  {{=A(I(_class="fa fa-fw fa-edit"), "Edit", _class="btn btn-default", _href=URL('items', 'update_item', args=[item.id]))}}
+                  {{pass}}
+              {{if (item.owner_ref == auth.user_id):}}
+                  {{=A(I(_class="fa fa-fw fa-trash"), "Delete", _class="btn btn-danger", _href=URL('items', 'delete_item', args=[item.id]))}}
+              {{pass}}
+
+          </div>
+
+          {{=H3(A(item.name, callback=URL('items', 'view_items', args=[item.id])))}}
+
+          <hr />
+
+          <p>{{=item.description}}</p>
+
+          <hr />
+
+      </div>
+
+  </div>
+
+  {{pass}}
 {{pass}}
