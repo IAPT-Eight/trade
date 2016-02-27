@@ -1,31 +1,60 @@
 {{extend 'layout.html'}}
 
 <div class="row">
-    <div class="col-md-3">
-        <h3><i class="fa fa-fw fa-search"></i> Filter</h3>
-        <table class="table table-striped">
+    <div class="col-md-3 well well-sm">
+        <h4><i class="fa fa-fw fa-search"></i> Filter</h4>
+        <ul class="nav nav-pills nav-stacked">
             {{display_name = 'Your' if is_users_page else user.username+"'s'"}}
-            <tr>
-                <td>{{=A("All", _href=URL(args=request.args, host=True))}}</td>
-                <td>{{=sum(list_sizes.values())}}</td>
-            </tr>
-                <td>{{=A("{} Public".format(display_name), _href=URL(args=request.args, vars={'filter': LIST_PUBLIC_COLLECTION}, host=True))}}</td>
-                <td>{{=list_sizes[LIST_PUBLIC_COLLECTION]}}</td>
-            <tr>
-                <td>{{=A("{} Has".format(display_name), _href=URL(args=request.args, vars={'filter': LIST_TRADING}, host=True))}}</td>
-                <td>{{=list_sizes[LIST_TRADING]}}</td>
-            </tr>
-            <tr>
-                <td>{{=A("{} Wants".format(display_name), _href=URL(args=request.args, vars={'filter': LIST_WISH_LIST}, host=True))}}</td>
-                <td>{{=list_sizes[LIST_WISH_LIST]}}</td>
-            </tr>
+
+            <li role="presentation" {{if not current_filter:}}class="active"{{pass}}>
+              <a href="{{=URL(args=request.args, host=True)}}">
+                  All
+                  <span class="badge pull-right">
+                      {{=sum(list_sizes.values())}}
+                  </span>
+              </a>
+            </li>
+
+            <li role="presentation" {{if current_filter == LIST_PUBLIC_COLLECTION:}}class="active"{{pass}}>
+              <a href="{{=URL(args=request.args, vars={'filter': LIST_PUBLIC_COLLECTION}, host=True)}}">
+                  {{="%s Public" % display_name}}
+                  <span class="badge pull-right">
+                      {{=list_sizes[LIST_PUBLIC_COLLECTION]}}
+                  </span>
+              </a>
+            </li>
+
+            <li role="presentation" {{if current_filter == LIST_TRADING:}}class="active"{{pass}}>
+              <a href="{{=URL(args=request.args, vars={'filter': LIST_TRADING}, host=True)}}">
+                  {{="%s Has" % display_name}}
+                  <span class="badge pull-right">
+                      {{=list_sizes[LIST_TRADING]}}
+                  </span>
+              </a>
+            </li>
+
+            <li role="presentation" {{if current_filter == LIST_WISH_LIST:}}class="active"{{pass}}>
+              <a href="{{=URL(args=request.args, vars={'filter': LIST_WISH_LIST}, host=True)}}">
+                  {{="%s Wants" % display_name}}
+                  <span class="badge pull-right">
+                      {{=list_sizes[LIST_WISH_LIST]}}
+                  </span>
+              </a>
+            </li>
+
             {{if is_users_page:}}
-            <tr>
-                <td>{{=A("{} Private".format(display_name), _href=URL(args=request.args, vars={'filter': LIST_PRIVATE_COLLECTION}, host=True))}}</td>
-                <td>{{=list_sizes[LIST_PRIVATE_COLLECTION]}}</td>
-            </tr>
+                <li role="presentation" {{if current_filter == LIST_PRIVATE_COLLECTION:}}class="active"{{pass}}>
+                  <a href="{{=URL(args=request.args, vars={'filter': LIST_PRIVATE_COLLECTION}, host=True)}}">
+                      <i class="fa fa-fw fa-lock"></i>
+                      {{="%s Private" % display_name}}
+                      <span class="badge pull-right">
+                          {{=list_sizes[LIST_PRIVATE_COLLECTION]}}
+                      </span>
+                  </a>
+                </li>
             {{pass}}
-        </table>
+
+        </ul>
 
     </div>
     <div class="col-md-9">
