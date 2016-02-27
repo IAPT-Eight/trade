@@ -24,11 +24,11 @@
               <dt>Estimated Value</dt>
               <dd>£{{=item.item_value}}</dd>
 
-              <dt>List</dt>
-              <dd>{{=item.list_type.name}}</dd>
-
               <dt>Owner</dt>
-              <dd>{{=item.owner_ref.username}}</dd>
+              <dd>{{=A(item.owner_ref.username, _href=URL(c='user', f='view', args=item.owner_ref.username))}}</dd>
+
+              <dt>List</dt>
+              <dd>{{=A(item.list_type.name, _href=URL(c='user', f='view', args=item.owner_ref.username, vars={'filter': item.list_type}))}}</dd>
 
               <dt>Category</dt>
               <dd>{{=item.category.name}}</dd>
