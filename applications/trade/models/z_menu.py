@@ -38,7 +38,11 @@ search_form = FORM(
               _placeholder="Search for items...", _autofocus="true", _id="search-bar",
               _value=request.args(0) if request.controller == "default" and request.function == "index" else ""),
             DIV(
-                BUTTON(I(_class="fa fa-fw fa-search"), _type='submit', _class="btn btn-default"),
+                BUTTON(
+                    SPAN("Submit", _class="sr-only"),
+                    I(_class="fa fa-fw fa-search"),
+                    _type='submit', _class="btn btn-default"
+                ),
                 _class="input-group-btn",
             ),
             _class="input-group",
