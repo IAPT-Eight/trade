@@ -4,7 +4,7 @@
     <div class="col-md-3 well well-sm">
         <h4><i class="fa fa-fw fa-search"></i> Filter</h4>
         <ul class="nav nav-pills nav-stacked">
-            {{display_name = 'Your' if is_users_page else user.username+"'s'"}}
+            {{display_name = 'Your' if is_users_page else user.username+"'s"}}
 
             <li role="presentation" {{if not current_filter:}}class="active"{{pass}}>
               <a href="{{=URL(args=request.args, host=True)}}">
