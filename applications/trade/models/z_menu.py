@@ -28,8 +28,8 @@ search_form=FORM(
 	INPUT(_name='search', requires=IS_NOT_EMPTY()),
 	INPUT(_type='submit', _value='Search')
 	)
-	
-if search_form.process(hideerror=True).accepted:
+
+if search_form.process(hideerror=True, onfailure = None, keepvalues=True).accepted:
 	redirect(URL('trade', 'default', 'index', args = [search_form.vars.search]))
 
 response.menu = [
