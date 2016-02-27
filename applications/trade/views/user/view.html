@@ -8,6 +8,9 @@
   list_filters = [ListFilter('All', URL(args=request.args, host=True), current_filter == None, sum(list_sizes.values()), None)]
 
   for list_type_id, list_name in LIST_NAMES:
+    if not is_users_page and list_type_id == LIST_PRIVATE_COLLECTION:
+      continue
+
     list_filters.append(
       ListFilter(
         "{} {}".format(display_name, list_name),
