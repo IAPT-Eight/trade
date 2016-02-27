@@ -1,4 +1,4 @@
-#Add some code to find only let users view 
+#Add some code to find only let users view
 def view_items():
     item_id = request.args(0)
 
@@ -13,18 +13,12 @@ def view_items():
 
 @auth.requires_login()
 def add_item():
-
-    item = db.item(request.args(0))
-
-    additemform =SQLFORM(db.item, item, fields=['name', 'item_value', 'categories', 'list_type', 'description', 'image'])
+    additemform = SQLFORM(db.item, fields=['name', 'item_value', 'categories', 'list_type', 'description', 'image'])
 
     if additemform.accepts(request,session):
         redirect(URL('trade', 'items', 'view_items', args=additemform.vars.id))
-
-
     elif additemform.errors:
         response.flash = 'ERROR! All fields are required to be complete'
-
     else:
         response.flash = 'Please complete the form below to add an item to your collection'
 
