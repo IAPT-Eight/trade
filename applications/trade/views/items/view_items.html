@@ -10,7 +10,7 @@
         </p>
 
         <p>
-            <a href="{{=URL(c='trade', f='new', args=item.owner_ref)}}" class="btn btn-block btn-primary btn-lg">
+            <a href="{{=URL(c='trade', f='new', args=item.owner_ref, vars={"preselect": item.id})}}" class="btn btn-block btn-primary btn-lg">
                 <i class="fa fa-fw fa-question-circle"></i>
                 Propose a Trade
             </a>
@@ -44,7 +44,7 @@
 
         </div>
 
-    {{=H3(A(item.name, callback=URL('items', 'view_items', args=[item.id])))}}
+        {{=H3(A(item.name, callback=URL('items', 'view_items', args=[item.id])))}}
 
         <hr />
 
