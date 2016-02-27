@@ -22,14 +22,14 @@ def index():
 
 	privacy_query = db.list_item_type != LIST_PRIVATE_COLLECTION
 	list_join = db.list_item_type.id == db.item.list_type
-	category_join = db.item.categories == db.category.id
+	category_join = db.item.category == db.category.id
 
 	items = db(list_join & category_join & search_query & category_query & privacy_query).select(
-		db.item.name, db.item.image, db.item.item_value, db.item.id, db.item.categories, limitby=limitby)
+		db.item.name, db.item.image, db.item.item_value, db.item.id, db.item.category, limitby=limitby)
 
 	categories_as_dicts = db(db.category).select(db.category.name).as_list()
 	categories_as_list = [cat['name'] for cat in categories_as_dicts]
-	
+
 	return dict(search_vals=search_vals, categories=categories_as_list, items=items,
 				current_category=request.vars.cat)
 
@@ -55,5 +55,3 @@ def call():
     supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
     """
     return service()
-
-

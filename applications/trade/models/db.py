@@ -103,24 +103,24 @@ auth.settings.reset_password_requires_verification = True
 #########################################################################
 
 db.define_table('category',
-    Field('name', 'string')
+    Field('name', 'string'),
+    format='%(name)s'
 )
 
 db.define_table('list_item_type',
-    Field('name', 'string')
+    Field('name', 'string'),
+    format='%(name)s'
 )
 
 db.define_table('item',
-    #Field('list_type', 'integer'),
-    Field('list_type', 'reference list_item_type', requires=IS_IN_DB(db, db.list_item_type, '%(name)s')),
-    #Field('list_type', 'list:reference list_item_type', requires=IS_IN_DB(db, db.list_item_type, '%(name)s')),
-    Field('name', 'string', requires=IS_NOT_EMPTY()),
-    Field('description', 'text', requires=IS_NOT_EMPTY()),
-    Field('item_value', 'decimal(10, 2)', requires=IS_NOT_EMPTY()),
+    Field('list_type', 'reference list_item_type'),
+    Field('name', 'string', requires=IS_LENGTH(1, 50)),
+    Field('description', 'text', requires=IS_LENGTH(1, 65536)),
+    Field('item_value', 'decimal(10, 2)', IS_DECIMAL_IN_RANGE(0, 1e100)),
     Field('owner_ref', 'reference %s' % auth.settings.table_user_name, default=auth.user),
-    Field('image', 'upload', requires=IS_NOT_EMPTY()),
-    Field('categories', 'reference category', requires=IS_IN_DB(db, db.category, '%(name)s')),
-    #Field('categories', 'list:reference category', requires=IS_IN_DB(db, db.category, '%(name)s'))
+    Field('image', 'upload', requires=IS_IMAGE(minsize=(100, 100))),
+    Field('category', 'reference category'),
+    format='%(name)s'
 )
 
 db.define_table('trade_proposal',
