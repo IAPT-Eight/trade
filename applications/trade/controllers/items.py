@@ -31,11 +31,11 @@ def add_item():
 
 @auth.requires_login()
 def delete_item():
-
+    url = URL('default', 'download', args=db.item.image)
     item = db.item(request.args(0))
 
 
-    deleteitemform =SQLFORM(db.item, item, fields=[], deletable=True, showid=False, upload=url)
+    deleteitemform =SQLFORM(db.item, item, fields=[name, image], deletable=True, showid=False, upload=url)
 
     if deleteitemform.accepts(request,session):
         response.flash = 'Item Deleted!'
@@ -45,7 +45,7 @@ def delete_item():
         response.flash = 'Are you sure you want to Delete this Item. If yes, pleace tick the check to delete box below and press submit.'
 
     return dict(deleteitemform=deleteitemform)
-    
+
 
 @auth.requires_login()
 def update_item():
