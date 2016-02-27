@@ -48,8 +48,8 @@ if search_form.process(hideerror=True).accepted:
 response.menu = [
     (T('Explore'), False, URL('trade', 'default', 'index')),
     (T('My Proposals'), False, URL('trade', 'trade', 'index')),
-	(search_form, False, search_form.process()),
     (T('My Profile'), False, URL('user', 'me')),
+	(search_form, False, search_form.process()),
 ]
 
 if auth.user:
