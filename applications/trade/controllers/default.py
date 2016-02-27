@@ -6,12 +6,12 @@
 #########################################################################
 
 def index():
-	if request.args(0) == None:
+	if request.vars.q == None:
 		search_vals = None
 		search_query = True
 		limitby = (0, 100)
 	else:
-		search_vals = request.args(0).split('_')
+		search_vals = request.vars.q.split(' ')
 		search_query = (db.item.name.contains(search_vals, all=False) or db.item.description.contains(search_vals, all=False))
 		limitby = None
 
