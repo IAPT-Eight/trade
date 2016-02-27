@@ -60,7 +60,7 @@ search_form = FORM(
 #        <button type="submit" class="btn btn-default">Submit</button>
 #      </form>
 
-if search_form.process(hideerror=True).accepted:
+if search_form.process(hideerror=True, onfailure=None).accepted:
 	redirect(URL('trade', 'default', 'index', args = [search_form.vars.search]))
 
 number_of_proposals = _number_of_waiting_proposals()
