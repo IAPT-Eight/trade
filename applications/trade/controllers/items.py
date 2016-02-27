@@ -1,15 +1,12 @@
 #Add some code to find only let users view
 def view_items():
     item_id = request.args(0)
+    privacy_filter = (db.item.list_type != LIST_PRIVATE_COLLECTION) | (db.item.owner_ref == auth.user_id)
 
     if item_id is not None:
-        return dict(items = db((db.item.id>0) & (db.item.id == item_id)).select())
+        return dict(items = db(privacy_filter & (db.item.id == item_id)).select())
     else:
-        return dict(items = db((db.item.id>0)).select())
-
-#& ((db.boxes.privacysetting == 'Public') | (db.boxes.created_by == auth.user))
-
-
+        return dict(items = db(privacy_filter).select())
 
 @auth.requires_login()
 def add_item():
