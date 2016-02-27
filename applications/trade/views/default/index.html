@@ -11,6 +11,9 @@
                 <li role="presentation" {{if not current_category:}}class="active"{{pass}}>
                     <a href="{{=URL('trade', 'default', 'index', args=request.args, vars=dict(), host=True)}}">
                         All Categories
+						<span class="badge pull-right">
+							{{=sum(category['count'] for category in categories)}}
+						</span>
                     </a>
                 </li>
 
