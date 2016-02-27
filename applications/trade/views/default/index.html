@@ -25,6 +25,11 @@
         <h2>
             {{=T("Trade your collectibles with...")}}
         </h2>
+		<h3>
+			{{if search_vals != None:}}
+			{{=T("You searched for " + ' '.join(search_vals))}}
+			{{pass}}
+		</h3>
         {{if (items == None) or (len(items) == 0):}}
             <div class="alert alert-block alert-info">
                 <h4>
