@@ -2,19 +2,20 @@
 
 {{from collections import namedtuple}}
 
-{{display_name = 'Your' if is_users_page else user.username+"'s"}}
-{{ListFilter = namedtuple('ListFilter', ['list_name', 'href', 'active', 'count', 'icon'])}}
 {{
-  list_filters = [
-    ListFilter('All', URL(args=request.args, host=True), current_filter == None, sum(list_sizes.values()), None),
-    ListFilter("%s Public" % display_name, URL(args=request.args, vars={'filter': LIST_PUBLIC_COLLECTION}, host=True), current_filter == LIST_PUBLIC_COLLECTION, list_sizes[LIST_PUBLIC_COLLECTION], None),
-    ListFilter("%s Has" % display_name, URL(args=request.args, vars={'filter': LIST_TRADING}, host=True), current_filter == LIST_TRADING, list_sizes[LIST_TRADING], None),
-    ListFilter("%s Wants" % display_name, URL(args=request.args, vars={'filter': LIST_WISH_LIST}, host=True), current_filter == LIST_WISH_LIST, list_sizes[LIST_WISH_LIST], None),
-  ]
+  display_name = 'Your' if is_users_page else user.username+"'s"
+  ListFilter = namedtuple('ListFilter', ['list_name', 'href', 'active', 'count', 'icon'])
+  list_filters = [ListFilter('All', URL(args=request.args, host=True), current_filter == None, sum(list_sizes.values()), None)]
 
-  if is_users_page:
+  for list_type_id, list_name in LIST_NAMES:
     list_filters.append(
-      ListFilter("%s Private" % display_name, URL(args=request.args, vars={'filter': LIST_PRIVATE_COLLECTION}, host=True), current_filter == LIST_PRIVATE_COLLECTION, list_sizes[LIST_PRIVATE_COLLECTION], 'fa fa-fw fa-lock')
+      ListFilter(
+        "{} {}".format(display_name, list_name),
+        URL(args=request.args, vars={'filter': list_type_id}, host=True),
+        current_filter == list_type_id,
+        list_sizes[list_type_id],
+        'fa fa-fw fa-lock' if list_type_id == LIST_PRIVATE_COLLECTION else None
+      )
     )
     pass
 }}
