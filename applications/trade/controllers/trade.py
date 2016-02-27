@@ -156,7 +156,7 @@ def new():
                 status=DECLINED
             )
 
-        redirect(URL('trade', 'trade', 'index'))
+        redirect(URL(a='trade', c='trade', f='index'))
 
     return {
         "proposal_form": proposal_form
