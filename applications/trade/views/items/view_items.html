@@ -1,66 +1,63 @@
 {{extend 'layout.html'}}
-{{if not items:}}
-  Item not found or is private
-{{else:}}
-  {{for item in items:}}
 
-  <div class="row">
+{{for item in items:}}
 
-      <div class="col-md-5">
+<div class="row">
 
-          <p>
-              <img src="{{=URL('default', 'download', args=item.image)}}" class="img-responsive img-polaroid" />
-          </p>
+    <div class="col-md-5">
 
-          {{if (item.owner_ref != auth.user_id):}}
-              <p>
-                  <a href="{{=URL(c='trade', f='new', args=item.owner_ref, vars={"preselect": item.id})}}" class="btn btn-block btn-primary btn-lg">
-                      <i class="fa fa-exchange"></i>
-                      Propose a Trade
-                  </a>
-              </p>
-          {{pass}}
+        <p>
+            <img src="{{=URL('default', 'download', args=item.image)}}" class="img-responsive img-polaroid" />
+        </p>
 
-          <dl class="dl-horizontal">
+        {{if (item.owner_ref != auth.user_id):}}
+            <p>
+                <a href="{{=URL(c='trade', f='new', args=item.owner_ref, vars={"preselect": item.id})}}" class="btn btn-block btn-primary btn-lg">
+                    <i class="fa fa-exchange"></i>
+                    Propose a Trade
+                </a>
+            </p>
+        {{pass}}
 
-              <dt>Estimated Value</dt>
-              <dd>£{{=item.item_value}}</dd>
+        <dl class="dl-horizontal">
 
-              <dt>Owner</dt>
-              <dd>{{=A(item.owner_ref.username, _href=URL(c='user', f='view', args=item.owner_ref.username))}}</dd>
+            <dt>Estimated Value</dt>
+            <dd>£{{=item.item_value}}</dd>
 
-              <dt>List</dt>
-              <dd>{{=A(item.list_type.name, _href=URL(c='user', f='view', args=item.owner_ref.username, vars={'filter': item.list_type}))}}</dd>
+            <dt>Owner</dt>
+            <dd>{{=A(item.owner_ref.username, _href=URL(c='user', f='view', args=item.owner_ref.username))}}</dd>
 
-              <dt>Category</dt>
-              <dd>{{=item.category.name}}</dd>
+            <dt>List</dt>
+            <dd>{{=A(item.list_type.name, _href=URL(c='user', f='view', args=item.owner_ref.username, vars={'filter': item.list_type}))}}</dd>
+
+            <dt>Category</dt>
+            <dd>{{=item.category.name}}</dd>
 
 
-          </dl>
+        </dl>
 
-      </div>
+    </div>
 
-      <div class="col-md-7">
+    <div class="col-md-7">
 
-          <div class="btn-group pull-right">
-          {{if (item.owner_ref == auth.user_id):}}
-                  {{=A(I(_class="fa fa-fw fa-edit"), "Edit", _class="btn btn-default", _href=URL('items', 'update_item', args=[item.id]))}}
-                  {{=A(I(_class="fa fa-fw fa-trash"), "Delete", _class="btn btn-danger", _href=URL('items', 'delete_item', args=[item.id]))}}
-          {{pass}}
+        <div class="btn-group pull-right">
+        {{if (item.owner_ref == auth.user_id):}}
+                {{=A(I(_class="fa fa-fw fa-edit"), "Edit", _class="btn btn-default", _href=URL('items', 'update_item', args=[item.id]))}}
+                {{=A(I(_class="fa fa-fw fa-trash"), "Delete", _class="btn btn-danger", _href=URL('items', 'delete_item', args=[item.id]))}}
+        {{pass}}
 
-          </div>
+        </div>
 
-          {{=H3(A(item.name, callback=URL('items', 'view_items', args=[item.id])))}}
+        {{=H3(A(item.name, callback=URL('items', 'view_items', args=[item.id])))}}
 
-          <hr />
+        <hr />
 
-          <p>{{=item.description}}</p>
+        <p>{{=item.description}}</p>
 
-          <hr />
+        <hr />
 
-      </div>
+    </div>
 
-  </div>
+</div>
 
-  {{pass}}
 {{pass}}

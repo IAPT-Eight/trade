@@ -1,12 +1,17 @@
-#Add some code to find only let users view
 def view_items():
     item_id = request.args(0)
     privacy_filter = (db.item.list_type != LIST_PRIVATE_COLLECTION) | (db.item.owner_ref == auth.user_id)
 
     if item_id is not None:
-        return dict(items = db(privacy_filter & (db.item.id == item_id)).select())
+        items = db(privacy_filter & (db.item.id == item_id)).select()
     else:
-        return dict(items = db(privacy_filter).select())
+        items = db(privacy_filter).select()
+
+    if not items:
+        raise HTTP(404, "Item not found or you are not authorised to view it")
+
+    return dict(items=items)
+
 
 @auth.requires_login()
 def add_item():
@@ -20,6 +25,7 @@ def add_item():
         response.flash = 'Please complete the form below to add an item to your collection'
 
     return dict(additemform=additemform)
+
 
 @auth.requires_login()
 def delete_item():
@@ -41,7 +47,6 @@ def delete_item():
 
 @auth.requires_login()
 def update_item():
-
     db.item.description.widget = SQLFORM.widgets.text.widget
     url = URL('default', 'download', args=db.item.image)
     item = db.item(request.args(0))
