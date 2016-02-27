@@ -31,26 +31,6 @@ def _number_of_waiting_proposals():
         .count()
 
 
-search_form = FORM(
-    DIV(
-        DIV(
-            INPUT(_name='search', _class="form-control",
-              _placeholder="Search for items...", _autofocus="true", _id="search-bar",
-              _value=request.vars.q if request.controller == "default" and request.function == "index" else ""),
-            DIV(
-                BUTTON(
-                    SPAN("Submit", _class="sr-only"),
-                    I(_class="fa fa-fw fa-search"),
-                    _type='submit', _class="btn btn-default"
-                ),
-                _class="input-group-btn",
-            ),
-            _class="input-group",
-        ),
-        _class="form-group"
-    ),
-    _class="navbar-form navbar-left", _role="search"
-)
 
 ##
 #      <form class="navbar-form navbar-left" role="search">
@@ -60,8 +40,6 @@ search_form = FORM(
 #        <button type="submit" class="btn btn-default">Submit</button>
 #      </form>
 
-if search_form.process(hideerror=True, onfailure=None).accepted:
-	redirect(URL('trade', 'default', 'index', vars = dict(q=[search_form.vars.search])))
 
 number_of_proposals = _number_of_waiting_proposals()
 
@@ -72,7 +50,6 @@ response.menu = [
         SPAN(number_of_proposals, _class="badge", _style="margin-left: 5px;") if number_of_proposals else "",
     ), False, URL('trade', 'trade', 'index')),
     (SPAN(I(_class="fa fa-fw fa-user"), "My Profile"), False, URL('user', 'me')),
-	(search_form, False, search_form.process()),
 ]
 
 if auth.user:
