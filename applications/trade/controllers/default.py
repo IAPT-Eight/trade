@@ -29,9 +29,12 @@ def index():
 		db.item.name, db.item.image, db.item.item_value, db.item.id, db.item.category, limitby=limitby)
 
 	categories_as_dicts = db(db.category).select(db.category.name, db.category.id).as_list()
-	
+
+	all_items = db(list_join & category_join & privacy_query).select(
+		db.item.name, db.item.image, db.item.item_value, db.item.id, db.item.category, limitby=limitby)
+		
 	for cat in categories_as_dicts:
-		cat['count'] = len(items.find(lambda item: item.category == cat['id']))
+		cat['count'] = len(all_items.find(lambda item: item.category == cat['id']))
 	
 	return dict(search_vals=search_vals, categories=categories_as_dicts, items=items, current_category=request.vars.cat)
 
