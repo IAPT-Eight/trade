@@ -29,7 +29,23 @@ def add_item():
 
     return dict(additemform=additemform)
 
+@auth.requires_login()
+def delete_item():
 
+    item = db.item(request.args(0))
+
+
+    deleteitemform =SQLFORM(db.item, item, fields=[], deletable=True, showid=False, upload=url)
+
+    if deleteitemform.accepts(request,session):
+        response.flash = 'Item Deleted!'
+    elif deleteitemform.errors:
+        response.flash = 'ERROR! One or more of your form fields has an error. Please see below for more information'
+    else:
+        response.flash = 'Are you sure you want to Delete this Item. If yes, pleace tick the check to delete box below and press submit.'
+
+    return dict(deleteitemform=deleteitemform)
+    
 
 @auth.requires_login()
 def update_item():
@@ -39,13 +55,13 @@ def update_item():
     item = db.item(request.args(0))
 
 
-    updateitemform =SQLFORM(db.item, item, fields=['name', 'item_value', 'categories', 'list_type', 'description', 'image'], deletable=True, showid=False, upload=url)
+    updateitemform =SQLFORM(db.item, item, fields=['name', 'item_value', 'categories', 'list_type', 'description', 'image'], showid=False, upload=url)
 
     if updateitemform.accepts(request,session):
         response.flash = 'Item information updated!'
     elif updateitemform.errors:
         response.flash = 'ERROR! One or more of your form fields has an error. Please see below for more information'
     else:
-        response.flash = 'Please complete the form below to edit/delete this item'
+        response.flash = 'Please complete the form below to edit this item'
 
     return dict(updateitemform=updateitemform)
