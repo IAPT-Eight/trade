@@ -21,7 +21,7 @@ def index():
 	else:
 		category_query = db.category.name == request.vars.cat
 
-	privacy_query = db.list_item_type != LIST_PRIVATE_COLLECTION
+	privacy_query = (db.item.list_type != LIST_PRIVATE_COLLECTION) | (db.item.owner_ref == auth.user_id)
 	list_join = db.list_item_type.id == db.item.list_type
 	category_join = db.item.category == db.category.id
 
