@@ -1,59 +1,46 @@
 {{extend 'layout.html'}}
 
+{{from collections import namedtuple}}
+
+{{display_name = 'Your' if is_users_page else user.username+"'s"}}
+{{ListFilter = namedtuple('ListFilter', ['list_name', 'href', 'active', 'count', 'icon'])}}
+{{
+  list_filters = [
+    ListFilter('All', URL(args=request.args, host=True), current_filter == None, sum(list_sizes.values()), None),
+    ListFilter("%s Public" % display_name, URL(args=request.args, vars={'filter': LIST_PUBLIC_COLLECTION}, host=True), current_filter == LIST_PUBLIC_COLLECTION, list_sizes[LIST_PUBLIC_COLLECTION], None),
+    ListFilter("%s Has" % display_name, URL(args=request.args, vars={'filter': LIST_TRADING}, host=True), current_filter == LIST_TRADING, list_sizes[LIST_TRADING], None),
+    ListFilter("%s Wants" % display_name, URL(args=request.args, vars={'filter': LIST_WISH_LIST}, host=True), current_filter == LIST_WISH_LIST, list_sizes[LIST_WISH_LIST], None),
+  ]
+
+  if is_users_page:
+    list_filters.append(
+      ListFilter("%s Private" % display_name, URL(args=request.args, vars={'filter': LIST_PRIVATE_COLLECTION}, host=True), current_filter == LIST_PRIVATE_COLLECTION, list_sizes[LIST_PRIVATE_COLLECTION], 'fa fa-fw fa-lock')
+    )
+    pass
+}}
+
 <div class="row">
     <div class="col-md-3 well well-sm">
         <h4><i class="fa fa-fw fa-search"></i> Filter</h4>
         <ul class="nav nav-pills nav-stacked">
-            {{display_name = 'Your' if is_users_page else user.username+"'s"}}
+            {{for filter in list_filters:}}
+                <li role="presentation"
+                    {{if filter.active:}}
+                      class="active"
+                    {{pass}}
+                >
+                    <a href={{=filter.href}}>
+                        {{if filter.icon:}}
+                            <i class="{{=filter.icon}}"></i>
+                        {{pass}}
 
-            <li role="presentation" {{if not current_filter:}}class="active"{{pass}}>
-              <a href="{{=URL(args=request.args, host=True)}}">
-                  All
-                  <span class="badge pull-right">
-                      {{=sum(list_sizes.values())}}
-                  </span>
-              </a>
-            </li>
-
-            <li role="presentation" {{if current_filter == LIST_PUBLIC_COLLECTION:}}class="active"{{pass}}>
-              <a href="{{=URL(args=request.args, vars={'filter': LIST_PUBLIC_COLLECTION}, host=True)}}">
-                  {{="%s Public" % display_name}}
-                  <span class="badge pull-right">
-                      {{=list_sizes[LIST_PUBLIC_COLLECTION]}}
-                  </span>
-              </a>
-            </li>
-
-            <li role="presentation" {{if current_filter == LIST_TRADING:}}class="active"{{pass}}>
-              <a href="{{=URL(args=request.args, vars={'filter': LIST_TRADING}, host=True)}}">
-                  {{="%s Has" % display_name}}
-                  <span class="badge pull-right">
-                      {{=list_sizes[LIST_TRADING]}}
-                  </span>
-              </a>
-            </li>
-
-            <li role="presentation" {{if current_filter == LIST_WISH_LIST:}}class="active"{{pass}}>
-              <a href="{{=URL(args=request.args, vars={'filter': LIST_WISH_LIST}, host=True)}}">
-                  {{="%s Wants" % display_name}}
-                  <span class="badge pull-right">
-                      {{=list_sizes[LIST_WISH_LIST]}}
-                  </span>
-              </a>
-            </li>
-
-            {{if is_users_page:}}
-                <li role="presentation" {{if current_filter == LIST_PRIVATE_COLLECTION:}}class="active"{{pass}}>
-                  <a href="{{=URL(args=request.args, vars={'filter': LIST_PRIVATE_COLLECTION}, host=True)}}">
-                      <i class="fa fa-fw fa-lock"></i>
-                      {{="%s Private" % display_name}}
-                      <span class="badge pull-right">
-                          {{=list_sizes[LIST_PRIVATE_COLLECTION]}}
-                      </span>
-                  </a>
+                        {{=filter.list_name}}
+                        <span class="badge pull-right">
+                            {{=filter.count}}
+                        </span>
+                    </a>
                 </li>
             {{pass}}
-
         </ul>
 
     </div>
