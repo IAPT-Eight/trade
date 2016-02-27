@@ -24,6 +24,13 @@ response.google_analytics_id = None
 ## this is the main application menu add/remove items as required
 #########################################################################
 
+def _number_of_waiting_proposals():
+    if not auth.user_id:
+        return None
+    return db((db.trade_proposal.status==1)&(db.trade_proposal.receiver==auth.user_id))\
+        .count()
+
+
 search_form = FORM(
     DIV(
     	INPUT(_name='search', requires=IS_NOT_EMPTY(), _class="form-control",
@@ -45,9 +52,14 @@ search_form = FORM(
 if search_form.process(hideerror=True).accepted:
 	redirect(URL('trade', 'default', 'index', args = [search_form.vars.search]))
 
+number_of_proposals = _number_of_waiting_proposals()
+
 response.menu = [
     (T('Explore'), False, URL('trade', 'default', 'index')),
-    (T('My Proposals'), False, URL('trade', 'trade', 'index')),
+    (SPAN(
+        "My Proposals",
+        SPAN(number_of_proposals, _class="badge", _style="margin-left: 5px;") if number_of_proposals else "",
+    ), False, URL('trade', 'trade', 'index')),
     (T('My Profile'), False, URL('user', 'me')),
 	(search_form, False, search_form.process()),
 ]
