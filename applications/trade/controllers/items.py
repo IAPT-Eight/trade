@@ -15,7 +15,7 @@ def view_items():
 
 @auth.requires_login()
 def add_item():
-    additemform = SQLFORM(db.item, fields=['name', 'item_value', 'categories', 'list_type', 'description', 'image'])
+    additemform = SQLFORM(db.item, fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'])
 
     # web2py doesn't handle an invalid decimal nicely, instead it gives a <class 'sqlite3.OperationalError'> no such column
     if not (request.post_vars['item_value'] == None or is_valid_money(request.post_vars['item_value'])):
@@ -36,8 +36,7 @@ def delete_item():
     url = URL('default', 'download', args=db.item.image)
     item = db.item(request.args(0))
 
-
-    deleteitemform =SQLFORM(db.item, item, fields=['name', 'image'], ignore_rw=True, deletable=True, showid=False, upload=url)
+    deleteitemform = SQLFORM(db.item, item, fields=['name', 'image'], ignore_rw=True, deletable=True, showid=False, upload=url)
 
     if deleteitemform.accepts(request,session):
         redirect(URL('trade', 'user', 'view', args=auth.user.username))
@@ -57,8 +56,7 @@ def update_item():
     url = URL('default', 'download', args=db.item.image)
     item = db.item(request.args(0))
 
-
-    updateitemform =SQLFORM(db.item, item, fields=['name', 'item_value', 'categories', 'list_type', 'description', 'image'], showid=False, upload=url)
+    updateitemform = SQLFORM(db.item, item, fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'], showid=False, upload=url)
 
     if updateitemform.accepts(request,session):
         redirect(URL('trade', 'items', 'view_items', args=updateitemform.vars.id))
