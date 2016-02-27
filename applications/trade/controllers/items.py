@@ -35,14 +35,14 @@ def delete_item():
     item = db.item(request.args(0))
 
 
-    deleteitemform =SQLFORM(db.item, item, fields=['name', 'image'], deletable=True, showid=False, upload=url)
+    deleteitemform =SQLFORM(db.item, item, fields=['name', 'image'], deletable=True, showid=False, upload=url, writable = False)
 
     if deleteitemform.accepts(request,session):
         response.flash = 'Item Deleted!'
     elif deleteitemform.errors:
         response.flash = 'ERROR! One or more of your form fields has an error. Please see below for more information'
     else:
-        response.flash = 'Are you sure you want to Delete this Item. If yes, pleace tick the check to delete box below and press submit.'
+        response.flash = 'Are you sure you want to Delete this Item. If yes, please tick the "Check to delete" box below and click on Submit.'
 
     return dict(deleteitemform=deleteitemform)
 
