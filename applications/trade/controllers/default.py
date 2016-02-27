@@ -27,10 +27,12 @@ def index():
 	items = db(list_join & category_join & search_query & category_query & privacy_query).select(
 		db.item.name, db.item.image, db.item.item_value, db.item.id, db.item.categories, limitby=limitby)
 
-	categories_as_dicts = db(db.category).select(db.category.name).as_list()
-	categories_as_list = [cat['name'] for cat in categories_as_dicts]
+	categories_as_dicts = db(db.category).select(db.category.name, db.category.id).as_list()
 	
-	return dict(search_vals=search_vals, categories=categories_as_list, items=items,
+	for cat in categories_as_dicts:
+		cat['count'] = len(items.find(lambda item: item.categories == cat['id']))		
+	
+	return dict(search_vals=search_vals, categories=categories_as_dicts, items=items,
 				current_category=request.vars.cat)
 
 
