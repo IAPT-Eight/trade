@@ -56,8 +56,9 @@ def new():
     sender_items = db((db.item.owner_ref==auth.user)&(db.item.list_type==LIST_TRADING)).select(db.item.ALL)
     receiver_items = db((db.item.owner_ref==receiver)&(db.item.list_type==LIST_TRADING)).select(db.item.ALL)
 
+    preselected_item = db.item[request.vars['preselect']]
     selected_sender_items = []
-    selected_receiver_items = []
+    selected_receiver_items = [preselected_item] if preselected_item else []
 
     if old_proposal:  # If counter-proposing, pre-select the items.
         selected_receiver_items = old_proposal.sender_items
