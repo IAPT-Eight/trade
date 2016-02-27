@@ -3,20 +3,22 @@
 
 <div class="item">
 
-{{=H3(A(item.name, callback=URL('items', 'view_items', args=[item.id])))}}
-<img src="{{=URL('default', 'download', args=item.image)}}" border="1" width="300" height="450" hspace="2"/>
+<div align="center"> 
+    {{=H3(A(item.name, callback=URL('items', 'view_items', args=[item.id])))}} 
+    {{=item.description}}
+    <strong>Category:</strong> {{=item.categories.name}}
+
+</div>
+<div align="left"> 
+<img src="{{=URL('default', 'download', args=item.image)}}" border="1" width="350" height="450" hspace="2"/>
+<li><strong>Estimated Value:</strong> {{=item.item_value}}</li>
+<li><strong>List:</strong> {{=item.list_type.name }}</li>
+<li><strong>Owner:</strong> {{=item.owner_ref.username}}</li>
 
 
-<ul>
+</div>        
 
-    <li><strong>Name:</strong> {{=item.name}}</li>
-    <li><strong>Estimated Value:</strong> {{=item.item_value}}</li>
-    <li><strong>Category:</strong> {{=item.categories.name}}</li>
-    <li><strong>List:</strong> {{=item.list_type.name }}</li>
-    <li><strong>Description:</strong> {{=item.description}}</li>
-
-
-</ul>
+<div align="right">
     <div class="Edit">
     {{if (item.owner_ref == auth.user_id):}}
     {{=A('Edit', _href=URL('items', 'update_item', args=[item.id]))}}
@@ -27,5 +29,6 @@
     {{=A('Delete', _href=URL('items', 'delete_item', args=[item.id]))}}
     {{pass}}
     </div>
+</div>
 </div>
 {{pass}}
