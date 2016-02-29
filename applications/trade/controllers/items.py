@@ -15,7 +15,10 @@ def view_items():
 
 @auth.requires_login()
 def add_item():
-    additemform = SQLFORM(db.item, fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'])
+    additemform = SQLFORM(
+		db.item, 
+		fields=['name', 'item_value', 'category', 'list_type', 'description', 'image']
+		)
 
     if additemform.accepts(request,session):
         redirect(URL('trade', 'items', 'view_items', args=additemform.vars.id))

@@ -9,7 +9,7 @@
             {{if categories != None:}}
 
                 <li role="presentation" {{if not current_category:}}class="active"{{pass}}>
-                    <a href="{{=URL('trade', 'default', 'index', args=request.args, vars=dict(), host=True)}}">
+                    <a href="{{=URL('trade', 'default', 'index', args=request.args, vars=dict(q=search_vals), host=True)}}">
                         All Categories
 						<span class="badge pull-right">
 							{{=sum(category['count'] for category in categories)}}
@@ -19,7 +19,7 @@
 
                 {{for category in categories:}}
                     <li role="presentation" {{if current_category == category:}}class="active"{{pass}}>
-                        <a href="{{=URL('trade', 'default', 'index', args=request.args, vars=dict(cat=category), host=True)}}">
+                        <a href="{{=URL('trade', 'default', 'index', args=request.args, vars=dict(cat=category, q=search_vals), host=True)}}">
                             {{=category['name']}}
 							<span class="badge pull-right">
 								{{=category['count']}}
