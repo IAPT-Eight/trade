@@ -44,6 +44,7 @@ def _number_of_waiting_proposals():
 number_of_proposals = _number_of_waiting_proposals()
 
 response.menu = [
+    (STRONG("Collectibles"), False, URL(c='default', f='index')),
     (SPAN(I(_class="fa fa-fw fa-compass"), "Explore"), False, URL('trade', 'default', 'index')),
     (SPAN(
         SPAN(I(_class="fa fa-fw fa-clock-o"), "My Proposals"),
