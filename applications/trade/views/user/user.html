@@ -12,7 +12,8 @@
     {{pass}}
 
     {{if error_message:}}
-        <div>
+        <div class="alert alert-danger">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{=error_message}}
         </div>
     {{pass}}
