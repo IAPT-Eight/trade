@@ -18,7 +18,7 @@
                 </li>
 
                 {{for category in categories:}}
-                    <li role="presentation" {{if current_category == category:}}class="active"{{pass}}>
+                    <li role="presentation" {{if current_category == category['name']:}}class="active"{{pass}}>
                         <a href="{{=URL('trade', 'default', 'index', args=request.args, vars=dict(cat=category['name']) if search_vals == None else dict(cat=category['name'], q=search_vals), host=True)}}">
                             {{=category['name']}}
 							<span class="badge pull-right">
@@ -36,7 +36,6 @@
         <h2>
             {{=T("Trade your collectibles for...")}}
         </h2>
-		{{=temp}}
 		<h3>
 			{{if search_vals != None:}}
 			{{=T("You searched for \"" + ' '.join(search_vals) + "\"")}}
