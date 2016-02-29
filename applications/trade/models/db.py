@@ -78,6 +78,21 @@ auth.messages.logged_out = 'Signed out'
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=True, signature=False)
 
+import string
+
+class IS_NAME(object):
+    def __init__(self):
+        self.disallowed_characters = set(string.digits + '!@£$%^&*()¡€#¢∞§¶•ªº-=≠[];\\,./{}:"|<>?')
+
+    def __call__(self, value):
+        intersection = set(value) & self.disallowed_characters
+        if intersection:
+            return (value, "Username contains disallowed character(s): %s" % ', '.join(intersection))
+        return (value, None)
+
+auth.table_user().first_name.requires = [IS_NOT_EMPTY(error_message=auth.messages.is_empty), IS_NAME()]
+auth.table_user().last_name.requires = [IS_NOT_EMPTY(error_message=auth.messages.is_empty), IS_NAME()]
+
 ## configure email
 mail = auth.settings.mailer
 mail.settings.server = 'logging' if request.is_local else myconf.take('smtp.server')
