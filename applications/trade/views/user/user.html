@@ -1,7 +1,7 @@
 {{extend 'layout.html'}}
 
 <h2>
-{{=T('Create Account') if request.args(0) == 'register' else T('Sign In') if request.args(0) == 'login' else T(request.args(0).replace('_',' ').title())}}
+{{=response.title}}
 </h2>
 
 <div class="container">

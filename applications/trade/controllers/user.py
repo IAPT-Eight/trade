@@ -2,7 +2,12 @@ def user():
     """
     This is the exposes the login and register functionality.
     """
-    response.title = "Log In"
+    if request.args(0) == 'register':
+        response.title = T('Create Account')
+    elif request.args(0) == 'login':
+        response.title = T('Sign In')
+    else:
+        response.title = T(request.args(0).replace('_',' ').title())
 
     form = auth()
     error_message = ''
