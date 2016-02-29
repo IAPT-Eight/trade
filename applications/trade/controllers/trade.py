@@ -23,7 +23,7 @@ def index():
     It shows any proposals pending acceptance from you,
      or any of your proposals you sent waiting to be accepted.
     """
-
+    response.title = "My Proposals"
     if request.vars.get('feedback') == 'declined':
         response.flash = "The offer was successfully declined."
 
@@ -48,7 +48,7 @@ def new():
      and <counter_propose_to_id> (opt arg 1) is the ID of a trade you want
      to make a counter-proposal to (which pre-populates the form w/ the old stuff).
     """
-
+    response.title = "Propose Trade"
     receiver = db.auth_user[request.args(0)]
     old_proposal = db.trade_proposal[request.args(1)]
 
@@ -172,7 +172,7 @@ def respond():
     /trade/respond/<trade_proposal_id>/accept/
     /trade/respond/<trade_proposal_id>/decline/
     """
-
+    response.title = "Respond to Proposal"
     proposal_id = request.args(0)
     proposal = db.trade_proposal[proposal_id]
     if not proposal:
@@ -200,7 +200,7 @@ def success():
     """
     This is displayed after the trade is successful.
     """
-
+    response.title = "Trade Successfull"
     proposal_id = request.args(0)
     proposal = db.trade_proposal[proposal_id]
 

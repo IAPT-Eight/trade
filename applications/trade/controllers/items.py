@@ -10,11 +10,13 @@ def view_items():
     if not items:
         raise HTTP(404, "Item not found or you are not authorised to view it")
 
+    response.title= items[0]['name']
     return dict(items=items)
 
 
 @auth.requires_login()
 def add_item():
+    response.title = "Add New Item"
     additemform = SQLFORM(
 		db.item, 
 		fields=['name', 'item_value', 'category', 'list_type', 'description', 'image']
@@ -32,6 +34,7 @@ def add_item():
 
 @auth.requires_login()
 def delete_item():
+    response.title = "Delete Item"
     url = URL('default', 'download', args=db.item.image)
     item = db.item(request.args(0))
 
@@ -50,6 +53,7 @@ def delete_item():
 
 @auth.requires_login()
 def update_item():
+    response.title = "Update Item"
     db.item.description.widget = SQLFORM.widgets.text.widget
     url = URL('default', 'download', args=db.item.image)
     item = db.item(request.args(0))

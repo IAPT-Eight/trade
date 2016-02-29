@@ -6,7 +6,7 @@
 #########################################################################
 
 def index():
-
+	response.title = "Explore"
 	if request.vars.q == None or ''.join(request.vars.q.split()) == "":
 		search_vals = None
 		search_query = True
