@@ -54,6 +54,7 @@ response.menu = [
 
 if auth.user:
     response.right_menu = [
+		(SPAN(I(_class="fa fa-fw fa-compass"), "Add New Item"), False, URL('trade', 'items', 'add_item')),
         (SPAN(I(_class="fa fa-fw fa-sign-out"), "Sign out"), False, URL(c='user', f='user', args='logout')),
     ]
 else:
