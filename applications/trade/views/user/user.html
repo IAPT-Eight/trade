@@ -6,9 +6,15 @@
 
 <div class="container">
     {{if request.args(0) == 'register':}}
-      <div>
-        All fields are required
-      </div>
+        <div>
+          All fields are required
+        </div>
+    {{pass}}
+
+    {{if error_message:}}
+        <div>
+            {{=error_message}}
+        </div>
     {{pass}}
 
     <div class="row">
