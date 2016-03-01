@@ -17,12 +17,14 @@ def view_items():
 @auth.requires_login()
 def add_item():
     response.title = "Add New Item"
+    db.item.category.requires = IS_IN_DB(db, 'category.id', db.category._format,orderby=db.category.id)
     additemform = SQLFORM(
 		db.item, 
 		fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'],
 		submit_button='Create'
 		)
     additemform.custom.widget.description.update(_placeholder="Maximum 8000 characters")
+    additemform.custom.widget.category.update(_placeholder="Maximum 8000 characters")
     additemform.custom.widget.item_value.update(_placeholder="Enter a Numerical Value in Pounds")
 
     if additemform.accepts(request,session):
@@ -57,6 +59,7 @@ def delete_item():
 @auth.requires_login()
 def update_item():
     response.title = "Update Item"
+    db.item.category.requires = IS_IN_DB(db, 'category.id', db.category._format,orderby=db.category.id)
     db.item.description.widget = SQLFORM.widgets.text.widget
     url = URL('default', 'download', args=db.item.image)
     item = db.item(request.args(0))
