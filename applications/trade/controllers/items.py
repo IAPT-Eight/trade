@@ -21,6 +21,7 @@ def add_item():
 		db.item, 
 		fields=['name', 'item_value', 'category', 'list_type', 'description', 'image']
 		)
+    additemform.custom.widget.description.update(_placeholder="8000 characters max")
 
     if additemform.accepts(request,session):
         redirect(URL('trade', 'items', 'view_items', args=additemform.vars.id))

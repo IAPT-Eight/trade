@@ -139,7 +139,7 @@ db.define_table('item',
 		Your Trading List is for items you want to trade away. \
 		Your Private Collection is for items that you don't want other users to be able to see.")),
     Field('name', 'string', requires=IS_LENGTH(minsize=1, maxsize=50)),
-    Field('description', 'text', requires=IS_LENGTH(minsize=1, maxsize=65536)),
+    Field('description', 'text', requires=IS_LENGTH(minsize=1, maxsize=8000)),
     Field('item_value', 'decimal(10, 2)', requires=IS_DECIMAL_IN_RANGE(minimum=0)),
     Field('owner_ref', 'reference %s' % auth.settings.table_user_name, default=auth.user),
     Field('image', 'upload', requires=IS_IMAGE(minsize=(100, 100))),
