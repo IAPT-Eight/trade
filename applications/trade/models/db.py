@@ -132,18 +132,19 @@ db.define_table('list_item_type',
 )
 
 db.define_table('item',
-    Field('list_type', 'reference list_item_type', comment=T(\
+    Field('list_type', 'reference list_item_type', label='List Type *', comment=T(\
 		"Lists show which items you want to trade and which items you don't want other users to be able to see. \
 		Your Public Collection is for items you don't want to trade but can be seen by other users. \
 		Your Wish List is for items you want to receive. \
 		Your Trading List is for items you want to trade away. \
 		Your Private Collection is for items that you don't want other users to be able to see.")),
-    Field('name', 'string', requires=IS_LENGTH(minsize=1, maxsize=50)),
-    Field('description', 'text', requires=IS_LENGTH(minsize=1, maxsize=8000)),
-    Field('item_value', 'decimal(10, 2)', requires=IS_DECIMAL_IN_RANGE(minimum=0)),
+    Field('name', 'string', requires=IS_LENGTH(minsize=1, maxsize=50),label='Name *'),
+    Field('description', 'text', requires=IS_LENGTH(minsize=1, maxsize=8000),label='Descritpion *'),
+    Field('item_value', 'decimal(10, 2)', requires=IS_DECIMAL_IN_RANGE(minimum=0), label='Item Value (£) *'),
     Field('owner_ref', 'reference %s' % auth.settings.table_user_name, default=auth.user),
-    Field('image', 'upload', requires=IS_IMAGE(minsize=(100, 100))),
-    Field('category', 'reference category'),
+    Field('image', 'upload', requires=IS_IMAGE(minsize=(100, 100)), label='Image *',  comment=T("Minimum Size 100*100 pixels. \
+		Formats Supported  are .png, .gif, .jpeg and .bmp.")),
+    Field('category', 'reference category', label='Category *'),
     format='%(name)s'
 )
 

@@ -19,9 +19,11 @@ def add_item():
     response.title = "Add New Item"
     additemform = SQLFORM(
 		db.item, 
-		fields=['name', 'item_value', 'category', 'list_type', 'description', 'image']
+		fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'],
+		submit_button='Create'
 		)
-    additemform.custom.widget.description.update(_placeholder="8000 characters max")
+    additemform.custom.widget.description.update(_placeholder="Maximum 8000 characters")
+    additemform.custom.widget.item_value.update(_placeholder="Enter a Numerical Value in Pounds")
 
     if additemform.accepts(request,session):
         redirect(URL('trade', 'items', 'view_items', args=additemform.vars.id))
@@ -39,7 +41,7 @@ def delete_item():
     url = URL('default', 'download', args=db.item.image)
     item = db.item(request.args(0))
 
-    deleteitemform = SQLFORM(db.item, item, fields=['name', 'image'], ignore_rw=True, deletable=True, showid=False, upload=url)
+    deleteitemform = SQLFORM(db.item, item, fields=['name', 'image'], submit_button='Delete', writable=False, deletable=True, showid=False, upload=url)
 
     if deleteitemform.accepts(request,session):
         redirect(URL('trade', 'user', 'view', args=auth.user.username))
@@ -47,7 +49,7 @@ def delete_item():
     elif deleteitemform.errors:
         response.flash = 'ERROR! One or more of your form fields has an error. Please see below for more information'
     else:
-        response.flash = 'Are you sure you want to Delete this Item. If yes, please tick the "Check to delete" box below and click on Submit.'
+        response.flash = 'Are you sure you want to Delete this Item. If yes, please tick the "Check to delete" box below and click on Delete.'
 
     return dict(deleteitemform=deleteitemform)
 
@@ -59,7 +61,10 @@ def update_item():
     url = URL('default', 'download', args=db.item.image)
     item = db.item(request.args(0))
 
-    updateitemform = SQLFORM(db.item, item, fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'], showid=False, upload=url)
+    updateitemform = SQLFORM(db.item, item, fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'],submit_button='Update', showid=False, upload=url)
+
+    updateitemform.custom.widget.description.update(_placeholder="Maximum 8000 characters")
+    updateitemform.custom.widget.item_value.update(_placeholder="Enter a Numerical Value in Pounds")
 
     if updateitemform.accepts(request,session):
         redirect(URL('trade', 'items', 'view_items', args=updateitemform.vars.id))
