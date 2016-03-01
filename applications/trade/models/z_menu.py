@@ -44,6 +44,7 @@ def _number_of_waiting_proposals():
 number_of_proposals = _number_of_waiting_proposals()
 
 response.menu = [
+    (STRONG("Collectibles"), False, URL(c='default', f='index')),
     (SPAN(I(_class="fa fa-fw fa-compass"), "Explore"), False, URL('trade', 'default', 'index')),
     (SPAN(
         SPAN(I(_class="fa fa-fw fa-clock-o"), "My Proposals"),
@@ -54,13 +55,13 @@ response.menu = [
 
 if auth.user:
     response.right_menu = [
-		(SPAN(I(_class="fa fa-fw fa-compass"), "Add New Item"), False, URL('trade', 'items', 'add_item')),
+		(SPAN(I(_class="fa fa-fw fa-plus-circle"), "Add New Item"), False, URL('trade', 'items', 'add_item')),
         (SPAN(I(_class="fa fa-fw fa-sign-out"), "Sign out"), False, URL(c='user', f='user', args='logout')),
     ]
 else:
     response.right_menu = [
         (SPAN(I(_class="fa fa-fw fa-sign-in"), "Sign in"), False, URL(c='user', f='user', args='login')),
-        (SPAN(I(_class="fa fa-fw fa-user-plus"), "Register"), False, URL(c='user', f='user', args='register')),
+        (SPAN(I(_class="fa fa-fw fa-user-plus"), "Create Account"), False, URL(c='user', f='user', args='register')),
 ]
 
 DEVELOPMENT_MENU = True

@@ -66,6 +66,10 @@ auth.settings.logged_url = URL(c='user', f='me')
 auth.settings.login_next = URL(c='user', f='me')
 auth.settings.register_next = URL(c='user', f='me')
 
+# Improve the error messages
+auth.messages.invalid_email = 'Invalid email address. A valid email address has 2 parts separated by an @ symbol, such as john.smith@example.com'
+auth.messages.invalid_login = 'Username and password combination not found'
+
 # We decided to use the term 'Sign in' rather than 'Login'
 auth.messages.login_disabled = 'Sign in disabled by administrator'
 auth.messages.logged_in = 'Signed in'
@@ -73,6 +77,21 @@ auth.messages.logged_out = 'Signed out'
 
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=True, signature=False)
+
+import string
+
+class IS_NAME(object):
+    def __init__(self):
+        self.disallowed_characters = set(string.digits + '!@£$%^&*()¡€#¢∞§¶•ªº-=≠[];\\,./{}:"|<>?')
+
+    def __call__(self, value):
+        intersection = set(value) & self.disallowed_characters
+        if intersection:
+            return (value, "Username contains disallowed character(s): %s" % ', '.join(intersection))
+        return (value, None)
+
+auth.table_user().first_name.requires = [IS_NOT_EMPTY(error_message=auth.messages.is_empty), IS_NAME()]
+auth.table_user().last_name.requires = [IS_NOT_EMPTY(error_message=auth.messages.is_empty), IS_NAME()]
 
 ## configure email
 mail = auth.settings.mailer

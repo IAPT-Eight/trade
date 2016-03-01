@@ -2,8 +2,21 @@ def user():
     """
     This is the exposes the login and register functionality.
     """
-    response.title = "Log In"
-    return dict(form=auth())
+    if request.args(0) == 'register':
+        response.title = T('Create Account')
+    elif request.args(0) == 'login':
+        response.title = T('Sign In')
+    else:
+        response.title = T(request.args(0).replace('_',' ').title())
+
+    form = auth()
+    error_message = ''
+
+    if response.flash and request.args(0) == 'login':
+        error_message = response.flash
+        response.flash = ''
+
+    return dict(form=form, error_message=error_message)
 
 def view():
     """
@@ -21,7 +34,7 @@ def view():
 
     if username is None:
         raise HTTP(422, "Username not provided")
-	
+
     users_filter = request.vars['filter']
     if users_filter is not None:
         try:
@@ -37,7 +50,7 @@ def view():
     assert(len(results) == 1)
     user = results[0]
     is_users_page = auth.user and username==auth.user.username
-	
+
     item_filter = db.item.id > 0
     if not is_users_page:
         item_filter &= db.item.list_type != LIST_PRIVATE_COLLECTION
@@ -52,9 +65,9 @@ def view():
             items = list_items[users_filter]
         except KeyError:
             raise HTTP(422, "Unrecognised filter")
-			
+
     response.title = username
-	
+
     return dict(user=user, items=items, is_users_page=is_users_page, list_sizes=list_sizes,
                 current_filter=users_filter)
 
