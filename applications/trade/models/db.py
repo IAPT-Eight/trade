@@ -108,7 +108,7 @@ db.define_table('category',
 )
 
 db.define_table('list_item_type',
-    Field('name', 'string', 'description'),
+    Field('name', 'string'),
     format='%(name)s'
 )
 

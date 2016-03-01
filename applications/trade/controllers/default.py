@@ -19,9 +19,7 @@ def index():
 		category_query = True
 	else:
 		category_query = db.category.name == request.vars.cat
-	
-	temp = request.vars
-
+		
 	privacy_query = (db.item.list_type != LIST_PRIVATE_COLLECTION) | (db.item.owner_ref == auth.user_id)
 	list_join = db.list_item_type.id == db.item.list_type
 	category_join = db.item.category == db.category.id
@@ -38,7 +36,7 @@ def index():
 	for cat in categories_as_dicts:
 		cat['count'] = len(all_items.find(lambda item: item.category == cat['id']))
 	
-	return dict(search_vals=search_vals, categories=categories_as_dicts, items=items, current_category=request.vars.cat, temp=temp)
+	return dict(search_vals=search_vals, categories=categories_as_dicts, items=items, current_category=request.vars.cat)
 
 
 #########################################################################
