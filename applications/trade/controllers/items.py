@@ -60,7 +60,6 @@ def delete_item():
 def update_item():
     response.title = "Update Item"
     db.item.category.requires = IS_IN_DB(db, 'category.id', db.category._format,orderby=db.category.id)
-    db.item.description.widget = SQLFORM.widgets.text.widget
     url = URL('default', 'download', args=db.item.image)
     item = db.item(request.args(0))
 
