@@ -16,7 +16,8 @@
     </tr>
     </thead>
     {{for proposal in proposals:}}
-        <tr>
+        <tr
+            {{if proposal.status == WAITING and proposal.receiver.id == auth.user_id:}}class="warning"{{pass}}>
             <td>
                 <p>
                     <strong>{{=A(proposal.sender.username, _href=URL(c='user', f='view', args=proposal.sender.username))}}</strong> is offering:
@@ -83,15 +84,21 @@
                     {{pass}}
 
                 {{elif proposal.status == ACCEPTED:}}
+
+                <p class="text-success">
                     <i class="fa fa-fw fa-check"></i>
                     Success! This proposal was successful.
                     <a href="{{=URL('trade', 'trade', 'success', args=[proposal.id])}}">
                         View details.
                     </a>
+                </p>
 
                 {{elif proposal.status == DECLINED:}}
-                    <i class="fa fa-fw fa-times"></i>
-                    This proposal was declined.
+
+                    <p class="text-danger">
+                        <i class="fa fa-fw fa-times"></i>
+                        This proposal was declined.
+                    </p>
 
                 {{pass}}
 
