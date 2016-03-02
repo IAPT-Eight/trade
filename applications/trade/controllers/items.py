@@ -58,7 +58,9 @@ def update_item():
     url = URL('default', 'download', args=db.item.image)
     item = db.item(request.args(0))
 
-    updateitemform = SQLFORM(db.item, item, fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'],submit_button='Update', showid=False, upload=url)
+    db.item.image.comment += ' This will replace the existing image'
+
+    updateitemform = SQLFORM(db.item, item, fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'], submit_button='Update', showid=False, upload=url)
 
     updateitemform.custom.widget.description.update(_placeholder="Maximum 8000 characters")
     updateitemform.custom.widget.item_value.update(_placeholder="Enter a Numerical Value in Pounds")
