@@ -20,7 +20,7 @@ def view_items():
                                      |(db.trade_proposal.sender_items.contains(item.id))
                                  )&(db.trade_proposal.status==WAITING)
                                   &(db.trade_proposal.receiver==auth.user)).count())
-    
+
     is_in_tradable_list = items[0]['list_type'] != LIST_PUBLIC_COLLECTION
 
     return dict(items=items, is_in_active_trade=is_in_active_trade, is_in_tradable_list=is_in_tradable_list)
@@ -53,6 +53,9 @@ def delete_item():
     response.title = "Delete Item"
     item = db.item(request.args(0))
 
+    if not item:
+        raise HTTP(404, "Item not found or you are not authorised to view it")
+
     deleteitemform = SQLFORM(db.item, item, fields=['id'], submit_button='Delete', writable=False, deletable=True, showid=False)
 
     if deleteitemform.accepts(request,session):
@@ -69,6 +72,9 @@ def update_item():
     response.title = "Update Item"
     url = URL('default', 'download', args=db.item.image)
     item = db.item(request.args(0))
+
+    if not item:
+        raise HTTP(404, "Item not found or you are not authorised to view it")
 
     updateitemform = AwesomeSQLFORM(db.item, item, fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'], submit_button='Update', showid=False, upload=url)
 
