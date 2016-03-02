@@ -65,6 +65,7 @@ auth.settings.login_url = URL(c='user', f='user', args='login')
 auth.settings.logged_url = URL(c='user', f='me')
 auth.settings.login_next = URL(c='user', f='me')
 auth.settings.register_next = URL(c='user', f='me')
+auth.settings.actions_disabled = ['request_reset_password']
 
 # Improve the error messages
 auth.messages.invalid_email = 'Invalid email address. A valid email address has 2 parts separated by an @ symbol, such as john.smith@example.com'
