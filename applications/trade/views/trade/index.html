@@ -16,7 +16,8 @@
     </tr>
     </thead>
     {{for proposal in proposals:}}
-        <tr>
+        <tr
+            {{if proposal.status == WAITING and proposal.receiver.id == auth.user_id:}}class="warning"{{pass}}>
             <td>
                 <p>
                     <strong>{{=proposal.sender.username}}</strong> is offering:
