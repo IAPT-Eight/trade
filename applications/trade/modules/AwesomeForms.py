@@ -11,6 +11,8 @@ class AwesomeSQLFORM(SQLFORM):
         self.table = args[0]
         self.validators = {field : self.table[field].requires for field in self.table.fields}
 
+        self.is_update_form = len(args) > 1 or 'record' in kwargs.keys()
+
         super(AwesomeSQLFORM, self).__init__(*args, **kwargs)
 
         self._add_requireds()
@@ -23,12 +25,14 @@ class AwesomeSQLFORM(SQLFORM):
         labels = self.elements('label')
 
         for element in self.elements('input', 'select', 'textarea'):
-            # TODO: Make it so that file is required on create forms but not update forms
-            # currently disabled as it prevents submitting an update form without changing
-            # the image
-            if element['_type'] not in {'submit', 'file'} and requireds[element['_name']]:
-                # Add element required attribute
-                element['_required'] = ''
+            if element['_type'] not in {'submit'} and requireds[element['_name']]:
+                # Only add required to upload fields on create forms, not update forms,
+                # as it prevents the form from being submitted without changing the file.
+                # However, we do want to add the * next to the label even if it isn't
+                # technically required (it does already have a value in the system..)
+                if element['_type'] != 'file' or not self.is_update_form:
+                    # Add element required attribute
+                    element['_required'] = ''
 
                 # Add * next to label for required field
                 for label in labels:

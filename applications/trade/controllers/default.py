@@ -7,7 +7,7 @@
 
 def index():
 	response.title = "Explore"
-	
+
 	if request.vars.q == None or ''.join(request.vars.q.split()) == "":
 		search_vals = None
 		search_query = True
@@ -19,7 +19,7 @@ def index():
 		category_query = True
 	else:
 		category_query = db.category.name == request.vars.cat
-		
+
 	privacy_query = (db.item.list_type != LIST_PRIVATE_COLLECTION) | (db.item.owner_ref == auth.user_id)
 	list_join = db.list_item_type.id == db.item.list_type
 	category_join = db.item.category == db.category.id
@@ -32,10 +32,10 @@ def index():
 
 	all_items = db(list_join & category_join & privacy_query & search_query).select(
 		db.item.name, db.item.image, db.item.item_value, db.item.id, db.item.category, limitby=limitby)
-		
+
 	for cat in categories_as_dicts:
 		cat['count'] = len(all_items.find(lambda item: item.category == cat['id']))
-	
+
 	return dict(search_vals=search_vals, categories=categories_as_dicts, items=items, current_category=request.vars.cat)
 
 
