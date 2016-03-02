@@ -541,7 +541,7 @@
         var flash = $('.w2p_flash');
         web2py.hide_flash();
         flash.html(message).addClass(status);
-        if(flash.html()) flash.append('<span id="closeflash"> &times; </span>').slideDown();
+        if(flash.html()) flash.prepend('<button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true">&times;</button>').slideDown();
       },
       hide_flash: function() {
         $('.w2p_flash').fadeOut(0).html('');
@@ -595,8 +595,8 @@
           eval(pre_call);
         }
         if(confirm_message) {
-            if(confirm_message == 'default') 
-                confirm_message = w2p_ajax_confirm_message || 
+            if(confirm_message == 'default')
+                confirm_message = w2p_ajax_confirm_message ||
                     'Are you sure you want to delete this object?';
             if(!web2py.confirm(confirm_message)) {
                 web2py.stopEverything(e);
