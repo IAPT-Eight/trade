@@ -18,8 +18,10 @@ def view_items():
                                      |(db.trade_proposal.sender_items.contains(item.id))
                                  )&(db.trade_proposal.status==WAITING)
                                   &(db.trade_proposal.receiver==auth.user)).count())
+    
+    is_in_tradable_list = items[0]['list_type'] != LIST_PUBLIC_COLLECTION
 
-    return dict(items=items, is_in_active_trade=is_in_active_trade)
+    return dict(items=items, is_in_active_trade=is_in_active_trade, is_in_tradable_list=is_in_tradable_list)
 
 
 @auth.requires_login()
