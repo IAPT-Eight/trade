@@ -575,9 +575,6 @@ class UploadWidget(FormWidget):
             if requires == [] or isinstance(requires, IS_EMPTY_OR):
                 inp = DIV(inp,
                           SPAN('[',
-                               A(current.T(
-                                UploadWidget.GENERIC_DESCRIPTION), _href=url),
-                               '|',
                                INPUT(_type='checkbox',
                                      _name=field.name + cls.ID_DELETE_SUFFIX,
                                      _id=field.name + cls.ID_DELETE_SUFFIX),
@@ -588,9 +585,8 @@ class UploadWidget(FormWidget):
                           br, image)
             else:
                 inp = DIV(inp,
-                          SPAN('[',
-                               A(current.T(cls.GENERIC_DESCRIPTION), _href=url),
-                               ']', _style='white-space:nowrap'),
+                          SPAN(
+                          "Select a new file if you want to replace the current image shown below."),
                           br, image)
         return inp
 

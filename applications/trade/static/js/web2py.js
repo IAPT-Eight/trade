@@ -171,8 +171,8 @@
           if(this.value != nvalue) this.value = nvalue;
         });
         doc.on('keyup', 'input.double, input.decimal', function() {
-          var nvalue = this.value.reverse().replace(/[^0-9\-\.,]|[\-](?=.)|[\.,](?=[0-9]*[\.,])/g, '').reverse();
-          if(this.value != nvalue) this.value = nvalue;
+          //var nvalue = this.value.reverse().replace(/[^0-9\-\.,]|[\-](?=.)|[\.,](?=[0-9]*[\.,])/g, '').reverse();
+          //if(this.value != nvalue) this.value = nvalue;
         });
         var confirm_message = (typeof w2p_ajax_confirm_message != 'undefined') ? w2p_ajax_confirm_message : "Are you sure you want to delete this object?";
         doc.on('click', "input[type='checkbox'].delete", function() {

@@ -1204,7 +1204,7 @@ class AuthJWT(object):
 
     """
 
-    def __init__(self, 
+    def __init__(self,
                  auth,
                  secret_key,
                  algorithm='HS256',
@@ -1399,7 +1399,7 @@ class AuthJWT(object):
                 ret = {'token':self.generate_token(payload)}
             else:
                 raise HTTP(
-                    401, u'Not Authorized', 
+                    401, u'Not Authorized',
                     **{'WWW-Authenticate': u'JWT realm="%s"' % self.realm})
         else:
             raise HTTP(400, u'Must pass token for refresh or username and password for login')
@@ -1846,7 +1846,7 @@ class Auth(object):
             self.define_signature()
         else:
             self.signature = None
-        
+
         self.jwt_handler = jwt and AuthJWT(self, **jwt)
 
     def get_vars_next(self):
@@ -1931,7 +1931,7 @@ class Auth(object):
             elif args(1) == self.settings.cas_actions['proxyvalidate']:
                 return self.cas_validate(version=2, proxy=True)
             elif args(1) == self.settings.cas_actions['logout']:
-                return self.logout(next=request.vars.service or DEFAULT)        
+                return self.logout(next=request.vars.service or DEFAULT)
         else:
             raise HTTP(404)
 
@@ -2942,7 +2942,7 @@ class Auth(object):
                 accepted_form = False
 
                 if form.accepts(request, session if self.csrf_prevention else None,
-                                formname='login', dbio=False,
+                                formname='login', dbio=False, keepvalues=True,
                                 onvalidation=onvalidation,
                                 hideerror=settings.hideerror):
 
@@ -2956,7 +2956,7 @@ class Auth(object):
                         user = table_user(**{username: entered_username})
                     if user:
                         # user in db, check if registration pending or disabled
-                        temp_user = user                        
+                        temp_user = user
                         if (temp_user.registration_key or '').startswith('pending'):
                             response.flash = self.messages.registration_pending
                             return form
@@ -3006,11 +3006,9 @@ class Auth(object):
                         self.log_event(self.messages['login_failed_log'],
                                        request.post_vars)
                         # invalid login
-                        session.flash = self.messages.invalid_login
+                        response.flash = self.messages.invalid_login
                         callback(onfail, None)
-                        redirect(
-                            self.url(args=request.args, vars=request.get_vars),
-                            client_side=settings.client_side)
+                        return form
 
             else:  # use a central authentication server
                 cas = settings.login_form
@@ -3759,7 +3757,7 @@ class Auth(object):
         except Exception:
             session.flash = self.messages.invalid_reset_password
             redirect(next, client_side=self.settings.client_side)
-        
+
         key = user.registration_key
         if key in ('pending', 'disabled', 'blocked') or (key or '').startswith('pending'):
             session.flash = self.messages.registration_pending
@@ -3858,7 +3856,7 @@ class Auth(object):
                         onvalidation=onvalidation,
                         hideerror=self.settings.hideerror):
             user = table_user(**{userfield:form.vars.get(userfield)})
-            key = user.registration_key 
+            key = user.registration_key
             if not user:
                 session.flash = self.messages['invalid_%s' % userfield]
                 redirect(self.url(args=request.args),
@@ -4049,14 +4047,14 @@ class Auth(object):
 
             auth = Auth(db, jwt = {'secret_key':'secret'})
 
-        where 'secret' is your own secret string. 
+        where 'secret' is your own secret string.
 
         2) Secorate functions that require login but should accept the JWT token credentials:
 
             @auth.allows_jwt()
             @auth.requires_login()
             def myapi(): return 'hello %s' % auth.user.email
-    
+
         Notice jwt is allowed but not required. if user is logged in, myapi is accessible.
 
         3) Use it!
@@ -4085,7 +4083,7 @@ class Auth(object):
         else:
             current.response.headers['content-type'] = 'application/json'
             raise HTTP(200, self.jwt_handler.jwt_token_manager())
-        
+
     def is_impersonating(self):
         return self.is_logged_in() and 'impersonator' in current.session.auth
 
