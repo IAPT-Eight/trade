@@ -51,7 +51,7 @@ def add_item():
 @auth.requires_login()
 def delete_item():
     response.title = "Delete Item"
-    item = db.item(request.args(0))
+    item = db((db.item.owner_ref == auth.user_id) & (db.item.id == request.args(0))).select().first()
 
     if not item:
         raise HTTP(404, "Item not found or you are not authorised to view it")
@@ -71,7 +71,7 @@ def delete_item():
 def update_item():
     response.title = "Update Item"
     url = URL('default', 'download', args=db.item.image)
-    item = db.item(request.args(0))
+    item = db((db.item.owner_ref == auth.user_id) & (db.item.id == request.args(0))).select().first()
 
     if not item:
         raise HTTP(404, "Item not found or you are not authorised to view it")
