@@ -163,6 +163,7 @@ db.define_table('item',
     Field('image', 'upload', required=True, requires=IS_IMAGE(minsize=(100, 100), extensions=('bmp', 'gif', 'jpeg', 'jpg', 'png'), error_message="Image must be at least 100x100 pixels and of .png, .gif, .jpeg or .bmp format"),
       comment=T("Minimum size 100x100 pixels. Formats supported are .png, .gif, .jpeg and .bmp.")),
     Field('category', 'reference category', required=True, requires=IS_IN_DB(db, 'category.id', db.category._format, orderby=db.category.id, zero=None)),
+    common_filter = lambda query: (db.item.list_type != LIST_PRIVATE_COLLECTION) | (db.item.owner_ref == auth.user_id),
     format='%(name)s'
 )
 
