@@ -31,7 +31,6 @@ def add_item():
 		submit_button='Create'
 		)
     additemform.custom.widget.description.update(_placeholder="Maximum 8000 characters")
-    additemform.custom.widget.category.update(_placeholder="Maximum 8000 characters")
     additemform.custom.widget.item_value.update(_placeholder="Enter a Numerical Value in Pounds")
 
     if additemform.accepts(request,session):
