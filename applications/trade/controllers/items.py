@@ -55,7 +55,6 @@ def delete_item():
 @auth.requires_login()
 def update_item():
     response.title = "Update Item"
-    db.item.category.requires = IS_IN_DB(db, 'category.id', db.category._format,orderby=db.category.id)
     url = URL('default', 'download', args=db.item.image)
     item = db.item(request.args(0))
 
