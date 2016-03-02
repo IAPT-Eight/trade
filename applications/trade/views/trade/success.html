@@ -69,7 +69,7 @@
                             <dt>Full name</dt>
                             <dd>{{=proposal.sender.first_name}} {{=proposal.sender.last_name}}</dd>
                             <dt>Email address</dt>
-                            <dd>{{=proposal.sender.email}}</dd>
+                            <dd><a href="{{=proposal.sender.email}}" title="Send an e-mail to {{=proposal.sender.first_name}}">{{=proposal.sender.email}}</a></dd>
                         </dl>
                     </div>
                     <div class="col-md-6">
@@ -79,7 +79,7 @@
                             <dt>Full name</dt>
                             <dd>{{=proposal.receiver.first_name}} {{=proposal.receiver.last_name}}</dd>
                             <dt>Email address</dt>
-                            <dd>{{=proposal.receiver.email}}</dd>
+                            <dd><a href="mailto:{{=proposal.receiver.email}}" title="Send an e-mail to {{=proposal.receiver.first_name}}">{{=proposal.receiver.email}}</a></dd>
                         </dl>
                     </div>
                 </div>
