@@ -19,7 +19,7 @@ def add_item():
     response.title = "Add New Item"
     db.item.category.requires = IS_IN_DB(db, 'category.id', db.category._format,orderby=db.category.id)
     additemform = SQLFORM(
-		db.item, 
+		db.item,
 		fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'],
 		submit_button='Create'
 		)
@@ -40,18 +40,15 @@ def add_item():
 @auth.requires_login()
 def delete_item():
     response.title = "Delete Item"
-    url = URL('default', 'download', args=db.item.image)
     item = db.item(request.args(0))
 
-    deleteitemform = SQLFORM(db.item, item, fields=['name', 'image'], submit_button='Delete', writable=False, deletable=True, showid=False, upload=url)
+    deleteitemform = SQLFORM(db.item, item, fields=['id'], submit_button='Delete', writable=False, deletable=True, showid=False)
 
     if deleteitemform.accepts(request,session):
         redirect(URL('trade', 'user', 'view', args=auth.user.username))
 
     elif deleteitemform.errors:
-        response.flash = 'ERROR! One or more of your form fields has an error. Please see below for more information'
-    else:
-        response.flash = 'Are you sure you want to Delete this Item. If yes, please tick the "Check to delete" box below and click on Delete.'
+        response.flash = 'One or more of your form fields has an error. Please see below for more information.'
 
     return dict(deleteitemform=deleteitemform)
 
