@@ -79,6 +79,7 @@ auth.messages.logged_out = 'Signed out'
 auth.define_tables(username=True, signature=False)
 
 import string
+import decimal
 
 class IS_NAME(object):
     def __init__(self):
@@ -88,6 +89,19 @@ class IS_NAME(object):
         intersection = set(value) & self.disallowed_characters
         if intersection:
             return (value, "Username contains disallowed character(s): %s" % ', '.join(intersection))
+        return (value, None)
+
+class HAS_MAX_DECIMAL_PLACES(object):
+    def __init__(self, max_decimal_places, error_message="Value cannot have more than %s decimal places"):
+        self.max_decimal_places = max_decimal_places
+        self.error_message = error_message
+
+    def __call__(self, value):
+        exponent = decimal.Decimal(10) ** -(self.max_decimal_places)
+        try:
+            value.quantize(exponent, context=decimal.Context(traps=[decimal.Inexact]))
+        except decimal.Inexact:
+            return (value, self.error_message % self.max_decimal_places)
         return (value, None)
 
 auth.table_user().first_name.requires = [IS_NOT_EMPTY(error_message=auth.messages.is_empty), IS_NAME()]
@@ -143,7 +157,7 @@ db.define_table('item',
       IS_NOT_EMPTY(),
       IS_LENGTH(minsize=1, maxsize=8000, error_message='Please enter fewer than 8000 characters')
     ]),
-    Field('item_value', 'decimal(10, 2)', requires=IS_DECIMAL_IN_RANGE(minimum=0), label='Item Value (£) *'),
+    Field('item_value', 'decimal(10, 2)', requires=[IS_DECIMAL_IN_RANGE(minimum=0), HAS_MAX_DECIMAL_PLACES(2)], label='Item Value (£) *'),
     Field('owner_ref', 'reference %s' % auth.settings.table_user_name, default=auth.user),
     Field('image', 'upload', requires=IS_IMAGE(minsize=(100, 100), error_message="Image must be at least 100x100 pixels and of .png, .gif, .jpeg or .bmp format"),
       label='Image *', comment=T("Minimum size 100x100 pixels. Formats supported are .png, .gif, .jpeg and .bmp.")),
