@@ -29,7 +29,7 @@ def index():
 
     proposals = db(
                     (db.trade_proposal.sender == auth.user.id) | (db.trade_proposal.receiver == auth.user.id)
-                   ).select(db.trade_proposal.ALL, orderby=db.trade_proposal.created)
+                   ).select(db.trade_proposal.ALL, orderby=~db.trade_proposal.created)
 
     return {
         "proposals": proposals
