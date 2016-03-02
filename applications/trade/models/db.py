@@ -145,8 +145,8 @@ db.define_table('item',
     ]),
     Field('item_value', 'decimal(10, 2)', requires=IS_DECIMAL_IN_RANGE(minimum=0), label='Item Value (£) *'),
     Field('owner_ref', 'reference %s' % auth.settings.table_user_name, default=auth.user),
-    Field('image', 'upload', requires=IS_IMAGE(minsize=(100, 100)), label='Image *',  comment=T("Minimum Size 100*100 pixels. \
-		Formats Supported  are .png, .gif, .jpeg and .bmp.")),
+    Field('image', 'upload', requires=IS_IMAGE(minsize=(100, 100), error_message="Image must be at least 100x100 pixels and of .png, .gif, .jpeg or .bmp format"),
+      label='Image *', comment=T("Minimum size 100x100 pixels. Formats supported are .png, .gif, .jpeg and .bmp.")),
     Field('category', 'reference category', label='Category *', requires=IS_IN_DB(db, 'category.id', db.category._format, orderby=db.category.id)),
     format='%(name)s'
 )
