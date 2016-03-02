@@ -64,6 +64,8 @@ def new():
         selected_receiver_items = old_proposal.sender_items
         selected_sender_items = old_proposal.receiver_items
 
+    is_counter_proposal = bool(old_proposal)
+
     proposal_form = FORM(
         DIV(
             DIV(
@@ -159,7 +161,8 @@ def new():
         redirect(URL(a='trade', c='trade', f='index'))
 
     return {
-        "proposal_form": proposal_form
+        "proposal_form": proposal_form,
+        "is_counter_proposal": is_counter_proposal,
     }
 
 

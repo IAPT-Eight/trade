@@ -16,10 +16,12 @@
 
 
             </div>
+           {{if is_counter_proposal:}}
             <div class="panel-footer">
                 You can also decide to <a href="{{=URL('trade', 'trade', 'index')}}">cancel this proposal</a>.
             </a>
             </div>
+           {{pass}}
         </div>
     </div>
 </div>
