@@ -52,6 +52,13 @@
             </td>
             <td>
 
+                <p>
+                    <i class="fa fa-fw fa-clock-o"></i> Proposal created: {{=proposal.created}}.
+                    {{if proposal.updated and proposal.updated != proposal.created:}}
+                        Replied: {{=proposal.updated}}.
+                    {{pass}}
+                </p>
+
                 {{if proposal.status == WAITING:}}
                     {{if auth.user_id == proposal.sender.id:}}
 
