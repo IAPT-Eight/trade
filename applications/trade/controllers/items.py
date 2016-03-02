@@ -11,7 +11,15 @@ def view_items():
         raise HTTP(404, "Item not found or you are not authorised to view it")
 
     response.title= items[0]['name']
-    return dict(items=items)
+
+    item = items[0]
+    is_in_active_trade = bool(db((
+                                     (db.trade_proposal.receiver_items.contains(item.id))
+                                     |(db.trade_proposal.sender_items.contains(item.id))
+                                 )&(db.trade_proposal.status==WAITING)
+                                  &(db.trade_proposal.receiver==auth.user)).count())
+
+    return dict(items=items, is_in_active_trade=is_in_active_trade)
 
 
 @auth.requires_login()

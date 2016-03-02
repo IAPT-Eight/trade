@@ -17,12 +17,29 @@ $(document).ready(function(){
         </p>
 
         {{if (item.owner_ref != auth.user_id):}}
+
+            {{if is_in_active_trade:}}
+            <p class="text-info">
+                <i class="fa fa-fw fa-info-circle"></i> This item is part of a proposal waiting for your consideration.
+            </p>
+            <p>
+                <a href="{{=URL(c='trade', f='index')}}" class="btn btn-block btn-primary btn-lg">
+                    <i class="fa fa-exchange"></i>
+                    Review Proposal
+                </a>
+            </p>
+
+            {{else:}}
             <p>
                 <a href="{{=URL(c='trade', f='new', args=item.owner_ref, vars={"preselect": item.id})}}" class="btn btn-block btn-primary btn-lg">
                     <i class="fa fa-exchange"></i>
                     Propose a Trade
                 </a>
             </p>
+
+
+            {{pass}}
+
         {{pass}}
 
         <dl class="dl-horizontal">
