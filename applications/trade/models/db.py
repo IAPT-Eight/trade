@@ -144,7 +144,7 @@ db.define_table('item',
     Field('owner_ref', 'reference %s' % auth.settings.table_user_name, default=auth.user),
     Field('image', 'upload', requires=IS_IMAGE(minsize=(100, 100)), label='Image *',  comment=T("Minimum Size 100*100 pixels. \
 		Formats Supported  are .png, .gif, .jpeg and .bmp.")),
-    Field('category', 'reference category', label='Category *'),
+    Field('category', 'reference category', label='Category *', requires=IS_IN_DB(db, 'category.id', db.category._format, orderby=db.category.id)),
     format='%(name)s'
 )
 

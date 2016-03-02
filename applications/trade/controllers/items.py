@@ -17,7 +17,6 @@ def view_items():
 @auth.requires_login()
 def add_item():
     response.title = "Add New Item"
-    db.item.category.requires = IS_IN_DB(db, 'category.id', db.category._format,orderby=db.category.id)
     additemform = SQLFORM(
 		db.item,
 		fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'],
