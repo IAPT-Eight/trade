@@ -84,15 +84,21 @@
                     {{pass}}
 
                 {{elif proposal.status == ACCEPTED:}}
+
+                <p class="text-success">
                     <i class="fa fa-fw fa-check"></i>
                     Success! This proposal was successful.
                     <a href="{{=URL('trade', 'trade', 'success', args=[proposal.id])}}">
                         View details.
                     </a>
+                </p>
 
                 {{elif proposal.status == DECLINED:}}
-                    <i class="fa fa-fw fa-times"></i>
-                    This proposal was declined.
+
+                    <p class="text-danger">
+                        <i class="fa fa-fw fa-times"></i>
+                        This proposal was declined.
+                    </p>
 
                 {{pass}}
 
