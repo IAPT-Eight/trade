@@ -29,7 +29,7 @@ def add_item():
     if additemform.accepts(request,session):
         redirect(URL('trade', 'items', 'view_items', args=additemform.vars.id))
     elif additemform.errors:
-        response.flash = 'ERROR! All fields are required to be complete'
+        response.flash = 'There was a problem with the form entry. Please see below for details.'
     else:
         response.flash = 'Please complete the form below to add an item to your collection'
 
@@ -47,7 +47,7 @@ def delete_item():
         redirect(URL('trade', 'user', 'view', args=auth.user.username))
 
     elif deleteitemform.errors:
-        response.flash = 'One or more of your form fields has an error. Please see below for more information.'
+        response.flash = 'There was a problem with the form entry. Please see below for details.'
 
     return dict(deleteitemform=deleteitemform)
 
@@ -67,7 +67,7 @@ def update_item():
     if updateitemform.accepts(request,session):
         redirect(URL('trade', 'items', 'view_items', args=updateitemform.vars.id))
     elif updateitemform.errors:
-        response.flash = 'ERROR! One or more of your form fields has an error. Please see below for more information'
+        response.flash = 'There was a problem with the form entry. Please see below for details.'
     else:
         response.flash = 'Please complete the form below to edit this item'
 
