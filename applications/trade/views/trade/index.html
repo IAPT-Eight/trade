@@ -19,7 +19,7 @@
         <tr>
             <td>
                 <p>
-                    <strong>{{=proposal.sender.username}}</strong> is offering:
+                    <strong>{{=A(proposal.sender.username, _href=URL(c='user', f='view', args=proposal.sender.username))}}</strong> is offering:
                 </p>
                 <p>
                     <ul>
@@ -35,7 +35,7 @@
             </td>
             <td>
                 <p>
-                    <strong>{{=proposal.receiver.username}}</strong> will send back:
+                    <strong>{{=A(proposal.receiver.username, _href=URL(c='user', f='view', args=proposal.receiver.username))}}</strong> will send back:
                 </p>
                 <p>
                     <ul>
@@ -63,7 +63,7 @@
                     {{if auth.user_id == proposal.sender.id:}}
 
                         <i class="fa fa-fw fa-clock-o"></i>
-                        You are waiting for {{=proposal.receiver.username}} to consider your proposal.
+                        You are waiting for {{=A(proposal.receiver.username, _href=URL(c='user', f='view', args=proposal.receiver.username))}} to consider your proposal.
 
                     {{else:}}
 
