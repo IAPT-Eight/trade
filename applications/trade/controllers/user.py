@@ -51,11 +51,7 @@ def view():
     user = results[0]
     is_users_page = auth.user and username==auth.user.username
 
-    item_filter = db.item.id > 0
-    if not is_users_page:
-        item_filter &= db.item.list_type != LIST_PRIVATE_COLLECTION
-
-    items = user.item(item_filter).select(db.item.ALL)
+    items = user.item(db.item.id > 0).select(db.item.ALL)
 
     list_items = {list_type_id : items.find(lambda item: item.list_type == list_type_id) for list_type_id in LIST_NAMES_DICT.keys()}
     list_sizes = {list_type_id : len(list_items[list_type_id]) for list_type_id in LIST_NAMES_DICT.keys()}

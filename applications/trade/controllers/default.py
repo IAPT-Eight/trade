@@ -20,17 +20,16 @@ def index():
     else:
         category_query = db.category.name == request.vars.cat
 
-    privacy_query = (db.item.list_type != LIST_PRIVATE_COLLECTION) | (db.item.owner_ref == auth.user_id)
     list_join = db.list_item_type.id == db.item.list_type
     category_join = db.item.category == db.category.id
 
     limitby = (0, 100)
-    items = db(list_join & category_join & search_query & category_query & privacy_query).select(
+    items = db(list_join & category_join & search_query & category_query).select(
         db.item.name, db.item.image, db.item.item_value, db.item.id, db.item.category, limitby=limitby)
 
     categories_as_dicts = db(db.category).select(db.category.name, db.category.id).as_list()
 
-    all_items = db(list_join & category_join & privacy_query & search_query).select(
+    all_items = db(list_join & category_join & search_query).select(
         db.item.name, db.item.image, db.item.item_value, db.item.id, db.item.category, limitby=limitby)
 
     for cat in categories_as_dicts:

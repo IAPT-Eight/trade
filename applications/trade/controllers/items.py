@@ -2,26 +2,26 @@ from AwesomeForms import AwesomeSQLFORM
 
 def view_items():
     item_id = request.args(0)
-    privacy_filter = (db.item.list_type != LIST_PRIVATE_COLLECTION) | (db.item.owner_ref == auth.user_id)
 
     if item_id is not None:
-        items = db(privacy_filter & (db.item.id == item_id)).select()
+        items = db(db.item.id == item_id).select()
     else:
-        items = db(privacy_filter).select()
+        items = db(db.item.id > 0).select()
 
     if not items:
         raise HTTP(404, "Item not found or you are not authorised to view it")
 
-    response.title= items[0]['name']
-
     item = items[0]
+
+    response.title = item['name']
+
     is_in_active_trade = bool(db((
                                      (db.trade_proposal.receiver_items.contains(item.id))
                                      |(db.trade_proposal.sender_items.contains(item.id))
                                  )&(db.trade_proposal.status==WAITING)
                                   &(db.trade_proposal.receiver==auth.user)).count())
 
-    is_in_tradable_list = items[0]['list_type'] != LIST_PUBLIC_COLLECTION
+    is_in_tradable_list = item['list_type'] != LIST_PUBLIC_COLLECTION
 
     return dict(items=items, is_in_active_trade=is_in_active_trade, is_in_tradable_list=is_in_tradable_list)
 
