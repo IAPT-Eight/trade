@@ -30,10 +30,10 @@ def view_items():
 def add_item():
     response.title = "Add New Item"
     additemform = AwesomeSQLFORM(
-		db.item,
-		fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'],
-		submit_button='Create'
-		)
+        db.item,
+        fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'],
+        submit_button='Create'
+        )
     additemform.custom.widget.description.update(_placeholder="Maximum 8000 characters")
 
     additemform.custom.widget.item_value.update(_placeholder="Enter a Numerical Value in Pounds")

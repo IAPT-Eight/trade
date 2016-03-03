@@ -4,7 +4,7 @@
 
 <script>
 $(document).ready(function(){
-    $('[data-toggle="popover"]').popover(); 
+    $('[data-toggle="popover"]').popover();
 });
 </script>
 
@@ -37,7 +37,7 @@ $(document).ready(function(){
                 </a>
             </p>
 
-			{{else:}}
+      {{else:}}
             {{pass}}
 
         {{pass}}
@@ -52,10 +52,10 @@ $(document).ready(function(){
 
             <dt>List</dt>
             <dd>
-				{{=A(item.list_type.name, _href=URL(c='user', f='view', args=item.owner_ref.username, vars={'filter': item.list_type}))}} 
-				
-				<a data-toggle="popover" data-content="A user's Public Collection contains items that they don't want to trade, but are happy for everyone to see. Items that they want to trade with are stored in their Trading List and items they would like to receive are stored in their Wish List"><i class="fa fa-info-circle"></i></a>
-			</dd>
+        {{=A(item.list_type.name, _href=URL(c='user', f='view', args=item.owner_ref.username, vars={'filter': item.list_type}))}}
+
+        <a data-toggle="popover" data-content="A user's Public Collection contains items that they don't want to trade, but are happy for everyone to see. Items that they want to trade with are stored in their Trading List and items they would like to receive are stored in their Wish List"><i class="fa fa-info-circle"></i></a>
+      </dd>
 
             <dt>Category</dt>
             <dd>{{=item.category.name}}</dd>

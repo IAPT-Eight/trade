@@ -148,12 +148,12 @@ db.define_table('list_item_type',
 
 db.define_table('item',
     Field('list_type', 'reference list_item_type', comment=T(\
-		"Lists show which items you want to trade and which items you don't want other users to be able to see. \
-		Your Public Collection is for items you don't want to trade but can be seen by other users. \
-		Your Wish List is for items you want to receive. \
-		Your Trading List is for items you want to trade away. \
-		Your Private Collection is for items that you don't want other users to be able to see."),
-		required=True, requires=IS_IN_DB(db, 'list_item_type.id', db.list_item_type._format, orderby=db.list_item_type.id, zero=None)),
+        "Lists show which items you want to trade and which items you don't want other users to be able to see. \
+        Your Public Collection is for items you don't want to trade but can be seen by other users. \
+        Your Wish List is for items you want to receive. \
+        Your Trading List is for items you want to trade away. \
+        Your Private Collection is for items that you don't want other users to be able to see."),
+        required=True, requires=IS_IN_DB(db, 'list_item_type.id', db.list_item_type._format, orderby=db.list_item_type.id, zero=None)),
     Field('name', 'string', required=True, requires=IS_LENGTH(minsize=1, maxsize=50)),
     Field('description', 'text', required=True, requires=[
       IS_NOT_EMPTY(),
