@@ -48,6 +48,11 @@ class AwesomeSQLFORM(SQLFORM):
                     element['_min'] = validator.minimum
                     element['_max'] = validator.maximum
 
+                    if isinstance(validator, IS_INT_IN_RANGE):
+                        element['_step'] = 1
+                    else:
+                        element['_step'] = "any"
+
     def _add_textsize_bounds(self):
         for element in self.elements('input', 'textarea'):
             for validator in _make_iterable(self.validators.get(element['_name'])):
