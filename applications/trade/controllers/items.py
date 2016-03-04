@@ -1,37 +1,41 @@
+from AwesomeForms import AwesomeSQLFORM
+
 def view_items():
     item_id = request.args(0)
-    privacy_filter = (db.item.list_type != LIST_PRIVATE_COLLECTION) | (db.item.owner_ref == auth.user_id)
 
     if item_id is not None:
-        items = db(privacy_filter & (db.item.id == item_id)).select()
+        items = db(db.item.id == item_id).select()
     else:
-        items = db(privacy_filter).select()
+        items = db(db.item.id > 0).select()
 
     if not items:
         raise HTTP(404, "Item not found or you are not authorised to view it")
 
-    response.title= items[0]['name']
-
     item = items[0]
+
+    response.title = item['name']
+
     is_in_active_trade = bool(db((
                                      (db.trade_proposal.receiver_items.contains(item.id))
                                      |(db.trade_proposal.sender_items.contains(item.id))
                                  )&(db.trade_proposal.status==WAITING)
                                   &(db.trade_proposal.receiver==auth.user)).count())
 
-    return dict(items=items, is_in_active_trade=is_in_active_trade)
+    is_in_tradable_list = item['list_type'] != LIST_PUBLIC_COLLECTION
+
+    return dict(items=items, is_in_active_trade=is_in_active_trade, is_in_tradable_list=is_in_tradable_list)
 
 
 @auth.requires_login()
 def add_item():
     response.title = "Add New Item"
-    additemform = SQLFORM(
-		db.item,
-		fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'],
-		submit_button='Create'
-		)
+    additemform = AwesomeSQLFORM(
+        db.item,
+        fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'],
+        submit_button='Create'
+        )
     additemform.custom.widget.description.update(_placeholder="Maximum 8000 characters")
-    additemform.custom.widget.category.update(_placeholder="Maximum 8000 characters")
+
     additemform.custom.widget.item_value.update(_placeholder="Enter a Numerical Value in Pounds")
 
     if additemform.accepts(request,session):
@@ -47,7 +51,10 @@ def add_item():
 @auth.requires_login()
 def delete_item():
     response.title = "Delete Item"
-    item = db.item(request.args(0))
+    item = db((db.item.owner_ref == auth.user_id) & (db.item.id == request.args(0))).select().first()
+
+    if not item:
+        raise HTTP(404, "Item not found or you are not authorised to view it")
 
     deleteitemform = SQLFORM(db.item, item, fields=['id'], submit_button='Delete', writable=False, deletable=True, showid=False)
 
@@ -64,9 +71,12 @@ def delete_item():
 def update_item():
     response.title = "Update Item"
     url = URL('default', 'download', args=db.item.image)
-    item = db.item(request.args(0))
+    item = db((db.item.owner_ref == auth.user_id) & (db.item.id == request.args(0))).select().first()
 
-    updateitemform = SQLFORM(db.item, item, fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'], submit_button='Update', showid=False, upload=url)
+    if not item:
+        raise HTTP(404, "Item not found or you are not authorised to view it")
+
+    updateitemform = AwesomeSQLFORM(db.item, item, fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'], submit_button='Update', showid=False, upload=url)
 
     updateitemform.custom.widget.description.update(_placeholder="Maximum 8000 characters")
     updateitemform.custom.widget.item_value.update(_placeholder="Enter a Numerical Value in Pounds")

@@ -226,4 +226,3 @@ def _number_of_pending_proposals(user_id):
                     (db.trade_proposal.sender == auth.user.id) | (db.trade_proposal.receiver == auth.user.id)
                 )).select(db.trade_proposal.ALL, orderby=db.trade_proposal.created).count()
     return proposals
-

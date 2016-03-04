@@ -65,6 +65,7 @@ auth.settings.login_url = URL(c='user', f='user', args='login')
 auth.settings.logged_url = URL(c='user', f='me')
 auth.settings.login_next = URL(c='user', f='me')
 auth.settings.register_next = URL(c='user', f='me')
+auth.settings.actions_disabled = ['request_reset_password']
 
 # Improve the error messages
 auth.messages.invalid_email = 'Invalid email address. A valid email address has 2 parts separated by an @ symbol, such as john.smith@example.com'
@@ -146,22 +147,24 @@ db.define_table('list_item_type',
 )
 
 db.define_table('item',
-    Field('list_type', 'reference list_item_type', label='List Type *', comment=T(\
-		"Lists show which items you want to trade and which items you don't want other users to be able to see. \
-		Your Public Collection is for items you don't want to trade but can be seen by other users. \
-		Your Wish List is for items you want to receive. \
-		Your Trading List is for items you want to trade away. \
-		Your Private Collection is for items that you don't want other users to be able to see.")),
-    Field('name', 'string', requires=IS_LENGTH(minsize=1, maxsize=50),label='Name *'),
-    Field('description', 'text', label='Description *', requires=[
+    Field('list_type', 'reference list_item_type', comment=T(\
+        "Lists show which items you want to trade and which items you don't want other users to be able to see. \
+        Your Public Collection is for items you don't want to trade but can be seen by other users. \
+        Your Wish List is for items you want to receive. \
+        Your Trading List is for items you want to trade away. \
+        Your Private Collection is for items that you don't want other users to be able to see."),
+        required=True, requires=IS_IN_DB(db, 'list_item_type.id', db.list_item_type._format, orderby=db.list_item_type.id, zero=None)),
+    Field('name', 'string', required=True, requires=IS_LENGTH(minsize=1, maxsize=50)),
+    Field('description', 'text', required=True, requires=[
       IS_NOT_EMPTY(),
       IS_LENGTH(minsize=1, maxsize=8000, error_message='Please enter fewer than 8000 characters')
     ]),
-    Field('item_value', 'decimal(10, 2)', requires=[IS_DECIMAL_IN_RANGE(minimum=0), HAS_MAX_DECIMAL_PLACES(2)], label='Item Value (£) *'),
-    Field('owner_ref', 'reference %s' % auth.settings.table_user_name, default=auth.user),
-    Field('image', 'upload', requires=IS_IMAGE(minsize=(100, 100), error_message="Image must be at least 100x100 pixels and of .png, .gif, .jpeg or .bmp format"),
-      label='Image *', comment=T("Minimum size 100x100 pixels. Formats supported are .png, .gif, .jpeg and .bmp.")),
-    Field('category', 'reference category', label='Category *', requires=IS_IN_DB(db, 'category.id', db.category._format, orderby=db.category.id)),
+    Field('item_value', 'decimal(10, 2)', required=True, requires=[IS_DECIMAL_IN_RANGE(minimum=0), HAS_MAX_DECIMAL_PLACES(2)], label='Item Value (£)'),
+    Field('owner_ref', 'reference %s' % auth.settings.table_user_name, required=True, default=auth.user),
+    Field('image', 'upload', required=True, requires=IS_IMAGE(minsize=(100, 100), extensions=('bmp', 'gif', 'jpeg', 'jpg', 'png'), error_message="Image must be at least 100x100 pixels and of .png, .gif, .jpeg or .bmp format"),
+      comment=T("Minimum size 100x100 pixels. Formats supported are .png, .gif, .jpeg and .bmp.")),
+    Field('category', 'reference category', required=True, requires=IS_IN_DB(db, 'category.id', db.category._format, orderby=db.category.id, zero=None)),
+    common_filter = lambda query: (db.item.list_type != LIST_PRIVATE_COLLECTION) | (db.item.owner_ref == auth.user_id),
     format='%(name)s'
 )
 
