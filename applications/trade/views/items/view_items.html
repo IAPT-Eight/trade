@@ -13,7 +13,7 @@ $(document).ready(function(){
     <div class="col-md-5">
 
         <p>
-            <img src="{{=URL('default', 'download', args=item.image)}}" class="img-responsive img-polaroid" />
+            <img src="{{=URL('default', 'download', args=item.image)}}" alt="{{=item.name}}" class="img-responsive img-polaroid" />
         </p>
 
         {{if (item.owner_ref != auth.user_id):}}
