@@ -3,52 +3,53 @@
 
 <div class="row">
     <div class="col-md-3 well well-sm">
-        <h4><i class="fa fa-fw fa-search"></i> Filter</h4>
+        <h2><i class="fa fa-fw fa-search"></i> Filter</h2>
         <ul class="nav nav-pills nav-stacked">
 
-            {{if categories != None:}}
+            <li role="presentation" {{if not current_category:}}class="active"{{pass}}>
+                <a href="{{=URL('trade', 'default', 'index', args=request.args, vars=dict() if search_vals == None else dict(q=search_vals), host=True)}}">
+                    All Categories
+                    <span class="badge pull-right">
+                        {{=sum(category['count'] for category in categories)}}
+                    </span>
+                </a>
+            </li>
 
-                <li role="presentation" {{if not current_category:}}class="active"{{pass}}>
-                    <a href="{{=URL('trade', 'default', 'index', args=request.args, vars=dict() if search_vals == None else dict(q=search_vals), host=True)}}">
-                        All Categories
+            {{for category in categories:}}
+                <li role="presentation" {{if current_category == category['name']:}}class="active"{{pass}}>
+                    <a href="{{=URL('trade', 'default', 'index', args=request.args, vars=dict(cat=category['name']) if search_vals == None else dict(cat=category['name'], q=search_vals), host=True)}}">
+                        {{=category['name']}}
                         <span class="badge pull-right">
-                            {{=sum(category['count'] for category in categories)}}
+                            {{=category['count']}}
                         </span>
                     </a>
                 </li>
-
-                {{for category in categories:}}
-                    <li role="presentation" {{if current_category == category['name']:}}class="active"{{pass}}>
-                        <a href="{{=URL('trade', 'default', 'index', args=request.args, vars=dict(cat=category['name']) if search_vals == None else dict(cat=category['name'], q=search_vals), host=True)}}">
-                            {{=category['name']}}
-                            <span class="badge pull-right">
-                                {{=category['count']}}
-                            </span>
-                        </a>
-                    </li>
-                {{pass}}
-      {{pass}}
+            {{pass}}
 
         </ul>
 
     </div>
     <div class="col-md-9">
-        <h2>
-            {{=T("Trade your collectibles for...")}}
-        </h2>
-
         {{if search_vals != None:}}
-            <h3>
-                {{=T("You searched for \"" + ' '.join(search_vals) + "\"")}}
-            </h3>
-        {{pass}}
+            <h1>
+                Search results for "{{=' '.join(search_vals)}}"
+            </h1>
 
-        {{if (items == None) or (len(items) == 0):}}
+            <div id="users_items">
+                {{if not items:}}
+                    No items found
+                {{else:}}
+                    {{include 'items/preview-list.html'}}
+                {{pass}}
+            </div>
+
+        {{elif not items:}}
             <div class="alert alert-block alert-info">
-                <h4>
+                <h1>
                     <i class="fa fa-fw fa-info-circle"></i>
                     Wow, look how clean this place is!
-                </h4>
+                </h1>
+
                 <p>
                     We haven't been able to find any items that users have publicly stored on the site!
                 </p>
@@ -60,6 +61,10 @@
             </div>
 
         {{else:}}
+            <h1>
+                {{=T("Trade your collectibles for...")}}
+            </h1>
+
             <div id="users_items">
 
                 {{include 'items/preview-list.html'}}
