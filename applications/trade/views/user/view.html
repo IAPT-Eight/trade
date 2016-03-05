@@ -25,7 +25,7 @@
 
 <div class="row">
     <div class="col-md-3 well well-sm">
-        <h4><i class="fa fa-fw fa-search"></i> Filter</h4>
+        <h2><i class="fa fa-fw fa-search"></i> Filter</h2>
         <ul class="nav nav-pills nav-stacked">
             {{for filter in list_filters:}}
                 <li role="presentation"
@@ -66,22 +66,20 @@
 
         {{pass}}
 
-        <h2>
+        <h1>
             <i class="fa fa-fw fa-user"></i>
             {{=user.first_name}} {{=user.last_name}}
             <span class="text-muted">({{=user.username}})</span>
-
-        </h2>
+        </h1>
 
         <hr />
 
-
         {{if is_users_page and len(items) == 0:}}
             <div class="alert alert-block alert-info">
-                <h4>
+                <h2>
                     <i class="fa fa-fw fa-info-circle"></i>
                     New here?
-                </h4>
+                </h2>
                 <p>
                     Start adding items you want to trade or share with the world to your collection, clicking on the "Add new Item" button.
                 </p>
@@ -99,7 +97,6 @@
 
             </div>
         {{pass}}
-
 
     </div>
 </div>
