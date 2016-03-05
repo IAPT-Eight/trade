@@ -569,7 +569,7 @@ class UploadWidget(FormWidget):
             (br, image) = ('', '')
             if UploadWidget.is_image(value):
                 br = BR()
-                image = IMG(_src=url, _width=cls.DEFAULT_WIDTH)
+                image = IMG(_src=url, _width=cls.DEFAULT_WIDTH, _alt="Current image")
 
             requires = attr["requires"]
             if requires == [] or isinstance(requires, IS_EMPTY_OR):
