@@ -1,0 +1,20 @@
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2016
+Version 2.13.4-stable+timestamp.2015.12.26.04.59.39
+Database drivers available: sqlite3, imaplib, pymysql, pg8000
+
+please visit:
+	http://127.0.0.1:8000/
+use "kill -SIGTERM 5385" to shutdown the web2py server
+
+
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2016
+Version 2.13.4-stable+timestamp.2015.12.26.04.59.39
+Database drivers available: sqlite3, imaplib, pymysql, pg8000
+
+please visit:
+	http://127.0.0.1:8000/
+use "kill -SIGTERM 5405" to shutdown the web2py server
+
+
