@@ -19,8 +19,8 @@
                         <p>
                             <strong>{{=proposal.sender.username}}</strong> is offering:
                         </p>
-                        <p>
-                            <ul>
+
+                        <ul>
                             {{for item in proposal.sender_items:}}
                                 <li>{{include 'trade/li-item.html'}}</li>
                             {{pass}}
@@ -28,8 +28,7 @@
                                 <li><i>No items</i></li>
                             {{pass}}
 
-                            </ul>
-                        </p>
+                        </ul>
 
                     </div>
 
@@ -37,16 +36,15 @@
                         <p>
                             <strong>{{=proposal.receiver.username}}</strong> will send back:
                         </p>
-                        <p>
-                            <ul>
+
+                        <ul>
                             {{for item in proposal.receiver_items:}}
                                 <li>{{include 'trade/li-item.html'}}</li>
                             {{pass}}
                             {{if not proposal.receiver_items:}}
                                 <li><i>No items</i></li>
                             {{pass}}
-                            </ul>
-                        </p>
+                        </ul>
                     </div>
                 </div>
 

@@ -533,7 +533,7 @@ class PasswordWidget(FormWidget):
 class UploadWidget(FormWidget):
     _class = 'upload'
 
-    DEFAULT_WIDTH = '150px'
+    DEFAULT_WIDTH = '150'
     ID_DELETE_SUFFIX = '__delete'
     GENERIC_DESCRIPTION = 'file ## download'
     DELETE_FILE = 'delete'
