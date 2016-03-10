@@ -158,6 +158,7 @@ def new():
                 status=DECLINED
             )
 
+        session.flash = 'Proposal sent'
         redirect(URL(a='trade', c='trade', f='index'))
 
     return {
@@ -188,10 +189,12 @@ def respond():
 
     if action == "accept":
         db.trade_proposal[proposal_id] = {"status": ACCEPTED, "updated": datetime.now()}
+        session.flash = 'Proposal accepted'
         redirect(URL(c='trade', f='success', args=[proposal_id]))
 
     elif action == "decline":
         db.trade_proposal[proposal_id] = {"status": DECLINED, "updated": datetime.now()}
+        session.flash = 'Proposal declined'
         redirect(URL(c='trade', f='index', vars={"feedback": "declined"}))
 
     else:  # Invalid action.

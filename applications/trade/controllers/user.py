@@ -12,9 +12,11 @@ def user():
     form = auth()
     error_message = ''
 
-    if response.flash and request.args(0) == 'login':
+    if response.flash:
         error_message = response.flash
         response.flash = ''
+    elif form.errors:
+        error_message = 'There was a problem with the form entry. Please see below for details.'
 
     return dict(form=form, error_message=error_message)
 

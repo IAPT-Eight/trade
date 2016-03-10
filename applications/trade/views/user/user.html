@@ -11,12 +11,7 @@
         </div>
     {{pass}}
 
-    {{if error_message:}}
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            {{=error_message}}
-        </div>
-    {{pass}}
+    {{include 'default/error.html'}}
 
     <div class="row">
         <div id="web2py_user_form" class="col-lg-6">

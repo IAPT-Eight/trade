@@ -38,14 +38,16 @@ def add_item():
 
     additemform.custom.widget.item_value.update(_placeholder="Enter a Numerical Value in Pounds")
 
+    error_message = ''
     if additemform.accepts(request,session):
+        session.flash = 'Item created'
         redirect(URL('trade', 'items', 'view_items', args=additemform.vars.id))
     elif additemform.errors:
-        response.flash = 'There was a problem with the form entry. Please see below for details.'
+        error_message = 'There was a problem with the form entry. Please see below for details.'
     else:
         response.flash = 'Please complete the form below to add an item to your collection'
 
-    return dict(additemform=additemform)
+    return dict(additemform=additemform, error_message=error_message)
 
 
 @auth.requires_login()
@@ -73,11 +75,13 @@ def update_item():
     updateitemform.custom.widget.description.update(_placeholder="Maximum 8000 characters")
     updateitemform.custom.widget.item_value.update(_placeholder="Enter a Numerical Value in Pounds")
 
+    error_message = ''
     if updateitemform.accepts(request,session):
+        session.flash = 'Item updated'
         redirect(URL('trade', 'items', 'view_items', args=updateitemform.vars.id))
     elif updateitemform.errors:
-        response.flash = 'There was a problem with the form entry. Please see below for details.'
+        error_message = 'There was a problem with the form entry. Please see below for details.'
     else:
         response.flash = 'Please complete the form below to edit this item'
 
-    return dict(updateitemform=updateitemform)
+    return dict(updateitemform=updateitemform, error_message=error_message)
