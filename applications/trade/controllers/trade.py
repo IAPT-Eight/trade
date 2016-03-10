@@ -206,7 +206,7 @@ def success():
     """
     This is displayed after the trade is successful.
     """
-    response.title = "Trade Successfull"
+    response.title = "Trade Successful"
     proposal_id = request.args(0)
     proposal = db.trade_proposal[proposal_id]
 
