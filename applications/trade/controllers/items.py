@@ -1,4 +1,8 @@
 from AwesomeForms import AwesomeSQLFORM
+from gluon.utils import simple_hash
+
+def _delete_token(delete_key, session_id=response.session_id):
+    return simple_hash(delete_key + session_id, digest_alg='sha512')
 
 def view_items():
     item_id = request.args(0)
@@ -23,7 +27,12 @@ def view_items():
 
     is_in_tradable_list = item['list_type'] != LIST_PUBLIC_COLLECTION
 
-    return dict(items=items, is_in_active_trade=is_in_active_trade, is_in_tradable_list=is_in_tradable_list)
+    delete_url = None
+    if item.owner_ref == auth.user_id:
+        delete_token = _delete_token(item.delete_key)
+        delete_url = URL('items', 'delete_item', vars={'id': item.id, 'token': delete_token})
+
+    return dict(items=items, is_in_active_trade=is_in_active_trade, is_in_tradable_list=is_in_tradable_list, delete_url=delete_url)
 
 
 @auth.requires_login()
@@ -52,10 +61,19 @@ def add_item():
 
 @auth.requires_login()
 def delete_item():
-    item = db((db.item.owner_ref == auth.user_id) & (db.item.id == request.args(0))).delete()
+    item_id = request.vars.id
+    delete_token = request.vars.token
 
-    if not item:
-        raise HTTP(404, "Item not found or you are not authorised to view it")
+    if item_id is None or delete_token is None:
+        raise HTTP(422, "Item ID and delete token must be provided")
+
+    item = db((db.item.owner_ref == auth.user_id) & (db.item.id == item_id)).select().first()
+    expected_delete_token = _delete_token(item.delete_key if item else 'prevent_timing_attacks')
+
+    if not item or expected_delete_token != delete_token:
+        raise HTTP(404, "Item not found, you are not authorised to delete it, or the delete token did not match")
+
+    del db.item[item_id]
 
     session.flash = "Item deleted"
     redirect(URL('trade', 'user', 'view', args=auth.user.username))

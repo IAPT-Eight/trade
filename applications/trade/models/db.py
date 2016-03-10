@@ -146,6 +146,8 @@ db.define_table('list_item_type',
     format='%(name)s'
 )
 
+from gluon.utils import web2py_uuid
+
 db.define_table('item',
     Field('list_type', 'reference list_item_type', comment=T(\
         "Lists show which items you want to trade and which items you don't want other users to be able to see. \
@@ -164,6 +166,7 @@ db.define_table('item',
     Field('image', 'upload', required=True, requires=IS_IMAGE(minsize=(100, 100), extensions=('bmp', 'gif', 'jpeg', 'jpg', 'png'), error_message="Image must be at least 100x100 pixels and of .png, .gif, .jpeg or .bmp format"),
       comment=T("Minimum size 100x100 pixels. Formats supported are .png, .gif, .jpeg and .bmp.")),
     Field('category', 'reference category', required=True, requires=IS_IN_DB(db, 'category.id', db.category._format, orderby=db.category.id, zero=None)),
+    Field('delete_key', 'string', required=False, default=web2py_uuid(), writable=False, readable=False),
     common_filter = lambda query: (db.item.list_type != LIST_PRIVATE_COLLECTION) | (db.item.owner_ref == auth.user_id),
     format='%(name)s'
 )
