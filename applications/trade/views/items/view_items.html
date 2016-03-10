@@ -52,11 +52,11 @@ $(document).ready(function(){
             <dd>
               {{=A(item.list_type.name, _href=URL(c='user', f='view', args=item.owner_ref.username, vars={'filter': item.list_type}))}}
 
-              <a data-toggle="popover"
+              <button class="btn btn-link" style="padding: 0; border: 0;" data-toggle="popover"
                  data-content="A user's Public Collection contains items that they don't want to trade, but are happy for everyone to see. Items that they want to trade with are stored in their Trading List and items they would like to receive are stored in their Wish List">
                   <span class="sr-only">What is a list?</span>
                   <i class="fa fa-info-circle"></i>
-              </a>
+              </button>
             </dd>
 
             <dt>Category</dt>
