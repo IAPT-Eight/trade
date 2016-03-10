@@ -50,21 +50,13 @@ def add_item():
 
 @auth.requires_login()
 def delete_item():
-    response.title = "Delete Item"
-    item = db((db.item.owner_ref == auth.user_id) & (db.item.id == request.args(0))).select().first()
+    item = db((db.item.owner_ref == auth.user_id) & (db.item.id == request.args(0))).delete()
 
     if not item:
         raise HTTP(404, "Item not found or you are not authorised to view it")
 
-    deleteitemform = SQLFORM(db.item, item, fields=['id'], submit_button='Delete', writable=False, deletable=True, showid=False)
-
-    if deleteitemform.accepts(request,session):
-        redirect(URL('trade', 'user', 'view', args=auth.user.username))
-
-    elif deleteitemform.errors:
-        response.flash = 'There was a problem with the form entry. Please see below for details.'
-
-    return dict(deleteitemform=deleteitemform)
+    session.flash = "Item deleted"
+    redirect(URL('trade', 'user', 'view', args=auth.user.username))
 
 
 @auth.requires_login()
