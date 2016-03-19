@@ -27,12 +27,15 @@ def view_items():
 
     is_in_tradable_list = item['list_type'] != LIST_PUBLIC_COLLECTION
 
+    is_not_in_tradable_list = item['list_type'] == LIST_PUBLIC_COLLECTION
+
     delete_url = None
     if item.owner_ref == auth.user_id:
         delete_token = _delete_token(item.delete_key)
         delete_url = URL('items', 'delete_item', vars={'id': item.id, 'token': delete_token})
 
-    return dict(items=items, is_in_active_trade=is_in_active_trade, is_in_tradable_list=is_in_tradable_list, delete_url=delete_url)
+    return dict(items=items, is_in_active_trade=is_in_active_trade, is_in_tradable_list=is_in_tradable_list,
+                is_not_in_tradable_list=is_not_in_tradable_list, delete_url=delete_url)
 
 
 @auth.requires_login()
@@ -43,7 +46,7 @@ def add_item():
         fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'],
         submit_button='Create'
         )
-    additemform.custom.widget.description.update(_placeholder="Maximum 8000 characters")
+    additemform.custom.widget.description.update(_placeholder="Maximum 8000 characters. Recommended Contents include Item Size, Color, Age, Condition etc.")
 
     additemform.custom.widget.item_value.update(_placeholder="Enter a Numerical Value in Pounds")
 

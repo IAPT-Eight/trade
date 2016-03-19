@@ -71,7 +71,7 @@ def new():
             DIV(
                 DIV(  # Sender Items
                     LABEL(
-                        "What would you like to give to %s?" % receiver.username,
+                        "Choose one or more items you would like to give to %s?" % receiver.username,
                         _class="control-label"
                     ),
                     DIV(
@@ -99,7 +99,7 @@ def new():
             DIV(
                 DIV(  # Receiver Items
                     LABEL(
-                        "What would you like from %s?" % receiver.username,
+                        "Choose one or more items you would like from %s?" % receiver.username,
                         _class="control-label"
                     ),
                     DIV(

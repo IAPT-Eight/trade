@@ -57,9 +57,10 @@
 
                 {{if proposal.status == WAITING:}}
                     {{if auth.user_id == proposal.sender.id:}}
-
-                        <i class="fa fa-fw fa-clock-o"></i>
-                        You are waiting for {{=A(proposal.receiver.username, _href=URL(c='user', f='view', args=proposal.receiver.username))}} to consider your proposal.
+                        <p class="text-warning">
+                            <i class="fa fa-fw fa-clock-o"></i>
+                            Proposal Pending. You are waiting for {{=A(proposal.receiver.username, _href=URL(c='user', f='view', args=proposal.receiver.username))}} to consider your proposal.
+                        </p>
 
                     {{else:}}
 

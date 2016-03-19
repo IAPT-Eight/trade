@@ -36,6 +36,13 @@ $(document).ready(function(){
                     Propose a Trade
                 </a>
             </p>
+
+            {{elif is_not_in_tradable_list:}}
+            <p>
+                <a class="btn btn-block btn-primary btn-lg">
+                    This Item is Not Available For Trade
+                </a>
+            </p>
             {{pass}}
 
         {{pass}}
