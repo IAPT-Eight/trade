@@ -17,7 +17,7 @@
         URL(args=request.args, vars={'filter': list_type_id}, host=True),
         current_filter == list_type_id,
         list_sizes[list_type_id],
-        'fa fa-fw fa-lock' if list_type_id == LIST_PRIVATE_COLLECTION else None
+        'fa fa-lock' if list_type_id == LIST_PRIVATE_COLLECTION else None
       )
     )
     pass
@@ -38,7 +38,11 @@
                             <i class="{{=filter.icon}}"></i>
                         {{pass}}
 
-                        {{=filter.list_name}}
+                        {{if filter.active:
+							=filter.list_name+" (current)"
+						else:
+							=filter.list_name
+						pass}}
                         <span class="badge pull-right">
                             {{=filter.count}}
                         </span>

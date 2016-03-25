@@ -8,7 +8,11 @@
 
             <li role="presentation" {{if not current_category:}}class="active"{{pass}}>
                 <a href="{{=URL('trade', 'default', 'index', args=request.args, vars=dict() if search_vals == None else dict(q=search_vals), host=True)}}">
-                    All Categories
+                    {{if not current_category:
+								= "All Categories (selected)"
+							else:
+								= "All Categories"
+							pass}}
                     <span class="badge pull-right">
                         {{=sum(category['count'] for category in categories)}}
                     </span>
@@ -18,7 +22,11 @@
             {{for category in categories:}}
                 <li role="presentation" {{if current_category == category['name']:}}class="active"{{pass}}>
                     <a href="{{=URL('trade', 'default', 'index', args=request.args, vars=dict(cat=category['name']) if search_vals == None else dict(cat=category['name'], q=search_vals), host=True)}}">
-                        {{=category['name']}}
+                        {{if current_category == category['name']:
+								= category['name']+" (selected)"
+							else:
+								= category['name']
+							pass}}	
                         <span class="badge pull-right">
                             {{=category['count']}}
                         </span>
