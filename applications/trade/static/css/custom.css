@@ -1,0 +1,9 @@
+.navbar-inverse .navbar-nav>li>a {
+    color: #ffffff;
+}
+.navbar-inverse .navbar-nav>li>a:hover {
+    text-decoration:underline;
+}
+.nav-pills>li>a:hover {
+    text-decoration:underline;
+}
