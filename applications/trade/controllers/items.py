@@ -23,7 +23,8 @@ def view_items():
                                      (db.trade_proposal.receiver_items.contains(item.id))
                                      |(db.trade_proposal.sender_items.contains(item.id))
                                  )&(db.trade_proposal.status==WAITING)
-                                  &(db.trade_proposal.receiver==auth.user)).count())
+                                  &((db.trade_proposal.receiver==auth.user)
+                                    |(db.trade_proposal.sender==auth.user))).count())
 
     is_in_tradable_list = item['list_type'] != LIST_PUBLIC_COLLECTION
 
