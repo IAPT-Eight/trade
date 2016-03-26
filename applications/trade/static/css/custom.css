@@ -4,6 +4,9 @@
 .navbar-inverse .navbar-nav>li>a:hover {
     text-decoration:underline;
 }
+.nav-pills>li>a {
+    color:#1b4264;
+}
 .nav-pills>li>a:hover {
     text-decoration:underline;
 }
