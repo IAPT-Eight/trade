@@ -456,6 +456,29 @@
           }
           var color = '#' + rs(r) + rs(g) + rs(b);
           myfield.css('background-color', color);
+
+          // Make sure there is a #human-readable-password-entropy paragraph
+          //  in the page. Otherwise, insert it right after the password field.
+          if (!$("#human-readable-password-entropy").length) {
+            myfield.after("<p id='human-readable-password-entropy'></p>")
+          }
+
+          // Calculate the value of the human readable entropy string.
+          if (v > 0.65) {
+            entropy_text = "Very strong password."
+          } else if (v > 0.5) {
+            entropy_text = "Robust password."
+          } else if (v > 0.35) {
+            entropy_text = "Good password."
+          } else if (v > 0.25) {
+            entropy_text = "Weak password."
+          } else {
+            entropy_text = "Very weak password."
+          }
+
+          // Display the string in the correct paragraph.
+          $("#human-readable-password-entropy").text(entropy_text);
+
           entropy_callback = myfield.data('entropy_callback');
           if(entropy_callback) entropy_callback(v);
         }

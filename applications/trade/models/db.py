@@ -160,8 +160,15 @@ db.define_table('item',
     Field('description', 'text', required=True, requires=[
       IS_NOT_EMPTY(),
       IS_LENGTH(minsize=1, maxsize=8000, error_message='Please enter fewer than 8000 characters')
-    ]),
-    Field('item_value', 'decimal(10, 2)', required=True, requires=[IS_DECIMAL_IN_RANGE(minimum=0), HAS_MAX_DECIMAL_PLACES(2)], label='Estimated Item Value (£)'),
+    ],
+    comment=T(\
+        "Maximum 8000 characters. Recommended Contents include item size, color, age and condition."
+    )),
+    Field('item_value', 'decimal(10, 2)', required=True, requires=[IS_DECIMAL_IN_RANGE(minimum=0),
+          HAS_MAX_DECIMAL_PLACES(2)], label='Estimated Item Value (£)',
+          comment=T(\
+            "A numerical value in Pound Sterling (GBP)"
+            "")),
     Field('owner_ref', 'reference %s' % auth.settings.table_user_name, required=True, default=auth.user),
     Field('image', 'upload', required=True, requires=IS_IMAGE(minsize=(100, 100), extensions=('bmp', 'gif', 'jpeg', 'jpg', 'png'), error_message="Image must be at least 100x100 pixels and of .png, .gif, .jpeg or .bmp format"),
       comment=T("Minimum size 100x100 pixels. Formats supported are .png, .gif, .jpeg and .bmp.")),

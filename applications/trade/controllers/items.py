@@ -46,9 +46,6 @@ def add_item():
         fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'],
         submit_button='Create'
         )
-    additemform.custom.widget.description.update(_placeholder="Maximum 8000 characters. Recommended Contents include Item Size, Color, Age, Condition etc.")
-
-    additemform.custom.widget.item_value.update(_placeholder="Enter a Numerical Value in Pounds")
 
     error_message = ''
     if additemform.accepts(request,session):
@@ -92,9 +89,6 @@ def update_item():
         raise HTTP(404, "Item not found or you are not authorised to view it")
 
     updateitemform = AwesomeSQLFORM(db.item, item, fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'], submit_button='Update', showid=False, upload=url)
-
-    updateitemform.custom.widget.description.update(_placeholder="Maximum 8000 characters")
-    updateitemform.custom.widget.item_value.update(_placeholder="Enter a Numerical Value in Pounds")
 
     error_message = ''
     if updateitemform.accepts(request,session):
