@@ -107,6 +107,7 @@ class HAS_MAX_DECIMAL_PLACES(object):
 
 auth.table_user().first_name.requires = [IS_NOT_EMPTY(error_message=auth.messages.is_empty), IS_NAME()]
 auth.table_user().last_name.requires = [IS_NOT_EMPTY(error_message=auth.messages.is_empty), IS_NAME()]
+auth.table_user().username.comment = "e.g. johnsmith9, ColinTheCoinCollector, mushroom11"
 
 ## configure email
 mail = auth.settings.mailer
