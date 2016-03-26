@@ -49,6 +49,8 @@ response.menu = [
     (SPAN(
         SPAN(I(_class="fa fa-fw fa-clock-o"), "My Proposals"),
         SPAN(number_of_proposals, _class="badge badge-notification", _style="margin-left: 5px;") if number_of_proposals else "",
+        data={"toggle": "tooltip", "placement": "bottom"},
+        _title=("You have %d pending proposal(s)" % number_of_proposals) if number_of_proposals else "",
     ), False, URL('trade', 'trade', 'index')),
     (SPAN(I(_class="fa fa-fw fa-user"), "My Profile"), False, URL('user', 'me')),
 ]

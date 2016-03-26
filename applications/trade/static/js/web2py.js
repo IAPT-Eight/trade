@@ -738,6 +738,11 @@
     web2py.main_hook();
   });
 
+  // enables bootstrap.js tooltips
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+
 })(jQuery);
 
 /* compatibility code - start */
