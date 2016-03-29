@@ -91,11 +91,13 @@ def update_item():
     if not item:
         raise HTTP(404, "Item not found or you are not authorised to view it")
 
-    updateitemform = AwesomeSQLFORM(db.item, item, fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'], submit_button='Update', showid=False, upload=url)
+    updateitemform = AwesomeSQLFORM(db.item, item, fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'], submit_button='Update', showid=False, upload=url, buttons=['submit', A("Cancel",_class='btn',_href=URL("items","view_items", args=request.args(0)))])
 
     updateitemform.custom.widget.description.update(_placeholder="Maximum 8000 characters")
     updateitemform.custom.widget.item_value.update(_placeholder="Enter a Numerical Value in Pounds")
 
+    updateitemform.add_button("Cancel", URL('trade', 'items', 'view_items', args=request.args(0)))
+	
     error_message = ''
     if updateitemform.accepts(request,session):
         session.flash = 'Item updated'
