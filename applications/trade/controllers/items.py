@@ -47,7 +47,9 @@ def add_item():
         fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'],
         submit_button='Create'
         )
-
+		
+    additemform.add_button("Cancel", URL('trade', 'user', 'view', args=auth.user.username))
+	
     error_message = ''
     if additemform.accepts(request,session):
         session.flash = 'Item created'
