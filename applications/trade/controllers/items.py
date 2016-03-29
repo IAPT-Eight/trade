@@ -23,7 +23,8 @@ def view_items():
                                      (db.trade_proposal.receiver_items.contains(item.id))
                                      |(db.trade_proposal.sender_items.contains(item.id))
                                  )&(db.trade_proposal.status==WAITING)
-                                  &(db.trade_proposal.receiver==auth.user)).count())
+                                  &((db.trade_proposal.receiver==auth.user)
+                                    |(db.trade_proposal.sender==auth.user))).count())
 
     is_in_tradable_list = item['list_type'] != LIST_PUBLIC_COLLECTION
 
@@ -46,9 +47,6 @@ def add_item():
         fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'],
         submit_button='Create'
         )
-    additemform.custom.widget.description.update(_placeholder="Maximum 8000 characters. Recommended Contents include Item Size, Color, Age, Condition etc.")
-
-    additemform.custom.widget.item_value.update(_placeholder="Enter a Numerical Value in Pounds")
 
     error_message = ''
     if additemform.accepts(request,session):
@@ -93,11 +91,8 @@ def update_item():
 
     updateitemform = AwesomeSQLFORM(db.item, item, fields=['name', 'item_value', 'category', 'list_type', 'description', 'image'], submit_button='Update', showid=False, upload=url, buttons=['submit', A("Cancel",_class='btn',_href=URL("items","view_items", args=request.args(0)))])
 
-    updateitemform.custom.widget.description.update(_placeholder="Maximum 8000 characters")
-    updateitemform.custom.widget.item_value.update(_placeholder="Enter a Numerical Value in Pounds")
-
     updateitemform.add_button("Cancel", URL('trade', 'items', 'view_items', args=request.args(0)))
-	
+
     error_message = ''
     if updateitemform.accepts(request,session):
         session.flash = 'Item updated'

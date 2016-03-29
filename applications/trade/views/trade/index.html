@@ -20,7 +20,13 @@
             {{if proposal.status == WAITING and proposal.receiver.id == auth.user_id:}}class="warning"{{pass}}>
             <td>
                 <p>
-                    <strong>{{=A(proposal.sender.username, _href=URL(c='user', f='view', args=proposal.sender.username))}}</strong> is offering:
+                    {{if proposal.sender.id == auth.user_id:}}
+                        <strong>{{=A("You", _href=URL(c='user', f='view', args=proposal.sender.username))}}</strong> are offering:
+
+                    {{else:}}
+                        <strong>{{=A(proposal.sender.username, _href=URL(c='user', f='view', args=proposal.sender.username))}}</strong> is offering:
+
+                    {{pass}}
                 </p>
 
                 <ul>
@@ -34,7 +40,13 @@
             </td>
             <td>
                 <p>
-                    <strong>{{=A(proposal.receiver.username, _href=URL(c='user', f='view', args=proposal.receiver.username))}}</strong> will send back:
+                    {{if proposal.receiver.id == auth.user_id:}}
+                        <strong>{{=A("You", _href=URL(c='user', f='view', args=proposal.receiver.username))}}</strong> will offer in return:
+
+                    {{else:}}
+                        <strong>{{=A(proposal.receiver.username, _href=URL(c='user', f='view', args=proposal.receiver.username))}}</strong> will offer in return:
+
+                    {{pass}}
                 </p>
 
                 <ul>
