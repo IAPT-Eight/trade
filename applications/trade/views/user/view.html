@@ -25,43 +25,43 @@
 
 <div class="row">
     <div class="col-md-3"> 
-		<div class="well well-sm">
-			<span class="sr-only">
-				<a href="{{=URL('trade', 'items', 'view_items', args=request.args)}}">Skip To Main Content</a>
-			</span>
-			<h2><i class="fa fa-fw fa-search"></i> Filter</h2>
-			<ul class="nav nav-pills nav-stacked">
-				{{for filter in list_filters:}}
-					<li role="presentation"
-						{{if filter.active:}}
-						  class="active"
-						{{pass}}
-					>
-						<a href={{=filter.href}}>
-							{{if filter.icon:}}
-								<i class="{{=filter.icon}}"></i>
-							{{pass}}
+        <div class="well well-sm">
+            <span class="sr-only">
+                <a href="{{=URL('trade', 'items', 'view_items', args=request.args)}}">Skip To Main Content</a>
+            </span>
+            <h2><i class="fa fa-fw fa-search"></i> Filter</h2>
+            <ul class="nav nav-pills nav-stacked">
+                {{for filter in list_filters:}}
+                    <li role="presentation"
+                        {{if filter.active:}}
+                          class="active"
+                        {{pass}}
+                    >
+                        <a href={{=filter.href}}>
+                            {{if filter.icon:}}
+                                <i class="{{=filter.icon}}"></i>
+                            {{pass}}
 
-							{{if filter.active:
-								=filter.list_name+" (current)"
-							else:
-								=filter.list_name
-							pass}}
-							<span class="badge pull-right">
-								{{=filter.count}}
-							</span>
-						</a>
-					</li>
-				{{pass}}
-			</ul>
-		</div>
-		<div class="list_description">
-			A user's <b>Public Collection</b> contains items that they don't want to trade, but are happy for everyone to see. Items that they want to trade with are
-			stored in their <b>Trading List</b> and items they would like to receive are stored in their <b>Wish List</b>. 
-			{{if is_users_page:}}
-				Items that they don't want other users to see are stored in their <b>Private Collection</b>.
-			{{pass}}
-		</div>
+                            {{if filter.active:
+                                =filter.list_name+" (current)"
+                            else:
+                                =filter.list_name
+                            pass}}
+                            <span class="badge pull-right">
+                                {{=filter.count}}
+                            </span>
+                        </a>
+                    </li>
+                {{pass}}
+            </ul>
+        </div>
+        <div class="list_description">
+            A user's <strong>Public Collection</strong> contains items that they don't want to trade, but are happy for everyone to see. Items that they want to trade with are
+            stored in their <strong>Trading List</strong> and items they would like to receive are stored in their <strong>Wish List</strong>. 
+            {{if is_users_page:}}
+                Items that they don't want other users to see are stored in their <strong>Private Collection</strong>.
+            {{pass}}
+        </div>
     </div>
 
     <div class="col-md-9">
