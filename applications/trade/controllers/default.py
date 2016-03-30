@@ -25,7 +25,7 @@ def index():
 
     limitby = (0, 100)
     items = db(list_join & category_join & search_query & category_query).select(
-        db.item.name, db.item.image, db.item.item_value, db.item.id, db.item.category, limitby=limitby)
+        db.item.name, db.item.image, db.item.item_value, db.item.id, db.item.category, db.item.list_type, limitby=limitby)
 
     categories_as_dicts = db(db.category).select(db.category.name, db.category.id).as_list()
 

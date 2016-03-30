@@ -12,6 +12,11 @@
         </div>
         <div class="panel-footer">
             Estimated value: £{{=item.item_value}}
+			{{if item.list_type.name == "Trading List":}}
+				Available For Trade
+			{{else:}}
+				Not Available For Trade
+			{{pass}}
         </div>
     </div>
 
