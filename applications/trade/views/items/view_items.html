@@ -27,7 +27,12 @@ $(document).ready(function(){
                 </a>
             </p>
 
-        {{elif (item.owner_ref != auth.user_id):}}
+        {{elif (item.owner_ref == auth.user_id):}}
+			<p class="text-info">
+                <i class="fa fa-fw fa-info-circle"></i> To make this item available for trade, add it to your Trading List using the Edit button
+            </p>
+			
+		{{else:}}
 
             {{if is_in_tradable_list:}}
             <p>
