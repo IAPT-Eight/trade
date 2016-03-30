@@ -27,7 +27,7 @@
     <div class="col-md-3"> 
         <div class="well well-sm">
             <span class="sr-only">
-                <a href="{{=URL('trade', 'items', 'view_items', args=request.args)}}">Skip To Main Content</a>
+                <a href="#main-title">Skip To Main Content</a>
             </span>
             <h2><i class="fa fa-fw fa-search"></i> Filter</h2>
             <ul class="nav nav-pills nav-stacked">
@@ -82,7 +82,7 @@
 
         {{pass}}
 
-        <h1>
+        <h1 id="main-title">
             <i class="fa fa-fw fa-user"></i>
             {{=user.first_name}} {{=user.last_name}}
             <span class="text-muted">({{=user.username}})</span>
@@ -91,8 +91,9 @@
         <hr />
 
         {{if is_users_page and len(items) == 0:}}
+
             <div class="alert alert-block alert-info">
-                <h2>
+                <h2 id="main-title">
                     <i class="fa fa-fw fa-info-circle"></i>
                     New here?
                 </h2>
