@@ -3,8 +3,8 @@
 
 <div class="row">
     <div class="col-md-3 well well-sm">
-        <span class="sr-only">
-            <a href="{{=URL('trade', 'items', 'view_items', args=request.args)}}">Skip To Main Content</a>
+        <span>
+            <a href="#main-content">Skip To Main Content</a>
         </span>
         <h2><i class="fa fa-fw fa-search"></i> Filter</h2>
         <ul class="nav nav-pills nav-stacked">
@@ -72,7 +72,7 @@
             </div>
 
         {{else:}}
-            <h1>
+            <h1 id="main-content">
                 {{=T("All Collectibles")}}
             </h1>
 
