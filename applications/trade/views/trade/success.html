@@ -2,7 +2,7 @@
 
 <div class="row">
 
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-12">
        <div class="panel panel-info">
             <div class="panel-heading">
                 <h1 class="panel-title">
@@ -20,15 +20,13 @@
                             <strong>{{=proposal.sender.username}}</strong> is offering:
                         </p>
 
-                        <ul>
-                            {{for item in proposal.sender_items:}}
-                                <li>{{include 'trade/li-item.html'}}</li>
-                            {{pass}}
-                            {{if not proposal.sender_items:}}
-                                <li><i>No items</i></li>
-                            {{pass}}
+                        {{items = proposal.sender_items}}
+                        {{item_sizes = "col-md-6"}}
+                        {{include "items/preview-list.html"}}
+                        {{if not proposal.sender_items:}}
+                            <i>No items</i>
+                        {{pass}}
 
-                        </ul>
 
                     </div>
 
@@ -37,14 +35,12 @@
                             <strong>{{=proposal.receiver.username}}</strong> will send back:
                         </p>
 
-                        <ul>
-                            {{for item in proposal.receiver_items:}}
-                                <li>{{include 'trade/li-item.html'}}</li>
-                            {{pass}}
-                            {{if not proposal.receiver_items:}}
-                                <li><i>No items</i></li>
-                            {{pass}}
-                        </ul>
+                        {{items = proposal.receiver_items}}
+                        {{item_sizes = "col-md-6"}}
+                        {{include "items/preview-list.html"}}
+                        {{if not proposal.receiver_items:}}
+                            <i>No items</i>
+                        {{pass}}
                     </div>
                 </div>
 
