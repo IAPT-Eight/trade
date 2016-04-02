@@ -86,7 +86,8 @@ def new():
                                             requires=(
                                                 IS_NOT_EMPTY(),
                                             )),
-                                    item.name,
+                                    SPAN(item.name, _class="bold-text"),
+                                    SPAN(" (%.2f £)" % item.item_value)
                                 ),)
                                 for item in sender_items
                             ]),
@@ -114,7 +115,8 @@ def new():
                                             requires=(
                                                 IS_NOT_EMPTY(),
                                             )),
-                                    item.name,
+                                    SPAN(item.name, _class="bold-text"),
+                                    SPAN(" (%.2f £)" % item.item_value)
                                 ),)
                                 for item in receiver_items
                             ]),
