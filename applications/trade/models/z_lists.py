@@ -5,10 +5,10 @@ LIST_TRADING = 3
 LIST_PRIVATE_COLLECTION = 4
 
 LIST_NAMES = (
-    (LIST_PUBLIC_COLLECTION, "Public Collection"),
-    (LIST_WISH_LIST, "Wish List"),
-    (LIST_TRADING, "Trading List"),
-    (LIST_PRIVATE_COLLECTION, "Private Collection"),
+    (LIST_PUBLIC_COLLECTION, "Public"),
+    (LIST_WISH_LIST, "Wish"),
+    (LIST_TRADING, "Trading"),
+    (LIST_PRIVATE_COLLECTION, "Private"),
 )
 
 LIST_NAMES_DICT = dict(LIST_NAMES)  # e.g. LIST_NAMES_DICT[LIST_WANT] == "Want List"

@@ -3,7 +3,7 @@
 {{from collections import namedtuple}}
 
 {{
-  display_name = 'Your' if is_users_page else user.username+"'s"
+  display_name = '' if is_users_page else user.username+"'s"
   ListFilter = namedtuple('ListFilter', ['list_name', 'href', 'active', 'count', 'icon'])
   list_filters = [ListFilter('All', URL(args=request.args, host=True), current_filter == None, sum(list_sizes.values()), None)]
 
@@ -29,7 +29,7 @@
             <span class="sr-only">
                 <a href="#main-title">Skip To Main Content</a>
             </span>
-            <h2><i class="fa fa-fw fa-search"></i> Filter</h2>
+            <h2><i class="fa fa-fw fa-search"></i> List Filter</h2>
             <ul class="nav nav-pills nav-stacked">
                 {{for filter in list_filters:}}
                     <li role="presentation"
@@ -56,10 +56,10 @@
             </ul>
         </div>
         <div class="list_description">
-            A user's <strong>Public Collection</strong> contains items that they don't want to trade, but are happy for everyone to see. Items that they want to trade with are
+            A user's <strong>Public List</strong> contains items that they don't want to trade, but are happy for everyone to see. Items that they want to trade with are
             stored in their <strong>Trading List</strong> and items they would like to receive are stored in their <strong>Wish List</strong>. 
             {{if is_users_page:}}
-                Items that they don't want other users to see are stored in their <strong>Private Collection</strong>.
+                Items that they don't want other users to see are stored in their <strong>Private List</strong>.
             {{pass}}
         </div>
     </div>
