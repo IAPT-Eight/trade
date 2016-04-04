@@ -44,15 +44,14 @@ $(document).ready(function(){
                 {{pass}}
 
             {{elif is_not_in_tradable_list:}}
-                {{if item.owner_ref == auth.user_id:}}
-                    <p class="text-info">
-                        <i class="fa fa-fw fa-info-circle"></i> To make this item available for trade, add it to your Trading List using the Edit button.
-                    </p>
-                {{else:}}
-                    <p>
-                        <a class="btn btn-block btn-primary btn-lg">This Item is Not Available For Trade</a>
-                    </p>    
-                {{pass}}
+                <p class="text-info">
+                    <i class="fa fa-fw fa-info-circle"></i>
+                    {{if item.owner_ref == auth.user_id:}}
+                        To make this item available for trade, add it to your Trading List using the Edit button.
+                    {{else:}}
+                        This item is not in the owner's Trading List so it is not available for trade.
+                    {{pass}}
+                </p>
             {{pass}}
 
         {{pass}}
@@ -179,7 +178,7 @@ $(document).ready(function(){
                 {{else:}}
                     <p>
                         <a class="btn btn-block btn-primary btn-lg">This Item is Not Available For Trade</a>
-                    </p>    
+                    </p>
                 {{pass}}
             {{pass}}
 

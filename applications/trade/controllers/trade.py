@@ -92,7 +92,7 @@ def new():
                                                 IS_NOT_EMPTY(),
                                             )),
                                     SPAN(item.name, _class="bold-text"),
-                                    SPAN(" (%.2f £)" % item.item_value),
+                                    SPAN(" (£%.2f)" % item.item_value),
                                     data=get_item_data(item)
                                 ),
                                 )
@@ -123,7 +123,7 @@ def new():
                                                 IS_NOT_EMPTY(),
                                             )),
                                     SPAN(item.name, _class="bold-text"),
-                                    SPAN(" (%.2f £)" % item.item_value),
+                                    SPAN(" (£%.2f)" % item.item_value),
                                     data=get_item_data(item)
                                 ),)
                                 for item in receiver_items

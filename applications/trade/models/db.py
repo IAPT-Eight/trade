@@ -166,7 +166,7 @@ db.define_table('item',
         "Maximum 8000 characters. Recommended contents include item size, color, age and condition."
     )),
     Field('item_value', 'decimal(10, 2)', required=True, requires=[IS_DECIMAL_IN_RANGE(minimum=0),
-          HAS_MAX_DECIMAL_PLACES(2)], label='Estimated Item Value (£)',
+          HAS_MAX_DECIMAL_PLACES(2)], label='Estimated item value (£)',
           comment=T(\
             "A numerical value in Pounds Sterling (GBP)"
             "")),
