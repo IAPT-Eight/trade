@@ -2,7 +2,7 @@
 
 <div class="row">
 
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-12">
        <div class="panel panel-primary">
             <div class="panel-heading">
                 <h1 class="panel-title">
@@ -11,6 +11,13 @@
                 </h1>
             </div>
             <div class="panel-body">
+
+                <div class="empty-error alert alert-danger" style="display: none;">
+                    <p>
+                        <i class="fa fa-fw fa-warning"></i>
+                        Please select at least one item from each list.
+                    </p>
+                </div>
 
                 {{=proposal_form}}
 
@@ -25,3 +32,79 @@
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+
+    // This is the d̶a̶r̶k̶ ̶m̶a̶g̶i̶c̶ javascript code which transforms the dull items list
+    // into a nicer list complete with panels and item images.
+    $(document).ready(function() {
+
+        // For each product list (sender and receiver)
+        $(".proposal-items-list").each(function(i, list) {
+
+            // Create the new list, and add it right after the original.
+            var new_list = $("<div class='proposal-items-new-list row'></div>");
+            $(list).after(new_list);
+
+            // For each item, iterate and asynchronously add it to the new list.
+            $(list).find("[data-item-id]").each(function(y, item) {
+                var item_id = $(item).data('item-id');
+                var item_name = $(item).data('item-name');
+                var item_image = $(item).data('item-image');
+                var item_url = $(item).data('item-url');
+
+                // Build the new item.
+                var item_html = $("" +
+                        "<div class='col-md-6'>" +
+                        "  <div class='panel panel-info panel-item'>" +
+                        "    <div class='panel-heading'>" +
+                        "      <h2 class='panel-title'>" +
+                                $(item).parent().html() +
+                        "      </h2>" +
+                        "    </div>" +
+                        "    <div class='panel-body' style='padding: 0px 0px;'>" +
+                        "      <img src='" + item_image + "' alt='" + item_name + "' class='img-responsive' />" +
+                        "    </div>" +
+                        "  </div>" +
+                        "</div>"
+                );
+
+                $(list).append(item_html); // Add the new item to the new list.
+                $(item).delete(); // Delete the old item from the old list.
+
+            });
+
+        });
+
+        // This interval function executes every 250ms and makes sure that
+        // item panels that have a checked checkbox show with a different class
+        // - i.e. have a blue panel as opposed to a light blue one -.
+        // The reason why this is done in a timed function as opposed to
+        // when the panel is created + at every change is that I do not
+        // feel confident in catching any event on a checkbox click/change
+        // as it is non-trivial and I'm afraid I may break compatibility with
+        // older browsers or screen readers.
+        setInterval(function() {
+            var class_checked = 'panel-item-checked panel-primary';
+            var class_unchecked = 'panel-item-unchecked panel-info';
+            $(".panel-item").each(function(i, e) {
+               if ($(e).find('input').is(':checked')) {
+                   $(e).removeClass(class_unchecked).addClass(class_checked);
+               } else {
+                   $(e).removeClass(class_checked).addClass(class_unchecked);
+               }
+            });
+        }, 250);
+
+        // If a form validation error occurs, replace web2py's horrible error
+        // -which breaks the labels, and in turn the panels and then my hope
+        // in a better world- with our own message.
+        if ($(".error_wrapper").length > 0) {
+            $(".error_wrapper").remove();
+            $(".empty-error").show();
+        }
+
+    });
+</script>
+

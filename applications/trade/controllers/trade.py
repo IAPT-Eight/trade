@@ -66,6 +66,11 @@ def new():
 
     is_counter_proposal = bool(old_proposal)
 
+    get_item_data = lambda item: {"item-name": item.name, "item-id": item.id,
+                                  "item-value": item.item_value,
+                                  "item-image": URL('default', 'download', args=item.image),
+                                  "item-url": URL('items', 'view_item', args=item.id)}
+
     proposal_form = FORM(
         DIV(
             DIV(
@@ -75,9 +80,9 @@ def new():
                         _class="control-label"
                     ),
                     DIV(
-                        P(
+                        DIV(
                             *[
-                                P(LABEL(
+                                DIV(LABEL(
                                     INPUT(
                                             _name="sender_items[]",
                                             _value=item.id,
@@ -87,13 +92,15 @@ def new():
                                                 IS_NOT_EMPTY(),
                                             )),
                                     SPAN(item.name, _class="bold-text"),
-                                    SPAN(" (%.2f £)" % item.item_value)
-                                ),)
+                                    SPAN(" (%.2f £)" % item.item_value),
+                                    data=get_item_data(item)
+                                ),
+                                )
                                 for item in sender_items
                             ]),
-                        _class=""
+                        _class="he"
                     ),
-                    _class="form-group",
+                    _class="proposal-items-list form-group",
                 ),
                 _class="col-md-6",
             ),
@@ -104,9 +111,9 @@ def new():
                         _class="control-label"
                     ),
                     DIV(
-                        P(
+                        DIV(
                             *[
-                                P(LABEL(
+                                DIV(LABEL(
                                     INPUT(
                                             _name="receiver_items[]",
                                             _value=item.id,
@@ -116,13 +123,14 @@ def new():
                                                 IS_NOT_EMPTY(),
                                             )),
                                     SPAN(item.name, _class="bold-text"),
-                                    SPAN(" (%.2f £)" % item.item_value)
+                                    SPAN(" (%.2f £)" % item.item_value),
+                                    data=get_item_data(item)
                                 ),)
                                 for item in receiver_items
                             ]),
                         _class=""
                     ),
-                    _class="form-group",
+                    _class="proposal-items-list form-group",
                 ),
                 _class="col-md-6",
             ),
