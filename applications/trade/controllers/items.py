@@ -7,15 +7,13 @@ def _delete_token(delete_key, session_id=response.session_id):
 def view_items():
     item_id = request.args(0)
 
-    if item_id is not None:
-        items = db(db.item.id == item_id).select()
-    else:
-        items = db(db.item.id > 0).select()
+    if item_id is None:
+        raise HTTP(422, "Item ID must be provided")
 
-    if not items:
+    item = db.item[item_id]
+
+    if not item:
         raise HTTP(404, "Item not found or you are not authorised to view it")
-
-    item = items[0]
 
     response.title = item['name']
 
@@ -26,17 +24,15 @@ def view_items():
                                   &((db.trade_proposal.receiver==auth.user)
                                     |(db.trade_proposal.sender==auth.user))).count())
 
-    is_in_tradable_list = item['list_type'] != LIST_PUBLIC_COLLECTION
-
-    is_not_in_tradable_list = item['list_type'] == LIST_PUBLIC_COLLECTION
+    is_in_tradable_list = item['list_type'] == LIST_TRADING
 
     delete_url = None
     if item.owner_ref == auth.user_id:
         delete_token = _delete_token(item.delete_key)
         delete_url = URL('items', 'delete_item', vars={'id': item.id, 'token': delete_token})
 
-    return dict(items=items, is_in_active_trade=is_in_active_trade, is_in_tradable_list=is_in_tradable_list,
-                is_not_in_tradable_list=is_not_in_tradable_list, delete_url=delete_url)
+    return dict(item=item, is_in_active_trade=is_in_active_trade,
+                is_in_tradable_list=is_in_tradable_list, delete_url=delete_url)
 
 
 @auth.requires_login()

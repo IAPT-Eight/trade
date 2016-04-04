@@ -1,7 +1,5 @@
 {{extend 'layout.html'}}
 
-{{for item in items:}}
-
 <script>
 $(document).ready(function(){
     $('[data-toggle="popover"]').popover();
@@ -32,7 +30,7 @@ $(document).ready(function(){
             {{if is_in_tradable_list:}}
                 {{if item.owner_ref == auth.user_id:}}
                     <p class="text-info">
-                        <i class="fa fa-fw fa-info-circle"></i> To make this item unavailable for trade, remove it from your Trading List using the Edit button.
+                        <i class="fa fa-fw fa-info-circle"></i> To make this item unavailable for trade, remove it from your Trading list using the Edit button.
                     </p>
                 {{else:}}
                     <p>
@@ -43,13 +41,13 @@ $(document).ready(function(){
                     </p>
                 {{pass}}
 
-            {{elif is_not_in_tradable_list:}}
+            {{else:}}
                 <p class="text-info">
                     <i class="fa fa-fw fa-info-circle"></i>
                     {{if item.owner_ref == auth.user_id:}}
-                        To make this item available for trade, add it to your Trading List using the Edit button.
+                        To make this item available for trade, add it to your Trading list using the Edit button.
                     {{else:}}
-                        This item is not in the owner's Trading List so it is not available for trade.
+                        This item is not in the {{=item.owner_ref.username}}'s Trading list so it is not available for trade.
                     {{pass}}
                 </p>
             {{pass}}
@@ -69,7 +67,7 @@ $(document).ready(function(){
               {{=A(item.list_type.name, _href=URL(c='user', f='view', args=item.owner_ref.username, vars={'filter': item.list_type}))}}
 
               <button class="btn btn-link" style="padding: 0; border: 0;" data-toggle="popover"
-                 data-content="A user's Public Collection contains items that they don't want to trade, but are happy for everyone to see. Items that they want to trade with are stored in their Trading List and items they would like to receive are stored in their Wish List">
+                 data-content="A user's Public Collection contains items that they don't want to trade, but are happy for everyone to see. Items that they want to trade with are stored in their Trading list and items they would like to receive are stored in their Wish list">
                   <span class="sr-only">What is a list?</span>
                   <i class="fa fa-info-circle"></i>
               </button>
@@ -123,133 +121,3 @@ $(document).ready(function(){
     </div>
 
 </div>
-
-{{pass}}
-{{extend 'layout.html'}}
-
-{{for item in items:}}
-
-<script>
-$(document).ready(function(){
-    $('[data-toggle="popover"]').popover();
-});
-</script>
-
-<div class="row">
-
-    <div class="col-md-5">
-
-        <p>
-            <img src="{{=URL('default', 'download', args=item.image)}}" alt="{{=item.name}}" class="img-responsive img-polaroid" />
-        </p>
-
-        {{if is_in_active_trade:}}
-            <p class="text-info">
-                <i class="fa fa-fw fa-info-circle"></i> This item is part of an active proposal waiting for consideration.
-            </p>
-            <p>
-                <a href="{{=URL(c='trade', f='index')}}" class="btn btn-block btn-primary btn-lg">
-                    <i class="fa fa-exchange"></i>
-                    Review Proposal
-                </a>
-            </p>
-
-        {{else:}}
-
-            {{if is_in_tradable_list:}}
-                {{if item.owner_ref == auth.user_id:}}
-                    <p class="text-info">
-                        <i class="fa fa-fw fa-info-circle"></i> To make this item unavailable for trade, remove it from your Trading List using the Edit button.
-                    </p>
-                {{else:}}
-                <p>
-                    <a href="{{=URL(c='trade', f='new', args=item.owner_ref, vars={"preselect": item.id})}}" class="btn btn-block btn-primary btn-lg">
-                        <i class="fa fa-exchange"></i>
-                        Propose a Trade
-                    </a>
-                </p>
-                {{pass}}
-
-            {{elif is_not_in_tradable_list:}}
-                {{if item.owner_ref == auth.user_id:}}
-                    <p class="text-info">
-                        <i class="fa fa-fw fa-info-circle"></i> To make this item available for trade, add it to your Trading List using the Edit button.
-                    </p>
-                {{else:}}
-                    <p>
-                        <a class="btn btn-block btn-primary btn-lg">This Item is Not Available For Trade</a>
-                    </p>
-                {{pass}}
-            {{pass}}
-
-        {{pass}}
-
-        <dl class="dl-horizontal">
-
-            <dt>Estimated Value</dt>
-            <dd>£{{=item.item_value}}</dd>
-
-            <dt>Owner</dt>
-            <dd>{{=A(item.owner_ref.username, _href=URL(c='user', f='view', args=item.owner_ref.username))}}</dd>
-
-            <dt>List</dt>
-            <dd>
-              {{=A(item.list_type.name, _href=URL(c='user', f='view', args=item.owner_ref.username, vars={'filter': item.list_type}))}}
-
-              <button class="btn btn-link" style="padding: 0; border: 0;" data-toggle="popover"
-                 data-content="A user's Public Collection contains items that they don't want to trade, but are happy for everyone to see. Items that they want to trade with are stored in their Trading List and items they would like to receive are stored in their Wish List">
-                  <span class="sr-only">What is a list?</span>
-                  <i class="fa fa-info-circle"></i>
-              </button>
-            </dd>
-
-            <dt>Category</dt>
-            <dd>{{=item.category.name}}</dd>
-
-
-        </dl>
-
-    </div>
-
-    <div class="col-md-7">
-
-        {{if (item.owner_ref == auth.user_id):}}
-            <div id="confirm_delete" class="modal fade" role="dialog">
-              <div class="modal-dialog">
-
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="close">&times;</button>
-                    <h4 class="modal-title">Confirm Deletion</h4>
-                  </div>
-                  <div class="modal-body">
-                    <p>Once you delete this item, it cannot be undone.</p>
-                  </div>
-                  <div class="modal-footer">
-                    <a class="btn btn-default" data-dismiss="modal"><i class="fa fa-undo"></i> Cancel</button>
-                    <a class="btn btn-danger" href="{{=delete_url}}"><i class="fa fa-fw fa-trash"></i> Delete</a>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="btn-group pull-right">
-              <a type="button" class="btn btn-default" href="{{=URL('items', 'update_item', args=[item.id])}}"><i class="fa fa-fw fa-edit"></i> Edit</a>
-              <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm_delete"><i class="fa fa-fw fa-trash"></i> Delete</a>
-            </div>
-        {{pass}}
-
-        {{=H1(A(item.name, callback=URL('items', 'view_items', args=[item.id])))}}
-
-        <hr />
-
-        <p>{{=item.description}}</p>
-
-        <hr />
-
-    </div>
-
-</div>
-
-{{pass}}
