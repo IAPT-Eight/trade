@@ -47,7 +47,7 @@ $(document).ready(function(){
                     {{if item.owner_ref == auth.user_id:}}
                         To make this item available for trade, add it to your Trading list using the Edit button.
                     {{else:}}
-                        This item is not in the {{=item.owner_ref.username}}'s Trading list so it is not available for trade.
+                        This item is not in {{=item.owner_ref.username}}'s Trading list so it is not available for trade.
                     {{pass}}
                 </p>
             {{pass}}
