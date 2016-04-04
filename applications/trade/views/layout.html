@@ -8,7 +8,7 @@
     <meta name="application-name" content="{{=request.application}}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="{{=URL('static','css/web2py-bootstrap3.css')}}"/>
-	<link rel="stylesheet" href="{{=URL('static','css/custom.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','css/custom.css')}}"/>
     <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
     <script src="{{=URL('static','js/modernizr-2.8.3.min.js')}}"></script>
@@ -89,6 +89,15 @@
     {{end}}
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="{{=URL('static','js/web2py-bootstrap3.js')}}"></script>
+
+    <!-- https://github.com/kaiwa/bootstrap-maxlength -->
+    <script src="{{=URL('static','js/bootstrap-maxlength.js')}}"></script>
+    <script>
+    $(document).ready(function() {
+        $("input[maxlength]").maxlength();
+        $("textarea[maxlength]").maxlength();
+    });
+    </script>
     {{block page_js}}{{end page_js}}
   </body>
 </html>
