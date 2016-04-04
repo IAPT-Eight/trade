@@ -152,10 +152,10 @@ from gluon.utils import web2py_uuid
 db.define_table('item',
     Field('list_type', 'reference list_item_type', comment=T(\
         "Lists show which items you want to trade and which items you don't want other users to be able to see. \
-        Your Public List is for items you don't want to trade but can be seen by other users. \
-        Your Wish List is for items you want to receive. \
-        Your Trading List is for items you want to trade away. \
-        Your Private List is for items that you don't want other users to be able to see."),
+        Your Public list is for items you don't want to trade but can be seen by other users. \
+        Your Wish list is for items you want to receive. \
+        Your Trading list is for items you want to trade away. \
+        Your Private list is for items that you don't want other users to be able to see."),
         required=True, requires=IS_IN_DB(db, 'list_item_type.id', db.list_item_type._format, orderby=db.list_item_type.id, zero=None)),
     Field('name', 'string', required=True, requires=IS_LENGTH(minsize=1, maxsize=50)),
     Field('description', 'text', required=True, requires=[
@@ -163,20 +163,20 @@ db.define_table('item',
       IS_LENGTH(minsize=1, maxsize=8000, error_message='Please enter fewer than 8000 characters')
     ],
     comment=T(\
-        "Maximum 8000 characters. Recommended Contents include item size, color, age and condition."
+        "Maximum 8000 characters. Recommended contents include item size, color, age and condition."
     )),
     Field('item_value', 'decimal(10, 2)', required=True, requires=[IS_DECIMAL_IN_RANGE(minimum=0),
           HAS_MAX_DECIMAL_PLACES(2)], label='Estimated Item Value (£)',
           comment=T(\
-            "A numerical value in Pound Sterling (GBP)"
+            "A numerical value in Pounds Sterling (GBP)"
             "")),
     Field('owner_ref', 'reference %s' % auth.settings.table_user_name, required=True, default=auth.user),
     Field('image', 'upload', required=True, requires=IS_IMAGE(minsize=(100, 100), extensions=('bmp', 'gif', 'jpeg', 'jpg', 'png'), error_message="Image must be at least 100x100 pixels and of .png, .gif, .jpeg or .bmp format"),
       comment=T("Minimum size 100x100 pixels. Formats supported are .png, .gif, .jpeg and .bmp.")),
     Field('category', 'reference category', comment=T(\
-        "A Category classifies your item into a broad group which best describes the item. \
-        For example, if you want to add a Painting, the best category for it would be 'Art'. \
-        Some other examples are 'Sport' for a rare Football, 'Books' for a Novel and 'Technology' for a Watch. \
+        "A category classifies your item into a broad group which best describes the item. \
+        For example, if you want to add a painting, the best category for it would be 'Art'. \
+        Some other examples are 'Sport' for a rare football, 'Books' for a novel and 'Technology' for a watch. \
         If you think your item does not fit into any category, \
         then please add it to 'Other'."), required=True, requires=IS_IN_DB(db, 'category.id', db.category._format, orderby=db.category.id, zero=None)),
     Field('delete_key', 'string', required=False, default=web2py_uuid(), writable=False, readable=False),
