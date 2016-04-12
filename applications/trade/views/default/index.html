@@ -73,7 +73,11 @@
 
         {{else:}}
             <h1 id="main-content">
-                {{=T("All Collectibles")}}
+				{{if current_category:
+					=T("All Collectibles - " + current_category)
+				else:
+					=T("All Collectibles - All Categories")
+				pass}}
             </h1>
 
             <div id="users_items">
