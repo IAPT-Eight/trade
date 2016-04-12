@@ -96,6 +96,13 @@
     $(document).ready(function() {
         $("input[maxlength]").maxlength();
         $("textarea[maxlength]").maxlength();
+
+        // If there is any form in the page, auto focus the first text input bar.
+        if ($("form").length >= 2) {
+            setTimeout(function() {
+                $($($("form")[1]).find("input[type='text']")[0]).select().focus();
+            }, 0);
+        }
     });
     </script>
     {{block page_js}}{{end page_js}}
