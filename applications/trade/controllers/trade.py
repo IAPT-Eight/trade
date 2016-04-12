@@ -31,6 +31,10 @@ def index():
                     (db.trade_proposal.sender == auth.user.id) | (db.trade_proposal.receiver == auth.user.id)
                    ).select(db.trade_proposal.ALL, orderby=~db.trade_proposal.created)
 
+    for proposal in proposals:  # For each proposals, calculate value totals.
+        proposal.receiver_total = sum([x.item_value for x in proposal.receiver_items])
+        proposal.sender_total = sum([x.item_value for x in proposal.sender_items])
+
     return {
         "proposals": proposals
     }
