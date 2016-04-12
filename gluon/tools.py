@@ -1512,7 +1512,7 @@ class Auth(object):
     )
         # ## these are messages that can be customized
     default_messages = dict(
-        login_button='Log In',
+        login_button='Sign In',
         register_button='Sign Up',
         password_reset_button='Request reset password',
         password_change_button='Change password',

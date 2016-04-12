@@ -812,7 +812,7 @@ def formstyle_bootstrap(form, fields):
         # wrappers
         _help = SPAN(help, _class='help-block')
         # embed _help into _controls
-        _controls = DIV(controls, _help, _class='controls')
+        _controls = DIV(_help, controls, _class='controls')
         # submit unflag by default
         _submit = False
 
@@ -860,7 +860,7 @@ def formstyle_bootstrap3_stacked(form, fields):
         # wrappers
         _help = SPAN(help, _class='help-block')
         # embed _help into _controls
-        _controls = CAT(controls, _help)
+        _controls = CAT(_help, controls)
         if isinstance(controls, INPUT):
             if controls['_type'] == 'submit':
                 controls.add_class('btn btn-primary')
@@ -908,7 +908,7 @@ def formstyle_bootstrap3_inline_factory(col_label_size=3):
             # wrappers
             _help = SPAN(help, _class='help-block')
             # embed _help into _controls
-            _controls = DIV(controls, _help, _class=col_class)
+            _controls = DIV(_help, controls, _class=col_class)
             if isinstance(controls, INPUT):
                 if controls['_type'] == 'submit':
                     controls.add_class('btn btn-primary')

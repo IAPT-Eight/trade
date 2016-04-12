@@ -317,3 +317,11 @@ input[type=checkbox], input[type=radio] {
 .badge-notification {
     background-color: red !important;
 }
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.help-block {
+    margin-bottom: 5px;
+}
