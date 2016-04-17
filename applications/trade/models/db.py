@@ -175,12 +175,9 @@ db.define_table('item',
       comment=T("Minimum size 100x100 pixels. Formats supported are .png, .gif, .jpeg and .bmp.")),
     Field('category', 'reference category', comment=P(\
         "A category classifies your item into a broad group which best describes the item. \
-        For example, if you want to add a painting, the best category for it would be 'Art'. \
-        Some other examples are 'Sport' for a rare football, 'Books' for a novel and 'Technology' for a watch. \
-        If you think your item does not fit into any category, \
-        then please add it to 'Other'. ",
+        For examples for each category please click on ",
         A("See categories. ", data={"toggle": "modal", "target": "#categories-description"}),
-        "Some other text."),
+        "If you think that you're item does not fit into any category, then please select 'Other'"),
           required=True, requires=IS_IN_DB(db, 'category.id', db.category._format, orderby=db.category.id, zero=None)),
     Field('delete_key', 'string', required=False, default=web2py_uuid(), writable=False, readable=False),
     common_filter = lambda query: (db.item.list_type != LIST_PRIVATE_COLLECTION) | (db.item.owner_ref == auth.user_id),
