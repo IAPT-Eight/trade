@@ -177,7 +177,7 @@ db.define_table('item',
         "A category classifies your item into a broad group which best describes the item. \
         For examples for each category please click on ",
         A("See categories. ", data={"toggle": "modal", "target": "#categories-description"}),
-        "If you think that you're item does not fit into any category, then please select 'Other'"),
+        "If you think that your item does not fit into any category, then please select 'Other'"),
           required=True, requires=IS_IN_DB(db, 'category.id', db.category._format, orderby=db.category.id, zero=None)),
     Field('delete_key', 'string', required=False, default=web2py_uuid(), writable=False, readable=False),
     common_filter = lambda query: (db.item.list_type != LIST_PRIVATE_COLLECTION) | (db.item.owner_ref == auth.user_id),
